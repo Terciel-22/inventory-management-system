@@ -1,65 +1,21 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,600;1,900&display=swap');
-
-* {
-    box-sizing: border-box;
-    padding: 0;
-    margin: 0;
-    font-family: 'Poppins', sans-serif;
-    font-size: 18px;
-    font-weight: 600;
-}
-
 body {
-    background-color: #4170b6;
+    background-image: url('../img/bg.png');
+    background-position: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100%;
 }
-
-/* index.php */
-.container {
+.card {
+    width: 20rem;
+    text-align-last: center ;
     margin: auto;
-    margin-top: 4rem;
-    padding: 1rem;
-    text-align-last: center;
-    width: 40%;
-    height: fit-content;
-    background-color: #ffffff;
+    margin-top: 7rem;
     border-radius: 0.5rem;
+    background-color: beige;
 }
-.container h1 {
-    font-size: 2rem;
-    border-bottom: 2px solid #000;
-}
-
-.form {
-    margin: auto;
-}
-
 .form-group {
-    margin: 1rem;
+    margin-bottom: 1rem;
 }
-
-input {
-    text-align: center;
-    border-top-style: hidden;
-    border-right-style: hidden;
-    border-left-style: hidden;
-    border-bottom-style: groove;
-    background-color: #fff;
-}
-.no-outline:focus {
-    outline: none;
-}
-
-.btn {
-    color: #bfe8ec;
-    cursor: pointer;
-    background-color: #2690d9;
-    padding: 0.5rem;
-    border: 0;
-    border-radius: 0.5rem;
-}
-a {
-    text-decoration: none;
-}
-.btn:hover {
-    border: 1px solid #17537a;
+.form-control {
+    text-align-last: start;
 }
