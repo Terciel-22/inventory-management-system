@@ -1,4 +1,9 @@
 <?php 
+    session_start();
+    if(isset($_SESSION['fullName']))
+    {
+        header("Location:main.php");
+    }
 
     $action = "";
     if(isset($_GET['action'])){
@@ -75,8 +80,8 @@
                     <div class="form-group">
                         <input type="password" placeholder="Password" id="login-password" name="login-password" class="form-control">
                     </div>
-                    <input type="button" value="Login" id="login-button" name="login-button" class="btn btn-primary">
-                    <input type="button" id="clean-inputfields" value="Clear" class="btn btn-danger">
+                    <button type="button" id="login-button" name="login-button" class="btn btn-primary">Login</button>
+                    <button type="button" id="clean-inputfields" class="btn btn-danger">Clear</button>
                     <br>
                     <span>Don't have an account? </span><a href="?action=register">Register</a>
                 </form>

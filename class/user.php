@@ -30,13 +30,28 @@
             if($rowNum >= 1)
             {
                 return "Existing";
-            } 
+            } else
+            {
+                return "Username doesn't exist!";
+            }
+        }
+
+        function loginAccount($username, $password)
+        {
+            $sql = "SELECT * FROM user WHERE username = :username AND password = :password"; 
+            $this->pdo->prepareQuery($sql);
+            $this->pdo->bindValueToStatement(":username",$username);
+            $this->pdo->bindValueToStatement(":password",$password);
+            $userData = $this->pdo->getSingleResult();
+            $recordCount = $this->pdo->getAffectedRowCount();
+            return ['user-data' => $userData, 'record-count' => $recordCount];
         }
     }
 
     $user = new User($pdo);
+    session_start();
 
-    //Validation for register
+    //Validation for registration form
     if(isset($_POST["registerButton"]))
     {
         $name = htmlentities($_POST["registerName"]);
@@ -44,7 +59,7 @@
         $password = htmlentities($_POST["registerPassword"]);
         $cpassword = htmlentities($_POST["registerCPassword"]);
 
-        if(!($name == "" || $username == "" || $password == "" || $cpassword == ""))
+        if($name != "" && $username != "" && $password != "" && $cpassword != "")
         {
             if($user->checkIfUsernameExist($username) != "Existing")
             {
@@ -76,5 +91,54 @@
             echo "Please insert all required field.";
             exit();
         }
+    }
+
+    //Validation for login form
+    else if(isset($_POST["loginButton"]))
+    {
+        $username = htmlentities($_POST["loginUsername"]);
+        $password = htmlentities($_POST["loginPassword"]);
+        $hashPassword = md5($password);
+        if($username != "" && $password != "")
+        {
+            $isUsernameExist = $user->checkIfUsernameExist($username);
+            if($isUsernameExist == "Existing")
+            {
+                $userAccount = $user->loginAccount($username, $hashPassword);
+                if($userAccount['record-count'] == 1)
+                {
+                    $accountName = $userAccount['user-data']->fullName;
+                    echo "Logging in...";
+                    $_SESSION['fullName'] = $accountName;
+                    exit();
+                } else 
+                {
+                    echo "Incorrect password!";
+                    exit();
+                }
+            } else
+            {
+                echo $isUsernameExist;
+                exit();
+            }
+        } else 
+        {
+            echo "Please insert all required field.";
+            exit();
+        }
+    }
+
+    //Logout account
+    else if(isset($_POST["logoutButton"]))
+    {
+        session_unset();
+        session_destroy();
+        echo "Logging out...";
+        exit();
+    }
+
+    //Prevent direct access this file from URL
+    else {
+        header("Location: ../");
     }
 ?>
