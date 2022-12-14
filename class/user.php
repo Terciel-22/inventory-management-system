@@ -66,7 +66,7 @@
                 if($password === $cpassword)
                 {
                     $hashPassword = md5($cpassword);
-                    $isRegistered = $user->registerAccount($name, $username, $hashPassword);
+                    $isRegistered = $user->registerAccount(ucwords($name), $username, $hashPassword);
                     if($isRegistered)
                     {
                         echo "Account successfully added!";

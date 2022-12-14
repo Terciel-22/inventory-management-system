@@ -22,9 +22,6 @@
     <meta name="keywords" content="Inventory, Management, System">
     <meta name="author" content="Mark Abe Fiel">
     
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,600;1,900&display=swap" rel="stylesheet">
-
     <!-- BOOTSTRAP CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 
@@ -37,7 +34,7 @@
 <body>
     <?php if($action=="register"){ ?>
         <!--Registration Form -->
-        <div class="card rounded-4">
+        <div class="card index-card rounded-4">
             <div class="card-header">
                 <h1>Create Account</h1>
             </div>
@@ -67,7 +64,7 @@
 
     <?php } else { ?>
         <!-- Login Form -->
-        <div class="card rounded-4">
+        <div class="card index-card rounded-4">
             <div class="card-header">
                 <h1>Login</h1>
             </div>
