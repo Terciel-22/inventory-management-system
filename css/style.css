@@ -1,39 +1,49 @@
-body {
-    background-image: url('../img/bg.png');
-    background-position: fixed;
-    background-repeat: no-repeat;
-    background-size: cover;
-    height: 100%;
-}
 div.index-card {
     width: 20rem;
     text-align-last: center ;
     margin: auto;
     margin-top: 7rem;
-    background-color: beige;
+    box-shadow: 5px 5px 5px hsl(215, 38%, 13%);
 }
-.form-group {
+div.index-card .form-group {
     margin-bottom: 1rem;
 }
-.form-control {
+div.index-card .form-control {
     text-align-last: start;
 }
 
+.nav-header {
+    background-color: rgb(4,80,154);
+    background-image: linear-gradient(to bottom, rgb(4,80,154), #023260);
+}
+.nav-header a, .nav-header div a, .nav-header div span {
+    text-decoration: none;
+    color: rgb(224, 217, 217);
+}
 .navbar a:hover {
-    background-color: blanchedalmond;
-    color: red;
+    color: white;
 }
 
+
 .btn.active {
-    background-color: antiquewhite;
+    border-bottom: 4px solid #131b4f;
 }
 div.hide {
     display: none;
 }
 
 div.main-card {
-    width: 70rem;
+    width: 80%;
     text-align-last: start ;
     margin: auto;
     margin-top: 2rem;
+}
+.nav-container .card-header {
+    background-color: #131b4f;
+    color: white;
+}
+
+.image .card-header{
+    background-color: aliceblue;
+    color: black;
 }
