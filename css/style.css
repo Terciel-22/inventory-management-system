@@ -47,3 +47,8 @@ div.main-card {
     background-color: aliceblue;
     color: black;
 }
+.hide-input-file {
+    opacity: 0;
+    position: absolute;
+    z-index: -1;
+}

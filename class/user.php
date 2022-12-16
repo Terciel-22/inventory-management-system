@@ -50,14 +50,15 @@
 
     $user = new User($pdo);
     session_start();
+    extract($_POST);
 
     //Validation for registration form
-    if(isset($_POST["registerButton"]))
+    if(isset($_POST["register-submitted"]))
     {
-        $name = htmlentities($_POST["registerName"]);
-        $username = htmlentities($_POST["registerUsername"]);
-        $password = htmlentities($_POST["registerPassword"]);
-        $cpassword = htmlentities($_POST["registerCPassword"]);
+        $name = htmlentities($_POST["register-name"]);
+        $username = htmlentities($_POST["register-username"]);
+        $password = htmlentities($_POST["register-password"]);
+        $cpassword = htmlentities($_POST["register-cpassword"]);
 
         if($name != "" && $username != "" && $password != "" && $cpassword != "")
         {
@@ -94,10 +95,10 @@
     }
 
     //Validation for login form
-    else if(isset($_POST["loginButton"]))
+    else if(isset($_POST["login-submitted"]))
     {
-        $username = htmlentities($_POST["loginUsername"]);
-        $password = htmlentities($_POST["loginPassword"]);
+        $username = htmlentities($_POST["login-username"]);
+        $password = htmlentities($_POST["login-password"]);
         $hashPassword = md5($password);
         if($username != "" && $password != "")
         {

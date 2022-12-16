@@ -1,40 +1,25 @@
 $( document ).ready(function() {
 
-    $("#register-button").on("click",function() {
-        registerAccount();
-    });
+    $("#register-form").on("submit", registerAccount, false);
 
-    $("#login-button").on("click",function() {
-        loginAccount();
-    });
+    $("#login-form").on("submit", loginAccount, false);
 
-    $("#clean-inputfields").on("click",function() {
-        cleanInputFields();
-    });
+    $("#clean-inputfields").on("click", cleanInputFields);
 });
 
 //Registration form function
 function registerAccount()
 {
-    const registerName = $("#register-name").val();
-	const registerUsername = $("#register-username").val();
-	const registerPassword = $("#register-password").val();
-    const registerCPassword = $("#register-cpassword").val();
-	const registerButton = $("#register-button").val();
+    const registerForm = $("#register-form");
+    const registerFormURL = registerForm.attr("action");
 
     $.ajax({
-        url: "class/user.php",
         method: "POST",
-        data: {
-            registerName:registerName,
-            registerUsername:registerUsername,
-            registerPassword:registerPassword,
-            registerCPassword:registerCPassword,
-            registerButton:registerButton 
-        },
-        success: function(data){
-            let result = `<div class='alert alert-secondary'>${data}</div>`;
-            $("#register-errmessage").html(result);
+        url: registerFormURL,
+        data: registerForm.serializeArray(),
+        success: function(result){
+            let message = `<div class='alert alert-secondary'>${result}</div>`;
+            $("#register-errmessage").html(message);
         }
     });
 }
@@ -42,33 +27,35 @@ function registerAccount()
 //Login form function
 function loginAccount()
 {
-	const loginUsername = $("#login-username").val();
-	const loginPassword = $("#login-password").val();
-	const loginButton = $("#login-button").val();
-
-    $.ajax({
-        url: "class/user.php",
-        method: "POST",
-        data: {
-            loginUsername:loginUsername,
-            loginPassword:loginPassword,
-            loginButton:loginButton 
-        },
-        success: function(data){
-            if(data == "Logging in...")
-            {
-                alert(data);
-                window.location.reload();
-            } else 
-            {
-                let result = `<div class='alert alert-secondary'>${data}</div>`;
-                $("#login-errmessage").html(result);
+	const loginForm = $("#login-form");
+    const loginFormURL = loginForm.attr("action");
+    if( $( "#login-username" ).val().length === 0 || $( "#login-password" ).val().length === 0 )
+    {
+        errorMessage = "<div class='alert alert-secondary'>Input require field!</div>";
+        $("#login-errmessage").html(errorMessage);
+    } else
+    {
+        $.ajax({
+            method: "POST",
+            url: loginFormURL,
+            data: loginForm.serializeArray(),
+            success: function(result){
+                if(result == "Logging in...")
+                {
+                    alert(result);
+                    window.location.reload();
+                } else 
+                {
+                    let message = `<div class='alert alert-secondary'>${result}</div>`;
+                    $("#login-errmessage").html(message);
+                }
             }
-        }
-    });
+        });
+    }
 }
 
 function cleanInputFields()
 {
-    $("input").val('');
+    $("input[type=text]").val('');
+    $("input[type=password]").val('');
 }

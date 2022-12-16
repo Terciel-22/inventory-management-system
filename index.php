@@ -40,7 +40,7 @@
             </div>
             <div class="card-body">
                 <div id="register-errmessage"></div>
-                <form action="">
+                <form action="class/user.php" id="register-form">
                     <div class="form-group">
                         <input type="text" placeholder="Name" id="register-name" name="register-name" class="form-control">
                     </div>
@@ -53,7 +53,8 @@
                     <div class="form-group">
                         <input type="password" placeholder="Confirm password" id="register-cpassword" name="register-cpassword" class="form-control">
                     </div>
-                    <button type="button" id="register-button" name="register-button" class="btn btn-primary">Register</button>
+                    <input type="hidden" name="register-submitted" value="true">
+                    <input type="submit" id="register-button" name="register-button" class="btn btn-primary" value="Register">
                     <button type="button" id="clean-inputfields" class="btn btn-danger">Clear</button>
                     <br>
                     <span>Already have an account? </span>
@@ -70,14 +71,15 @@
             </div>
             <div class="card-body">
                 <div id="login-errmessage"></div>
-                <form action="">
+                <form action="class/user.php" id="login-form">
                     <div class="form-group">
                         <input type="text" placeholder="Username" id="login-username" name="login-username" class="form-control">
                     </div>
                     <div class="form-group">
                         <input type="password" placeholder="Password" id="login-password" name="login-password" class="form-control">
                     </div>
-                    <button type="button" id="login-button" name="login-button" class="btn btn-primary">Login</button>
+                    <input type="hidden" name="login-submitted" value="true">
+                    <input type="submit" id="login-button" name="login-button" class="btn btn-primary" value="Login">
                     <button type="button" id="clean-inputfields" class="btn btn-danger">Clear</button>
                     <br>
                     <span>Don't have an account? </span><a href="?action=register">Register</a>

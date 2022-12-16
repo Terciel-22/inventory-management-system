@@ -62,13 +62,16 @@
                 <h2>Item Details</h2>
             </div>
             <div class="card-body">
-                <form method="POST">
+                <form action="class/item.php" enctype="multipart/form-data" id="item-form">
                     <div class="row">
                         <div class="col-md-4">
                             <label for="item-image">Image</label>
                             <div class="card image">
                                 <div class="card-body">
-                                    <img src="img/item_images/imageNotAvailable.jpg" alt="Image not available" class="img-fluid" id="item-image-display">
+                                    <label for="item-image">Click to change image...
+                                        <input accept="image/*" type="file" name="item-image" id="item-image" class="hide-input-file">
+                                        <img src="img/item_images/imageNotAvailable.jpg" alt="Image not available" class="img-fluid" id="item-image-display">
+                                    </label>
                                 </div>
                             </div>
                         </div>
@@ -125,11 +128,12 @@
                     </div>
                     <div class="row">
                         <div class="col-md-5">
-                            <button type="button" class="btn btn-primary">Add item</button>
+                            <button type="button" class="btn btn-primary" id="item-add-button">Add item</button>
                             <button type="button" class="btn btn-primary">Update</button>
                             <button type="button" class="btn btn-primary">Delete</button>
                             <button type="button" class="btn btn-primary">Clear</button>
                         </div>
+                        <div class="col-md-7" id="itemform-errmessage"></div>
                     </div>
                 </form>
             </div>

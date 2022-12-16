@@ -29,6 +29,7 @@
     }
 
     $item = new Item($pdo);
+    extract($_POST);
 
     if(isset($_POST['getItemNumbers']))
     {
@@ -50,5 +51,17 @@
             echo "404";
         }
         
+    } else if (isset($_POST["item-add-submitted"])) 
+    {
+        print_r($_FILES);
+        // $itemImage = $_FILES["item-image"];
+        // $itemImageName = $itemImage["name"];
+        // $itemImageTmpPath = $itemImage["tmp_name"];
+    
+        // echo "filename = $name, path = $path";
+        // exit();
+        // process your file
+    
     }
+    
 ?>
