@@ -52,3 +52,8 @@ div.main-card {
     position: absolute;
     z-index: -1;
 }
+
+#item-product-id {
+    background-color: #e9ecef;
+    cursor: context-menu;
+}

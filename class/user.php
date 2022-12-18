@@ -138,7 +138,7 @@
         exit();
     }
 
-    //Prevent direct access this file from URL
+    //Prevent direct access to this file from URL
     else {
         header("Location: ../");
     }

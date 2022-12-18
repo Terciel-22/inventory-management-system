@@ -70,6 +70,7 @@
                                 <div class="card-body">
                                     <label for="item-image">Click to change image...
                                         <input accept="image/*" type="file" name="item-image" id="item-image" class="hide-input-file">
+                                        <input type="hidden" name="item-image-filename" id="item-image-filename">
                                         <img src="img/item_images/imageNotAvailable.jpg" alt="Image not available" class="img-fluid" id="item-image-display">
                                     </label>
                                 </div>
@@ -83,7 +84,7 @@
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="item-product-id">Product ID</label>
-                                    <input type="text" id="item-product-id" name="item-product-id" class="form-control" disabled>
+                                    <input type="text" id="item-product-id" name="item-product-id" class="form-control shadow-none" tabindex="-1" placeholder="Auto-generate product I.D." readonly>
                                 </div>
                             </div>
                             <div class="row mb-3">
@@ -129,8 +130,8 @@
                     <div class="row">
                         <div class="col-md-5">
                             <button type="button" class="btn btn-primary" id="item-add-button">Add item</button>
-                            <button type="button" class="btn btn-primary">Update</button>
-                            <button type="button" class="btn btn-primary">Delete</button>
+                            <button type="button" class="btn btn-primary" id="item-update-button">Update</button>
+                            <button type="button" class="btn btn-primary" id="item-delete-button">Delete</button>
                             <button type="button" class="btn btn-primary" id="item-clear-button">Clear</button>
                         </div>
                         <div class="col-md-7" id="itemform-errmessage"></div>
@@ -209,5 +210,6 @@
     
     <!-- Custom JS -->
     <script src="js/main.js"></script>
+    <script src="js/item.js"></script>
 </body>
 </html>
