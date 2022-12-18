@@ -94,7 +94,7 @@
                                 <div class="form-group col-md-4">
                                     <label for="item-status">Status</label>
                                     <select name="item-status" id="item-status" class="form-control">
-                                        <option value="" selected disabled hidden>-Select Status-</option>
+                                        <option value="" selected hidden>-Select Status-</option>
                                         <option value="Active">Active</option>
                                         <option value="Disabled">Disabled</option>
                                     </select>
@@ -131,12 +131,12 @@
                             <button type="button" class="btn btn-primary" id="item-add-button">Add item</button>
                             <button type="button" class="btn btn-primary">Update</button>
                             <button type="button" class="btn btn-primary">Delete</button>
-                            <button type="button" class="btn btn-primary">Clear</button>
+                            <button type="button" class="btn btn-primary" id="item-clear-button">Clear</button>
                         </div>
                         <div class="col-md-7" id="itemform-errmessage"></div>
                     </div>
                 </form>
-            </div>
+            </div> 
         </div>
 
         <!-- PURCHASE -->

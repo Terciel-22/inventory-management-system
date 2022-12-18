@@ -1,8 +1,8 @@
 $( document ).ready(function() {
 
-    $("#register-form").on("submit", registerAccount, false);
+    $("#register-form").on("submit", registerAccount);
 
-    $("#login-form").on("submit", loginAccount, false);
+    $("#login-form").on("submit", loginAccount);
 
     $("#clean-inputfields").on("click", cleanInputFields);
 });
@@ -22,6 +22,7 @@ function registerAccount()
             $("#register-errmessage").html(message);
         }
     });
+    return false;
 }
    
 //Login form function
@@ -34,7 +35,7 @@ function loginAccount()
         errorMessage = "<div class='alert alert-secondary'>Input require field!</div>";
         $("#login-errmessage").html(errorMessage);
     } else
-    {
+    { 
         $.ajax({
             method: "POST",
             url: loginFormURL,
@@ -52,6 +53,7 @@ function loginAccount()
             }
         });
     }
+    return false;
 }
 
 function cleanInputFields()

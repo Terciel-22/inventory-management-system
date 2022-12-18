@@ -8,6 +8,7 @@ $( document ).ready(function() {
     $("#item-number").on("input change", getItemNumberData);
     $("#item-image").on("change", changeImageDisplay);
     $("#item-add-button").on('click', addItem);
+    $("#item-clear-button").on('click', itemFormSetToDefault);
     getItemNumbers();
     /* --- Item container events end --- */
 
@@ -61,8 +62,7 @@ function selectItem(thisBtn) //Indicate selected button on navbar and shows corr
 }
 
 function addItem() //Adding item to server
-{
-    
+{ 
     const itemForm = $("#item-form");
     const itemFormURL = itemForm.attr("action");
     const itemFormData = new FormData(itemForm[0]);
@@ -161,6 +161,7 @@ function itemFormSetToDefault() //Set all field to default
     $("#item-status").val("");
     $("#item-description").val("");
     $("#item-discount").val("0");
+    $("#item-quantity").val("0");
     $("#item-unit-price").val("0");
     $("#item-total-stock").val("");
 
