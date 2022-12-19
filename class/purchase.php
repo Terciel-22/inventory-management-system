@@ -11,6 +11,23 @@
             $this->pdo = $pdo;
         } 
 
+        function getAvailablePurchaseIDs()
+        {
+            $sql = "SELECT purchaseID FROM purchase";
+            $this->pdo->prepareQuery($sql);
+            return $this->pdo->getAllResults();
+        }
+
+        function getPurchaseData($purchaseID)
+        {
+            $sql = "SELECT purchase.*, item.stock FROM purchase JOIN item ON purchase.itemNumber=item.itemNumber WHERE purchaseID = :purchaseID";
+            $this->pdo->prepareQuery($sql);
+            $this->pdo->bindValueToStatement(":purchaseID", $purchaseID);
+            $purchaseData = $this->pdo->getAllResults();
+            $rowCount = $this->pdo->getAffectedRowCount();
+            return ["purchaseData" => $purchaseData, "rowCount" => $rowCount];
+        }
+        
         function addPurchase($purchaseItemNumber,$purchaseDate,$purchaseItemName,$purchaseUnitPrice,$purchaseItemQuantity,$purchaseVendorName,$purchaseVendorID)
         {
             //Update item stock
@@ -40,8 +57,31 @@
 
     $purchase = new Purchase($pdo);
     extract($_POST);
+    
+    if(isset($_POST["getPurchaseIDs"]))
+    {
+        $results = $purchase->getAvailablePurchaseIDs();
+        
+        echo json_encode($results);
+        exit();
+    }
 
-    if(isset($_POST["purchase-add-submitted"])) {
+    else if(isset($_POST["getPurchaseData"]))
+    {
+        $purchaseID = htmlentities($_POST["purchaseID"]);
+        $result = $purchase->getPurchaseData($purchaseID);
+        if($result["rowCount"] === 1)
+        {
+            echo json_encode($result["purchaseData"]);
+            exit();
+        } else 
+        {
+            echo "404";
+            exit();
+        }
+    }
+
+    else if(isset($_POST["purchase-add-submitted"])) {
         $purchaseItemNumber = htmlentities($_POST["purchase-item-number"]);
         $purchaseDate = htmlentities($_POST["purchase-date"]);
         $purchaseItemName = htmlentities($_POST["purchase-item-name"]);

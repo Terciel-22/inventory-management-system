@@ -17,6 +17,7 @@
             $this->pdo->prepareQuery($sql);
             return $this->pdo->getAllResults();
         }
+
         function getItemData($itemNumber)
         {
             $sql = "SELECT * FROM item WHERE itemNumber = :itemNumber";
@@ -24,7 +25,7 @@
             $this->pdo->bindValueToStatement(":itemNumber", $itemNumber);
             $itemData = $this->pdo->getAllResults();
             $rowCount = $this->pdo->getAffectedRowCount();
-            return ['itemData' => $itemData, 'rowCount' => $rowCount];
+            return ["itemData" => $itemData, "rowCount" => $rowCount];
         }
 
         function addItem($itemNumber,$itemName,$itemDiscount,$itemQuantity,$itemUnitPrice,$itemImageFileName,$itemStatus,$itemDescription)
@@ -71,7 +72,7 @@
     extract($_POST);
 
     //Get all available item number in the database
-    if(isset($_POST['getItemNumbers']))
+    if(isset($_POST["getItemNumbers"]))
     {
         $results = $item->getAvailableItemNumbers();
         
@@ -80,19 +81,19 @@
     }
 
     //Get data of selected item
-    else if(isset($_POST['getItemNumberData']))
+    else if(isset($_POST["getItemData"]))
     {
-        $itemNumber = htmlentities($_POST['itemNumber']);
+        $itemNumber = htmlentities($_POST["itemNumber"]);
         $result = $item->getItemData($itemNumber);
-        if($result['rowCount'] === 1)
+        if($result["rowCount"] === 1)
         {
-            echo json_encode($result['itemData']);
+            echo json_encode($result["itemData"]);
             exit();
         } else 
         {
             echo "404";
+            exit();
         }
-        
     } 
     
     //Add item
@@ -142,7 +143,7 @@
                     $itemImageName = $itemImage["name"];
                     $itemImageTmpPath = $itemImage["tmp_name"];
                     $itemImageSize = $itemImage["size"];
-                    $tmp = explode('.', $itemImageName);
+                    $tmp = explode(".", $itemImageName);
                     $itemImageExtension = end($tmp);
                     $requiredExtensions = array("jpeg","jpg","png");
 
@@ -233,7 +234,7 @@
                 $itemImageName = $itemImage["name"];
                 $itemImageTmpPath = $itemImage["tmp_name"];
                 $itemImageSize = $itemImage["size"];
-                $tmp = explode('.', $itemImageName);
+                $tmp = explode(".", $itemImageName);
                 $itemImageExtension = end($tmp);
                 $requiredExtensions = array("jpeg","jpg","png");
 

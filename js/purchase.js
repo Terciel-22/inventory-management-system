@@ -1,11 +1,75 @@
 $(document).ready(function(){
-    getAllVendorNames();
-    $("#purchase-form").on("change", getTotalCost);
+    getAllVendorNames(); //For select vendor option
+    getPurchaseIDs(); //For auto-complete
+    $("#purchase-form").on("change click input mouseleave", getTotalCost);
     $("#purchase-item-number").on("input change", getPurchaseItemData);
-    $("#purchase-add-button").on('click', addPurchase);
-    $("#purchase-update-button").on('click', updatePurchase);
-    $("#purchase-clear-button").on('click', purchaseFormSetToDefault);
+    $("#purchase-id").on("input change", getPurchaseData);
+    $("#purchase-add-button").on("click", addPurchase);
+    $("#purchase-update-button").on("click", updatePurchase);
+    $("#purchase-clear-button").on("click", purchaseFormSetToDefault);
 });
+
+function getPurchaseIDs()
+{
+    $.ajax({
+        method: "POST",
+        url: "class/purchase.php",
+        dataType: "JSON",
+        data: {getPurchaseIDs:true},
+        success: function(result)
+        {
+            let values = Object.values(result);
+            let purchaseID_arr = [];
+            for(let i=0; i<values.length; i++)
+            {
+                purchaseID_arr.push(String(values[i].purchaseID));
+            }
+            //For item form
+            $( "#purchase-id" ).autocomplete({
+                source: purchaseID_arr
+            });
+        }
+    });
+}
+
+function getPurchaseData()
+{
+    const purchaseID = $("#purchase-id").val();
+    if(purchaseID != "")
+    {
+        $.ajax({
+            method: "POST",
+            url: "class/purchase.php",
+            dataType: "JSON",
+            data: {
+                getPurchaseData:true,
+                purchaseID:purchaseID
+            },
+            success: function(result)
+            {
+                if(result != "404")
+                {
+                    let purchaseData = result[0];
+    
+                    $("#purchase-item-number").val(purchaseData["itemNumber"]);
+                    $("#purchase-date").val(purchaseData["purchaseDate"]);
+                    $("#purchase-item-name").val(purchaseData["itemName"]);
+                    $("#purchase-current-stock").val(purchaseData["stock"]);
+                    $("#purchase-vendor-name").val(`${purchaseData["vendorID"]}|${purchaseData["vendorName"]}`);
+                    $("#purchase-item-quantity").val(purchaseData["quantity"]);
+                    $("#purchase-unit-price").val(purchaseData["unitPrice"]);
+                } else
+                {
+                    $("#purchase-item-number").val("");
+                    purchaseFormSetToDefault();
+                }
+            }
+        });
+    }else
+    {
+        purchaseFormSetToDefault();
+    }
+}
 
 function addPurchase()
 {
@@ -70,16 +134,18 @@ function getPurchaseItemData()
             url: "class/item.php",
             dataType: "JSON",
             data: {
-                getItemNumberData:true,
+                getItemData:true,
                 itemNumber:itemNumber
             },
             success: function(result)
             {
+                resetPurchaseDataField();
+
                 if(result != "404")
                 {
                     let itemData = result[0];
-                    $("#purchase-item-name").val(itemData['itemName']);
-                    $("#purchase-current-stock").val(itemData['stock']);
+                    $("#purchase-item-name").val(itemData["itemName"]);
+                    $("#purchase-current-stock").val(itemData["stock"]);
                 } else
                 {
                     purchaseFormSetToDefault();
@@ -98,12 +164,20 @@ function purchaseFormSetToDefault()
     $("#purchaseform-errmessage").html(message);
 
     $("#purchase-date").val("");
-    $("#purchase-id").val("");
     $("#purchase-item-name").val("");
     $("#purchase-current-stock").val("");
     $("#purchase-vendor-name").val("");
     $("#purchase-item-quantity").val("0");
     $("#purchase-unit-price").val("0");
-    $("#purchase-total-cost").val("0");
+    $("#purchase-total-cost").val("0"); 
 }
 
+function resetPurchaseDataField()
+{
+    $("#purchase-id").val("");
+    $("#purchase-date").val("");
+    $("#purchase-vendor-name").val("");
+    $("#purchase-item-quantity").val("0");
+    $("#purchase-unit-price").val("0");
+    $("#purchase-total-cost").val("0"); 
+}

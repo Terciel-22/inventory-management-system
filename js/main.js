@@ -107,7 +107,7 @@ function getItemNumbers() //Needed for getting item number auto-complete suggest
             {
                 itemNumbers.push(values[i].itemNumber);
             }
-
+            
             //For item form
             $( "#item-number" ).autocomplete({
                 source: itemNumbers
