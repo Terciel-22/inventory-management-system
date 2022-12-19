@@ -4,7 +4,7 @@
 
     class Item extends PDOHandler
     {
-        private $pdo;
+        protected $pdo;
 
         function __construct($pdo)
         {

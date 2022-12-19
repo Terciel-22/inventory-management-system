@@ -58,95 +58,12 @@
         
         <!-- ITEMS -->
         <div class="nav-container" id="item">
-            <div class="card-header">
-                <h2>Item Details</h2>
-            </div>
-            <div class="card-body">
-                <form action="class/item.php" enctype="multipart/form-data" id="item-form">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <label for="item-image">Image</label>
-                            <div class="card image">
-                                <div class="card-body">
-                                    <label for="item-image">Click to change image...
-                                        <input accept="image/*" type="file" name="item-image" id="item-image" class="hide-input-file">
-                                        <input type="hidden" name="item-image-filename" id="item-image-filename">
-                                        <img src="img/item_images/imageNotAvailable.jpg" alt="Image not available" class="img-fluid" id="item-image-display">
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-8">
-                            <div class="row mb-3">
-                                <div class="form-group col-md-6">
-                                    <label for="item-number">Item number</label>
-                                    <input type="text" id="item-number" name="item-number" class="form-control">
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label for="item-product-id">Product ID</label>
-                                    <input type="text" id="item-product-id" name="item-product-id" class="form-control shadow-none" tabindex="-1" placeholder="Auto-generate product I.D." readonly>
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="form-group col-md-8">
-                                    <label for="item-name">Item name</label>
-                                    <input type="text" id="item-name" name="item-name" class="form-control">
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label for="item-status">Status</label>
-                                    <select name="item-status" id="item-status" class="form-control">
-                                        <option value="" selected hidden>-Select Status-</option>
-                                        <option value="Active">Active</option>
-                                        <option value="Disabled">Disabled</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="form-group">
-                                    <label for="item-description">Item description</label>
-                                    <textarea type="text" id="item-description" name="item-description" class="form-control" rows="7"></textarea>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="form-group col-md-3">
-                            <label for="item-discount">Discount %</label>
-                            <input type="text" id="item-discount" name="item-discount" class="form-control" value="0">
-                        </div>
-                        <div class="form-group col-md-3">
-                            <label for="item-quantity">Quantity</label>
-                            <input type="number" id="item-quantity" name="item-quantity" class="form-control" value="0">
-                        </div>
-                        <div class="form-group col-md-3">
-                            <label for="item-unit-price">Unit Price</label>
-                            <input type="text" id="item-unit-price" name="item-unit-price" class="form-control" value="0">
-                        </div>
-                        <div class="form-group col-md-3">
-                            <label for="item-total-stock">Total Stock</label>
-                            <input type="text" id="item-total-stock" name="item-total-stock" class="form-control" disabled>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-5">
-                            <button type="button" class="btn btn-primary" id="item-add-button">Add item</button>
-                            <button type="button" class="btn btn-primary" id="item-update-button">Update</button>
-                            <button type="button" class="btn btn-primary" id="item-delete-button">Delete</button>
-                            <button type="button" class="btn btn-primary" id="item-clear-button">Clear</button>
-                        </div>
-                        <div class="col-md-7" id="itemform-errmessage"></div>
-                    </div>
-                </form>
-            </div> 
+            <?php include "inc/item.html";?>
         </div>
 
         <!-- PURCHASE -->
         <div class="nav-container hide" id="purchase">
-            <div class="card-header">
-                <h2>Purchase Details</h2>
-            </div>
-            <div class="card-body">
-            </div>
+            <?php include "inc/purchase.html";?>
         </div>
 
         <!-- VENDOR -->
@@ -211,5 +128,6 @@
     <!-- Custom JS -->
     <script src="js/main.js"></script>
     <script src="js/item.js"></script>
+    <script src="js/purchase.js"></script>
 </body>
 </html>

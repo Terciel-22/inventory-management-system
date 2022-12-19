@@ -1,0 +1,60 @@
+<div class="card-header">
+    <h2>Purchase Details</h2>
+</div>
+<div class="card-body">
+    <div class="row">
+        <div id="purchaseform-errmessage" class="col-md-12"></div>
+    </div>
+    <form action="class/purchase.php" id="purchase-form">
+        <div class="row mb-3">
+            <div class="form-group col-md-4">
+                <label for="purchase-item-number">Item Number</label>
+                <input type="text" id="purchase-item-number" name="purchase-item-number" class="form-control">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="purchase-date">Purchase Date</label>
+                <input type="date" id="purchase-date" name="purchase-date" class="form-control">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="purchase-id">Purchase ID</label>
+                <input type="text" id="purchase-id" name="purchase-id" class="form-control shadow-none readonly" tabindex="-1" placeholder="Auto-generate" readonly>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="form-group col-md-4">
+                <label for="purchase-item-name">Item Name</label>
+                <input type="text" id="purchase-item-name" name="purchase-item-name" class="form-control shadow-none readonly" tabindex="-1" placeholder="Name of the selected item." readonly>
+            </div>
+            <div class="form-group col-md-4">
+                <label for="purchase-current-stock">Current Stock</label>
+                <input type="text" id="purchase-current-stock" name="purchase-current-stock" class="form-control shadow-none readonly" tabindex="-1" placeholder="Available stock of the item." readonly>
+            </div>
+            <div class="form-group col-md-4">
+                <label for="purchase-vendor-name">Vendor Name</label>
+                <select name="purchase-vendor-name" id="purchase-vendor-name" class="form-control"></select>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="form-group col-md-4">
+                <label for="purchase-item-quantity">Quantity</label>
+                <input type="number" min="0" id="purchase-item-quantity" name="purchase-item-quantity" class="form-control" value="0">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="purchase-unit-price">Unit Price</label>
+                <input type="text" id="purchase-unit-price" name="purchase-unit-price" class="form-control" value="0">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="purchase-total-cost">Total Cost</label>
+                <input type="text" id="purchase-total-cost" name="purchase-total-cost" class="form-control shadow-none readonly" tabindex="-1" placeholder="Total cost of the purchase." readonly value="0">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <button type="button" id="purchase-add-button" class="btn btn-primary">Add Purchase</button>
+                <button type="button" id="purchase-update-button" class="btn btn-primary">Update</button>
+                <button type="button" id="purchase-clear-button" class="btn btn-primary">Clear</button>
+            </div>
+        </div>
+    </form>
+</div>
+

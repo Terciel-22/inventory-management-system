@@ -1,5 +1,4 @@
-$( document ).ready(function() {
-    getItemNumbers();
+$(document).ready(function() {
     $("#item-number").on("input change", getItemNumberData);
     $("#item-image").on("change", changeImageDisplay);
     $("#item-add-button").on('click', addItem);
@@ -22,7 +21,7 @@ function addItem()
         contentType: false,
         processData: false,
         success: function (result) {
-            message = `<div class='alert alert-secondary'>${result}</div>`;
+            message = `<div class='alert alert-danger'>${result}</div>`;
             $("#itemform-errmessage").html(message);
         }
     });
@@ -42,7 +41,8 @@ function updateItem()
         contentType: false,
         processData: false,
         success: function (result) {
-            message = `<div class='alert alert-secondary'>${result}</div>`;
+            getItemNumberData();
+            message = `<div class='alert alert-danger'>${result}</div>`;
             $("#itemform-errmessage").html(message);
         }
     });
@@ -62,38 +62,16 @@ function deleteItem()
                 url: "class/item.php",
                 data: {deleteItemProductID:itemProductID},
                 success: function (result) {
-                    message = `<div class='alert alert-secondary'>${result}</div>`;
+                    message = `<div class='alert alert-danger'>${result}</div>`;
                     $("#itemform-errmessage").html(message);
                 }
             });
         }
     } else
     {
-        message = `<div class='alert alert-secondary'>You didn't select item to be deleted.</div>`;
+        message = `<div class='alert alert-danger'>You didn't select item to be deleted.</div>`;
         $("#itemform-errmessage").html(message);
     }
-}
-
-function getItemNumbers() //Needed for auto-complete suggestions
-{
-    $.ajax({
-        method: "POST",
-        url: "class/item.php",
-        dataType: "JSON",
-        data: {getItemNumbers:true},
-        success: function(result)
-        {
-            let values = Object.values(result);
-            let itemNumbers = [];
-            for(let i=0; i<values.length; i++)
-            {
-                itemNumbers.push(values[i].itemNumber);
-            }
-            $( "#item-number" ).autocomplete({
-                source: itemNumbers
-            });
-        }
-    });
 }
 
 function getItemNumberData() //Supply data to the fields after selecting item number

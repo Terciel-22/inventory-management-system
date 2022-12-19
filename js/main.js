@@ -11,6 +11,12 @@ $( document ).ready(function() {
     $("#customer-button").on("click", selectCustomer);
     $("#search-button").on("click", selectSearch);
     $("#report-button").on("click", selectReport);
+
+    //For item number suggestion
+    getItemNumbers();
+
+    //For setting min and max date
+    getCalendarMinAndMax();
 });
 
 function logoutAccount()
@@ -84,4 +90,55 @@ function selectReport()
     $("#report").removeClass("hide");
     $("a.active").removeClass("active");
     $(thisBtn).addClass("active");
+}
+
+function getItemNumbers() //Needed for getting item number auto-complete suggestions
+{
+    $.ajax({
+        method: "POST",
+        url: "class/item.php",
+        dataType: "JSON",
+        data: {getItemNumbers:true},
+        success: function(result)
+        {
+            let values = Object.values(result);
+            let itemNumbers = [];
+            for(let i=0; i<values.length; i++)
+            {
+                itemNumbers.push(values[i].itemNumber);
+            }
+
+            //For item form
+            $( "#item-number" ).autocomplete({
+                source: itemNumbers
+            });
+
+            //For purchase form
+            $( "#purchase-item-number" ).autocomplete({
+                source: itemNumbers
+            });
+        }
+    });
+}
+
+function getCalendarMinAndMax()
+{
+    let today = new Date();
+    let dd = today.getDate();
+    let mm = today.getMonth() + 1; //January is 0!
+    let yyyy = today.getFullYear();
+
+    if (dd < 10) {
+    dd = '0' + dd;
+    }
+
+    if (mm < 10) {
+    mm = '0' + mm;
+    } 
+        
+    today = yyyy + '-' + mm + '-' + dd;
+
+    //For purchase form
+    $("#purchase-date").attr("min", "2000-01-01"); 
+    $("#purchase-date").attr("max", today); 
 }
