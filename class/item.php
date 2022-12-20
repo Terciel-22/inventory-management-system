@@ -110,7 +110,7 @@
         
         
 
-        if ($itemNumber != "" && $itemName != "" && $itemDiscount != "" && $itemQuantity != "" && $itemUnitPrice != "" && $itemStatus != "" && $itemDescription != "")
+        if ($itemNumber != "" && $itemName != "" && $itemDiscount != "" && $itemQuantity != "" && $itemUnitPrice != "" && $itemStatus != "")
         {
             if(!is_numeric($itemNumber) || $itemNumber <= 0)
             {
@@ -209,19 +209,19 @@
         
         
 
-        if ($itemNumber != "" && $itemName != "" && $itemDiscount != "" && $itemQuantity != "" && $itemUnitPrice != "" && $itemStatus != "" && $itemDescription != "")
+        if ($itemNumber != "" && $itemName != "" && $itemDiscount != "" && $itemQuantity != "" && $itemUnitPrice != "" && $itemStatus != "")
         {
             if(!is_numeric($itemNumber) || $itemNumber <= 0)
             {
                 echo "Please put a valid item number.";
                 exit();
             }
-            if(!is_numeric($itemDiscount))
+            if(!is_numeric($itemDiscount) || $itemDiscount < 0)
             {
                 echo "Please put a valid discount.";
                 exit();
             }
-            if(!is_numeric($itemUnitPrice))
+            if(!is_numeric($itemUnitPrice) || $itemUnitPrice < 0)
             {
                 echo "Please put a valid unit price.";
                 exit();

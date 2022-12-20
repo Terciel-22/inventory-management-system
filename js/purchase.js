@@ -1,3 +1,5 @@
+lastQuantity = 0;
+
 $(document).ready(function(){
     getAllVendorNames(); //For select vendor option
     getPurchaseIDs(); //For auto-complete
@@ -5,7 +7,7 @@ $(document).ready(function(){
     $("#purchase-item-number").on("input change", getPurchaseItemData);
     $("#purchase-id").on("input change", getPurchaseData);
     $("#purchase-add-button").on("click", addPurchase);
-    $("#purchase-update-button").on("click", updatePurchase);
+    $("#purchase-update-button").on("click", () => updatePurchase(lastQuantity));
     $("#purchase-clear-button").on("click", purchaseFormSetToDefault);
 });
 
@@ -56,6 +58,7 @@ function getPurchaseData()
                     $("#purchase-item-name").val(purchaseData["itemName"]);
                     $("#purchase-current-stock").val(purchaseData["stock"]);
                     $("#purchase-vendor-name").val(`${purchaseData["vendorID"]}|${purchaseData["vendorName"]}`);
+                    lastQuantity = purchaseData["quantity"];
                     $("#purchase-item-quantity").val(purchaseData["quantity"]);
                     $("#purchase-unit-price").val(purchaseData["unitPrice"]);
                 } else
@@ -82,15 +85,36 @@ function addPurchase()
         url: purchaseFormURL,
         data: purchaseFormData,
         success: function (result) {
+            if(result == "Successfully Added!")
+            {
+                getPurchaseData();
+            }
             message = `<div class='alert alert-danger'>${result}</div>`;
             $("#purchaseform-errmessage").html(message);
         }
     });
 }
 
-function updatePurchase()
+function updatePurchase(lastQuantity)
 {
-    
+    const purchaseForm = $("#purchase-form");
+    const purchaseFormURL = purchaseForm.attr("action");
+    const purchaseFormData = purchaseForm.serializeArray();
+    purchaseFormData.push({name: "purchase-last-quantity", value: lastQuantity});
+    purchaseFormData.push({name: "purchase-update-submitted", value: "true"});
+    $.ajax({
+        method: "POST",
+        url: purchaseFormURL,
+        data: purchaseFormData,
+        success: function (result) {
+            if(result == "Successfully Updated!")
+            {
+                getPurchaseData();
+            }
+            message = `<div class='alert alert-danger'>${result}</div>`;
+            $("#purchaseform-errmessage").html(message);
+        }
+    }); 
 }
 
 function getTotalCost()
@@ -139,8 +163,6 @@ function getPurchaseItemData()
             },
             success: function(result)
             {
-                resetPurchaseDataField();
-
                 if(result != "404")
                 {
                     let itemData = result[0];
@@ -166,16 +188,6 @@ function purchaseFormSetToDefault()
     $("#purchase-date").val("");
     $("#purchase-item-name").val("");
     $("#purchase-current-stock").val("");
-    $("#purchase-vendor-name").val("");
-    $("#purchase-item-quantity").val("0");
-    $("#purchase-unit-price").val("0");
-    $("#purchase-total-cost").val("0"); 
-}
-
-function resetPurchaseDataField()
-{
-    $("#purchase-id").val("");
-    $("#purchase-date").val("");
     $("#purchase-vendor-name").val("");
     $("#purchase-item-quantity").val("0");
     $("#purchase-unit-price").val("0");

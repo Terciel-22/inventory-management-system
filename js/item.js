@@ -84,7 +84,7 @@ function updateItem() //Update selected item
         contentType: false,
         processData: false,
         success: function (result) {
-            getItemNumberData();
+            getItemData();
             message = `<div class='alert alert-danger'>${result}</div>`;
             $("#itemform-errmessage").html(message);
         }
