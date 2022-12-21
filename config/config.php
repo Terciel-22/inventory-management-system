@@ -2,7 +2,7 @@
     
     define("DBMS", "mysql");
     define("HOST", "localhost");
-    define("DB_NAME", "shop_inventory");
+    define("DB_NAME", "terciel_inventory_system");
     define("PORT", "3306");
     define("CHARSET", "utf8mb4");
     define("USERNAME", "root");

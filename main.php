@@ -68,12 +68,7 @@
 
         <!-- VENDOR -->
         <div class="nav-container hide" id="vendor">
-            <div class="card-header">
-                <h2>Vendor Details</h2>
-            </div>
-            <div class="card-body">
-                
-            </div>
+            <?php include "inc/vendor.html";?>
         </div>
 
         <!-- SALE -->
@@ -129,5 +124,6 @@
     <script src="js/main.js"></script>
     <script src="js/item.js"></script>
     <script src="js/purchase.js"></script>
+    <script src="js/vendor.js"></script>
 </body>
 </html>

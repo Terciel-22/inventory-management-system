@@ -118,6 +118,7 @@
     }
 
     else if(isset($_POST["purchase-add-submitted"])) {
+        $purchaseID = htmlentities($_POST["purchase-id"]);
         $purchaseItemNumber = htmlentities($_POST["purchase-item-number"]);
         $purchaseDate = htmlentities($_POST["purchase-date"]);
         $purchaseItemName = htmlentities($_POST["purchase-item-name"]);
@@ -125,6 +126,12 @@
         $purchaseItemQuantity = htmlentities($_POST["purchase-item-quantity"]);
         $purchaseVendor = htmlentities($_POST["purchase-vendor-name"]);
         
+        if($purchaseID != "")
+        {
+            echo "Product ID is auto-generated when adding.";
+            exit();
+        }
+
         if($purchaseItemNumber != "" && $purchaseDate != "" && $purchaseVendor != "" && $purchaseItemQuantity != "" && $purchaseUnitPrice != "")
         {
             if($purchaseItemName == "")
@@ -143,8 +150,8 @@
             }
 
             $purchaseVendorArr = explode("|",$purchaseVendor);
-            $purchaseVendorID = $purchaseVendorArr[0];
-            $purchaseVendorName = $purchaseVendorArr[1];
+            $purchaseVendorID = $purchaseVendorArr[1];
+            $purchaseVendorName = $purchaseVendorArr[0];
 
             $isAdded = $purchase->addPurchase($purchaseItemNumber,$purchaseDate,$purchaseItemName,$purchaseUnitPrice,$purchaseItemQuantity,$purchaseVendorName,$purchaseVendorID);
 
@@ -201,8 +208,8 @@
             }
  
             $purchaseVendorArr = explode("|",$purchaseVendor);
-            $purchaseVendorID = $purchaseVendorArr[0];
-            $purchaseVendorName = $purchaseVendorArr[1];
+            $purchaseVendorID = $purchaseVendorArr[1];
+            $purchaseVendorName = $purchaseVendorArr[0];
 
             $isUpdated = $purchase->updatePurchase($purchaseItemNumber,$purchaseDate,$purchaseItemName,$purchaseUnitPrice,$itemQuantity,$purchaseItemQuantity,$purchaseVendorName,$purchaseVendorID,$purchaseID);
 

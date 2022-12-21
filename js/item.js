@@ -1,12 +1,32 @@
 $(document).ready(function() {
-    $("#item-number").on("input change", getItemData);
+    $("#item-number").on("input change focusout", ()=>{
+        message = "";
+        $("#itemform-errmessage").html(message);
+        getItemData();
+    });
+    $("#item-number").on("focus", getItemNumbers);
     $("#item-image").on("change", changeImageDisplay);
+
+    //CRUD
     $("#item-add-button").on('click', addItem);
     $("#item-update-button").on('click', updateItem);
     $("#item-delete-button").on('click', deleteItem);
-    $("#item-clear-button").on('click', itemFormSetToDefault);
+    $("#item-clear-button").on('click', () => {
+        $("#item-number").val("");
+        itemFormSetToDefault();
+    });
 });
 
+function changeImageDisplay() //Change image display after uploading on input[type=file]
+{
+    const [imgInputFile] = $("#item-image")[0].files;
+    if(imgInputFile)
+    {
+        $("#item-image-display").attr("src",URL.createObjectURL(imgInputFile));
+    }
+}
+
+//CRUD
 function getItemData() //Supply data to the fields after selecting item number
 {
     const itemNumber = $("#item-number").val();
@@ -35,18 +55,30 @@ function getItemData() //Supply data to the fields after selecting item number
 
                     //image
                     $("#item-image").val("");
-                    let imgsrc = "img/item_images/"+itemData["itemNumber"]+"/"+itemData['imageURL'];
+                    if(itemData['imageURL']!="imageNotAvailable.jpg")
+                    {
+                        imgsrc = "img/item_images/"+itemData["itemNumber"]+"/"+itemData['imageURL'];
+                    } else
+                    {
+                        imgsrc = "img/item_images/"+itemData['imageURL'];
+                    }
+                    
                     $("#item-image-filename").val(itemData["imageURL"]);
                     $("#item-image-display").attr("src",imgsrc);
+                    $("#item-update-button").prop("disabled",false);
+                    $("#item-delete-button").prop("disabled",false);
                 } else
                 {
-                    itemFormSetToDefault();
+
+                    itemFormSetToDefault(true);
+                    $("#item-update-button").prop("disabled",true);
+                    $("#item-delete-button").prop("disabled",true);
                 }
             }
         });
     } else 
     {
-        itemFormSetToDefault();
+        itemFormSetToDefault(true);
     }
 }
 
@@ -64,6 +96,11 @@ function addItem() //Add new item
         contentType: false,
         processData: false,
         success: function (result) {
+            if(result == "Successfully added!")
+            {
+                itemFormSetToDefault(false);
+                getItemData();
+            }
             message = `<div class='alert alert-danger'>${result}</div>`;
             $("#itemform-errmessage").html(message);
         }
@@ -84,9 +121,13 @@ function updateItem() //Update selected item
         contentType: false,
         processData: false,
         success: function (result) {
-            getItemData();
             message = `<div class='alert alert-danger'>${result}</div>`;
             $("#itemform-errmessage").html(message);
+            if(result=="Successfully updated!")
+            {
+                itemFormSetToDefault(false);
+                getItemData();
+            }
         }
     });
 }
@@ -94,42 +135,33 @@ function updateItem() //Update selected item
 function deleteItem() //Delete selected item
 {
     const itemProductID = $("#item-product-id").val();
-    if(itemProductID != "")
+    
+    $("#itemform-errmessage").html(message);
+    if(confirm("Are you sure you want to delete it?"))
+    {
+        $.ajax({
+            method: "POST",
+            url: "class/item.php",
+            data: {deleteItemProductID:itemProductID},
+            success: function (result) {
+                message = `<div class='alert alert-danger'>${result}</div>`;
+                $("#itemform-errmessage").html(message);
+                if(result=="Successfully deleted!")
+                {
+                    itemFormSetToDefault(false);
+                }
+            }
+        });
+    }
+}
+
+function itemFormSetToDefault(deleteMessage) //Set all field to default
+{
+    if(deleteMessage)
     {
         message = "";
         $("#itemform-errmessage").html(message);
-        if(confirm("Are you sure you want to delete it?"))
-        {
-            $.ajax({
-                method: "POST",
-                url: "class/item.php",
-                data: {deleteItemProductID:itemProductID},
-                success: function (result) {
-                    message = `<div class='alert alert-danger'>${result}</div>`;
-                    $("#itemform-errmessage").html(message);
-                }
-            });
-        }
-    } else
-    {
-        message = `<div class='alert alert-danger'>You didn't select item to be deleted.</div>`;
-        $("#itemform-errmessage").html(message);
     }
-}
-
-function changeImageDisplay() //Change image display after uploading on input[type=file]
-{
-    const [imgInputFile] = $("#item-image")[0].files;
-    if(imgInputFile)
-    {
-        $("#item-image-display").attr("src",URL.createObjectURL(imgInputFile));
-    }
-}
-
-function itemFormSetToDefault() //Set all field to default
-{
-    message = "";
-    $("#itemform-errmessage").html(message);
 
     $("#item-product-id").val("");
     $("#item-name").val("");

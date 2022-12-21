@@ -286,7 +286,7 @@
         $isDeleted = $item->deleteItem($itemProductID);
         if($isDeleted)
         {
-            echo "Successfully deleted item.";
+            echo "Successfully deleted!";
             exit();
         } else
         {

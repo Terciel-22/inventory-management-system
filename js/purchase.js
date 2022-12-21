@@ -1,36 +1,128 @@
 lastQuantity = 0;
-
+ 
 $(document).ready(function(){
-    getAllVendorNames(); //For select vendor option
-    getPurchaseIDs(); //For auto-complete
+    $("#purchase-item-number").on("focus", getItemNumbers); //Show itemnumber auto complete
+    $("#purchase-item-number").on("input change focusout", getPurchaseItemData);
     $("#purchase-form").on("change click input mouseleave", getTotalCost);
-    $("#purchase-item-number").on("input change", getPurchaseItemData);
-    $("#purchase-id").on("input change", getPurchaseData);
+    getAllVendorNames(); //For select vendor option
+
+    //CRUD
+    $("#purchase-id").on("focus",getPurchaseIDs ); //For auto-complete
+    $("#purchase-id").on("input change focusout", getPurchaseData);
     $("#purchase-add-button").on("click", addPurchase);
     $("#purchase-update-button").on("click", () => updatePurchase(lastQuantity));
-    $("#purchase-clear-button").on("click", purchaseFormSetToDefault);
+    $("#purchase-clear-button").on("click", ()=>{
+        $("#purchase-item-number").val("");
+        $("#purchase-id").val("");
+        purchaseFormSetToDefault(true);
+    });
 });
 
+function getTotalCost()
+{
+    let itemQuantity = $("#purchase-item-quantity").val();
+    let unitPrice = $("#purchase-unit-price").val();
+    let totalCost = itemQuantity * unitPrice;
+    $("#purchase-total-cost").val(totalCost);
+}
+
+function getAllVendorNames() 
+{
+    let vendors = [];
+    let sortedVendors = [];
+    
+    function getVendorNamesFromDB(){
+        return $.ajax({
+            method: "POST",
+            url: "class/vendor.php",
+            dataType: "JSON",
+            data: {
+                getAllVendorNames:true
+            },
+            success: function(results)
+            {
+                for(let i=0; i<results.length; i++)
+                {
+                    tempArr = [results[i]["fullName"],results[i]["vendorID"]];
+                    vendors.push(tempArr);
+                }
+            }
+        });
+    }
+
+    $.when(getVendorNamesFromDB()).done(()=>{
+        sortedVendors = vendors.sort();
+
+        let options = `<option value="" selected hidden>-Select Vendor-</option>`;
+        for(let i=0;i<sortedVendors.length;i++)
+        {
+            options += `<option value="${sortedVendors[i][0]}|${sortedVendors[i][1]}">${sortedVendors[i][0]}</option>`;
+        }
+        $("#purchase-vendor-name").prop("disabled",false);
+        $("#purchase-vendor-name").html(options);
+    });
+}
+
+function getPurchaseItemData()
+{
+    const itemNumber = $("#purchase-item-number").val();
+    if(itemNumber != "")
+    {
+        $.ajax({
+            method: "POST",
+            url: "class/item.php",
+            dataType: "JSON",
+            data: {
+                getItemData:true,
+                itemNumber:itemNumber
+            },
+            success: function(result)
+            {
+                if(result != "404")
+                {
+                    let itemData = result[0];
+                    $("#purchase-item-name").val(itemData["itemName"]);
+                    $("#purchase-current-stock").val(itemData["stock"]);
+                } else
+                {
+                    purchaseFormSetToDefault(true);
+                }
+            }
+        });
+    } else 
+    {
+        purchaseFormSetToDefault(true);
+    }
+}
+
+//CRUD
 function getPurchaseIDs()
 {
-    $.ajax({
-        method: "POST",
-        url: "class/purchase.php",
-        dataType: "JSON",
-        data: {getPurchaseIDs:true},
-        success: function(result)
-        {
-            let values = Object.values(result);
-            let purchaseID_arr = [];
-            for(let i=0; i<values.length; i++)
+
+    let purchaseIDs = [];
+    function getPurchaseIDsFromDB()
+    {
+        return $.ajax({
+            method: "POST",
+            url: "class/purchase.php",
+            dataType: "JSON",
+            data: {getPurchaseIDs:true},
+            success: function(result)
             {
-                purchaseID_arr.push(String(values[i].purchaseID));
+                let values = Object.values(result);
+                for(let i=0; i<values.length; i++)
+                {
+                    purchaseIDs.push(String(values[i].purchaseID));
+                }
             }
-            //For item form
-            $( "#purchase-id" ).autocomplete({
-                source: purchaseID_arr
-            });
-        }
+        });
+    }
+    
+    $.when(getPurchaseIDsFromDB()).done(()=>{
+        //For item form
+        $( "#purchase-id" ).autocomplete({
+            source: purchaseIDs
+        });
     });
 }
 
@@ -57,25 +149,28 @@ function getPurchaseData()
                     $("#purchase-date").val(purchaseData["purchaseDate"]);
                     $("#purchase-item-name").val(purchaseData["itemName"]);
                     $("#purchase-current-stock").val(purchaseData["stock"]);
-                    $("#purchase-vendor-name").val(`${purchaseData["vendorID"]}|${purchaseData["vendorName"]}`);
+                    $("#purchase-vendor-name").val(`${purchaseData["vendorName"]}|${purchaseData["vendorID"]}`);
                     lastQuantity = purchaseData["quantity"];
                     $("#purchase-item-quantity").val(purchaseData["quantity"]);
                     $("#purchase-unit-price").val(purchaseData["unitPrice"]);
+                    $("#purchase-update-button").prop("disabled",false);
                 } else
                 {
                     $("#purchase-item-number").val("");
-                    purchaseFormSetToDefault();
+                    $("#purchase-update-button").prop("disabled",true);
+                    purchaseFormSetToDefault(true);
                 }
             }
         });
     }else
     {
-        purchaseFormSetToDefault();
+        purchaseFormSetToDefault(true);
     }
 }
 
 function addPurchase()
 {
+    $("#purchase-id").val("");
     const purchaseForm = $("#purchase-form");
     const purchaseFormURL = purchaseForm.attr("action");
     const purchaseFormData = purchaseForm.serializeArray();
@@ -87,6 +182,7 @@ function addPurchase()
         success: function (result) {
             if(result == "Successfully Added!")
             {
+                purchaseFormSetToDefault(false);
                 getPurchaseData();
             }
             message = `<div class='alert alert-danger'>${result}</div>`;
@@ -109,6 +205,7 @@ function updatePurchase(lastQuantity)
         success: function (result) {
             if(result == "Successfully Updated!")
             {
+                purchaseFormSetToDefault(false);
                 getPurchaseData();
             }
             message = `<div class='alert alert-danger'>${result}</div>`;
@@ -117,73 +214,13 @@ function updatePurchase(lastQuantity)
     }); 
 }
 
-function getTotalCost()
+function purchaseFormSetToDefault(deleteMessage)
 {
-    let itemQuantity = $("#purchase-item-quantity").val();
-    let unitPrice = $("#purchase-unit-price").val();
-    let totalCost = itemQuantity * unitPrice;
-    $("#purchase-total-cost").val(totalCost);
-}
-
-function getAllVendorNames() 
-{
-    $.ajax({
-        method: "POST",
-        url: "class/vendor.php",
-        data: {
-            getAllVendorNames:true
-        },
-        success: function(result)
-        {
-            let vendors = JSON.parse(result);
-            let options = `<option value="" selected hidden>-Select Vendor-</option>`;
-            
-            vendors.forEach(vendor => {
-                options += `<option value="${vendor.vendorID}|${vendor.fullName}">
-                                ${vendor.fullName}
-                            </option>`;
-            });
-            $("#purchase-vendor-name").html(options);
-        }
-    });
-}
-
-function getPurchaseItemData()
-{
-    const itemNumber = $("#purchase-item-number").val();
-    if(itemNumber != "")
+    if(deleteMessage)
     {
-        $.ajax({
-            method: "POST",
-            url: "class/item.php",
-            dataType: "JSON",
-            data: {
-                getItemData:true,
-                itemNumber:itemNumber
-            },
-            success: function(result)
-            {
-                if(result != "404")
-                {
-                    let itemData = result[0];
-                    $("#purchase-item-name").val(itemData["itemName"]);
-                    $("#purchase-current-stock").val(itemData["stock"]);
-                } else
-                {
-                    purchaseFormSetToDefault();
-                }
-            }
-        });
-    } else 
-    {
-        purchaseFormSetToDefault();
+        message = "";
+        $("#purchaseform-errmessage").html(message);
     }
-}
-
-function purchaseFormSetToDefault()
-{
-    message = "";
-    $("#purchaseform-errmessage").html(message);
 
     $("#purchase-date").val("");
     $("#purchase-item-name").val("");
