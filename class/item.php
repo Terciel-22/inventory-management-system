@@ -93,7 +93,7 @@
         {
             echo "404";
             exit();
-        }
+        } 
     } 
     
     //Add item
@@ -110,7 +110,7 @@
         
         
 
-        if ($itemNumber != "" && $itemName != "" && $itemDiscount != "" && $itemQuantity != "" && $itemUnitPrice != "" && $itemStatus != "")
+        if ($itemNumber != "" && $itemName != "" && $itemQuantity != "" && $itemUnitPrice != "" && $itemStatus != "")
         {
             if(!is_numeric($itemNumber) || $itemNumber <= 0)
             {
@@ -188,7 +188,7 @@
             }
         } else 
         {
-            echo "Fill all the blank field.";
+            echo "Fill all the required(*) field.";
             exit();
         }
     } 
@@ -274,7 +274,7 @@
             }
         } else 
         {
-            echo "Fill all the blank field.";
+            echo "Fill all the required(*) field.";
             exit();
         }
     } 

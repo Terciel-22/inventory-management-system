@@ -60,3 +60,8 @@ div.main-card {
 .readonly:focus {
     background-color: #e9ecef;
 }
+
+.form-group.required .control-label::after {
+    content:"*";
+    color:red;
+  }

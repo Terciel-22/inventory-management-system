@@ -21,8 +21,8 @@
             </div>
             <div class="col-md-8">
                 <div class="row mb-3">
-                    <div class="form-group col-md-6">
-                        <label for="item-number">Item Number</label>
+                    <div class="form-group col-md-6 required">
+                        <label for="item-number" class="control-label">Item Number</label>
                         <input type="text" id="item-number" name="item-number" class="form-control">
                     </div>
                     <div class="form-group col-md-6">
@@ -31,12 +31,12 @@
                     </div>
                 </div>
                 <div class="row mb-3">
-                    <div class="form-group col-md-8">
-                        <label for="item-name">Item Name</label>
+                    <div class="form-group col-md-8 required">
+                        <label for="item-name" class="control-label">Item Name</label>
                         <input type="text" id="item-name" name="item-name" class="form-control">
                     </div>
-                    <div class="form-group col-md-4">
-                        <label for="item-status">Status</label>
+                    <div class="form-group col-md-4 required">
+                        <label for="item-status" class="control-label">Status</label>
                         <select name="item-status" id="item-status" class="form-control">
                             <option value="" selected hidden>-Select Status-</option>
                             <option value="Active">Active</option>
@@ -57,12 +57,12 @@
                 <label for="item-discount">Discount %</label>
                 <input type="text" id="item-discount" name="item-discount" class="form-control" value="0">
             </div>
-            <div class="form-group col-md-3">
-                <label for="item-quantity">Quantity</label>
+            <div class="form-group col-md-3 required">
+                <label for="item-quantity" class="control-label">Quantity</label>
                 <input type="number" min="0" id="item-quantity" name="item-quantity" class="form-control" value="0">
             </div>
-            <div class="form-group col-md-3">
-                <label for="item-unit-price">Unit Price</label>
+            <div class="form-group col-md-3 required">
+                <label for="item-unit-price" class="control-label">Unit Price</label>
                 <input type="text" id="item-unit-price" name="item-unit-price" class="form-control" value="0">
             </div>
             <div class="form-group col-md-3">
@@ -79,6 +79,6 @@
             </div>
         </div>
     </form>
-</div> 
+</div>  
 
 

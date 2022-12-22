@@ -1,5 +1,6 @@
 lastQuantity = 0;
- 
+lastItemNumber = 0;
+
 $(document).ready(function(){
     $("#purchase-item-number").on("focus", getItemNumbers); //Show itemnumber auto complete
     $("#purchase-item-number").on("input change focusout", getPurchaseItemData);
@@ -10,7 +11,7 @@ $(document).ready(function(){
     $("#purchase-id").on("focus",getPurchaseIDs ); //For auto-complete
     $("#purchase-id").on("input change focusout", getPurchaseData);
     $("#purchase-add-button").on("click", addPurchase);
-    $("#purchase-update-button").on("click", () => updatePurchase(lastQuantity));
+    $("#purchase-update-button").on("click", () => updatePurchase(lastQuantity,lastItemNumber));
     $("#purchase-clear-button").on("click", ()=>{
         $("#purchase-item-number").val("");
         $("#purchase-id").val("");
@@ -146,6 +147,7 @@ function getPurchaseData()
                     let purchaseData = result[0];
     
                     $("#purchase-item-number").val(purchaseData["itemNumber"]);
+                    lastItemNumber = purchaseData["itemNumber"];
                     $("#purchase-date").val(purchaseData["purchaseDate"]);
                     $("#purchase-item-name").val(purchaseData["itemName"]);
                     $("#purchase-current-stock").val(purchaseData["stock"]);
@@ -191,12 +193,13 @@ function addPurchase()
     });
 }
 
-function updatePurchase(lastQuantity)
+function updatePurchase(lastQuantity,lastItemNumber)
 {
     const purchaseForm = $("#purchase-form");
     const purchaseFormURL = purchaseForm.attr("action");
     const purchaseFormData = purchaseForm.serializeArray();
     purchaseFormData.push({name: "purchase-last-quantity", value: lastQuantity});
+    purchaseFormData.push({name: "purchase-last-item-number", value: lastItemNumber});
     purchaseFormData.push({name: "purchase-update-submitted", value: "true"});
     $.ajax({
         method: "POST",

@@ -131,7 +131,7 @@
             echo "Product ID is auto-generated when adding.";
             exit();
         }
-
+ 
         if($purchaseItemNumber != "" && $purchaseDate != "" && $purchaseVendor != "" && $purchaseItemQuantity != "" && $purchaseUnitPrice != "")
         {
             if($purchaseItemName == "")
@@ -167,7 +167,7 @@
 
         } else
         {
-            echo "Fill all the blank field.";
+            echo "Fill all the required(*) field.";
             exit();
         }
     }
@@ -181,6 +181,13 @@
         $purchaseItemQuantity = htmlentities($_POST["purchase-item-quantity"]);
         $purchaseVendor = htmlentities($_POST["purchase-vendor-name"]);
         $purchaseLastQuantity = htmlentities($_POST["purchase-last-quantity"]);
+        $purchaseLastItemNumber = htmlentities($_POST["purchase-last-item-number"]);
+
+        if($purchaseItemNumber != $purchaseLastItemNumber)
+        {
+            echo "You can't change item number on update, add new purchase instead.";
+            exit();
+        }
 
         if($purchaseID != "" && $purchaseItemNumber != "" && $purchaseDate != "" && $purchaseVendor != "" && $purchaseItemQuantity != "" && $purchaseUnitPrice != "")
         {
@@ -225,7 +232,7 @@
 
         } else
         {
-            echo "Fill all the blank field.";
+            echo "Fill all the required(*) field.";
             exit();
         }
     }

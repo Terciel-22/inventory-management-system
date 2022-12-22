@@ -1,3 +1,4 @@
+const NCR_CODE = 130000000;
 
 $(document).ready(function(){
     getAllRegions();
@@ -12,7 +13,7 @@ $(document).ready(function(){
             $("#vendor-barangay").attr("disabled","disabled");
 
             regionArr = $("#vendor-region").val().split("|");
-            if(regionArr[1] == 130000000)
+            if(regionArr[1] == NCR_CODE)
             {
                 getAllCitiesAndMunicipalities(regionArr[1]);
             } else
@@ -44,8 +45,9 @@ $(document).ready(function(){
     });
 
     //CRUD
+    $("#vendor-id").on("focus",getVendorIDs); //For auto-complete
     $("#vendor-id").on("input change focusout", getVendorData);
-
+    $("#vendor-add-button").on("click", addVendor);
     $("#vendor-clear-button").on("click", ()=>{
         $("#vendor-id").val("");
         vendorFormSetToDefault(true);
@@ -81,7 +83,7 @@ function getAllRegions()
         $("#vendor-region").html(options);
     });
 }
-function getAllProvinces(regionCode)
+function getAllProvinces(regionCode, callback)
 {
     $("#vendor-city-municipality").attr("disabled","disabled");
     let provinces = [];
@@ -113,9 +115,10 @@ function getAllProvinces(regionCode)
         }
         $("#vendor-province").html(options);
         $("#vendor-province").removeAttr("disabled");
+        callback();
     });
 }
-function getAllCitiesAndMunicipalities(code)
+function getAllCitiesAndMunicipalities(code, callback)
 {
     let citiesAndMunicipalities = [];
     let sortedCitiesAndMunicipalities = [];
@@ -164,9 +167,10 @@ function getAllCitiesAndMunicipalities(code)
         }
         $("#vendor-city-municipality").html(options);
         $("#vendor-city-municipality").removeAttr("disabled");
+        callback();
     });
 }
-function getAllBarangay(cityMunicipalitycode)
+function getAllBarangay(cityMunicipalitycode,callback)
 {
     let barangays = [];
     let sortedBarangays = [];
@@ -197,10 +201,40 @@ function getAllBarangay(cityMunicipalitycode)
         }
         $("#vendor-barangay").html(options);
         $("#vendor-barangay").removeAttr("disabled");
+        callback();
     });
 }
 
 //CRUD
+function getVendorIDs()
+{
+    let vendorIDs = [];
+    function getVendorIDsFromDB()
+    {
+        return $.ajax({
+            method: "POST",
+            url: "class/vendor.php",
+            dataType: "JSON",
+            data: {getVendorIDs:true},
+            success: function(result)
+            {
+                let values = Object.values(result);
+                for(let i=0; i<values.length; i++)
+                {
+                    vendorIDs.push(String(values[i].vendorID));
+                }
+            }
+        });
+    }
+    
+    $.when(getVendorIDsFromDB()).done(()=>{
+        //For item form
+        $( "#vendor-id" ).autocomplete({
+            source: vendorIDs
+        });
+    });
+}
+
 function getVendorData()
 {
     const vendorID = $("#vendor-id").val();
@@ -227,9 +261,42 @@ function getVendorData()
                     $("#vendor-email").val(vendorData["email"]);
                     $("#vendor-address").val(vendorData["address"]);
                     $("#vendor-region").val(vendorData["region"]);
-                    $("#vendor-province").val(vendorData["province"]);
-                    $("#vendor-city-municipality").val(vendorData["city_municipality"]);
-                    $("#vendor-barangay").val(vendorData["barangay"]);
+                    regionArr = vendorData["region"].split("|");
+                    if(vendorData["province"] != "")
+                    {
+                        if(regionArr[1] != NCR_CODE)
+                        {
+                            getAllProvinces(regionArr[1], ()=>{
+                                $("#vendor-province").val(vendorData["province"]);
+                            });
+                        }
+                    }
+                    if(vendorData["city_municipality"] != "")
+                    {
+                        if(regionArr[1] == NCR_CODE)
+                        {
+                            code = regionArr[1];
+                        } else
+                        {
+                            provinceArr = vendorData["province"].split("|");
+                            code = provinceArr[1];
+                        }
+                        
+                        getAllCitiesAndMunicipalities(code, ()=>{
+                            $("#vendor-city-municipality").val(vendorData["city_municipality"]);
+                        });
+                    }
+                    if(vendorData["vendor-barangay"] != "")
+                    {
+                        cityMunicipalityArr = vendorData["city_municipality"].split("|");
+                        
+                        getAllBarangay(cityMunicipalityArr[1], ()=>{
+                            $("#vendor-barangay").val(vendorData["barangay"]);
+                        });
+                    }
+
+                    $("#vendor-update-button").prop("disabled",false);
+                    $("#vendor-delete-button").prop("disabled",false);
                 } else
                 {
                     $("#vendor-update-button").prop("disabled",true);
@@ -242,6 +309,29 @@ function getVendorData()
     {
         vendorFormSetToDefault(true);
     }
+}
+
+function addVendor()
+{
+    $("#vendor-id").val("");
+    const vendorForm = $("#vendor-form");
+    const vendorFormURL = vendorForm.attr("action");
+    const vendorFormData = vendorForm.serializeArray();
+    vendorFormData.push({name: "vendor-add-submitted", value: "true"});
+    $.ajax({
+        method: "POST",
+        url: vendorFormURL,
+        data: vendorFormData,
+        success: function (result) {
+            if(result == "Successfully Added!")
+            {
+                vendorFormSetToDefault(false);
+                getVendorData();
+            }
+            message = `<div class='alert alert-danger'>${result}</div>`;
+            $("#vendorform-errmessage").html(message);
+        }
+    });
 }
 
 function vendorFormSetToDefault(deleteMessage)
@@ -262,4 +352,7 @@ function vendorFormSetToDefault(deleteMessage)
     $("#vendor-province").val("");
     $("#vendor-city-municipality").val("");
     $("#vendor-barangay").val("");
+    $("#vendor-province").prop("disabled",true);
+    $("#vendor-city-municipality").prop("disabled",true);
+    $("#vendor-barangay").prop("disabled",true);
 }
