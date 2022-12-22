@@ -13,7 +13,7 @@ $(document).ready(function() {
     $("#item-delete-button").on('click', deleteItem);
     $("#item-clear-button").on('click', () => {
         $("#item-number").val("");
-        itemFormSetToDefault();
+        itemFormSetToDefault(true);
     });
 });
 
@@ -136,7 +136,6 @@ function deleteItem() //Delete selected item
 {
     const itemProductID = $("#item-product-id").val();
     
-    $("#itemform-errmessage").html(message);
     if(confirm("Are you sure you want to delete it?"))
     {
         $.ajax({
@@ -148,6 +147,7 @@ function deleteItem() //Delete selected item
                 $("#itemform-errmessage").html(message);
                 if(result=="Successfully deleted!")
                 {
+                    $("#item-number").val("");
                     itemFormSetToDefault(false);
                 }
             }

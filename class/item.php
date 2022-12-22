@@ -122,7 +122,7 @@
                 echo "Please put a valid discount.";
                 exit();
             }
-            if(!is_numeric($itemUnitPrice))
+            if(!is_numeric($itemUnitPrice) || $itemUnitPrice < 0)
             {
                 echo "Please put a valid unit price.";
                 exit();

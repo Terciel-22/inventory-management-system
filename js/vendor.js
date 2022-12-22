@@ -48,6 +48,8 @@ $(document).ready(function(){
     $("#vendor-id").on("focus",getVendorIDs); //For auto-complete
     $("#vendor-id").on("input change focusout", getVendorData);
     $("#vendor-add-button").on("click", addVendor);
+    $("#vendor-update-button").on("click", updateVendor);
+    $("#vendor-delete-button").on("click", deleteVendor);
     $("#vendor-clear-button").on("click", ()=>{
         $("#vendor-id").val("");
         vendorFormSetToDefault(true);
@@ -334,6 +336,51 @@ function addVendor()
     });
 }
 
+function updateVendor()
+{
+    const vendorForm = $("#vendor-form");
+    const vendorFormURL = vendorForm.attr("action");
+    const vendorFormData = vendorForm.serializeArray();
+    vendorFormData.push({name: "vendor-update-submitted", value: "true"});
+    $.ajax({
+        method: "POST",
+        url: vendorFormURL,
+        data: vendorFormData,
+        success: function (result) {
+            if(result == "Successfully Updated!")
+            {
+                vendorFormSetToDefault(false);
+                getVendorData();
+            }
+            message = `<div class='alert alert-danger'>${result}</div>`;
+            $("#vendorform-errmessage").html(message);
+        }
+    });
+}
+
+function deleteVendor() //Delete selected vendor
+{
+    const vendorID = $("#vendor-id").val();
+    
+    if(confirm("Are you sure you want to delete it?"))
+    {
+        $.ajax({
+            method: "POST",
+            url: "class/vendor.php",
+            data: {deleteVendorID:vendorID},
+            success: function (result) {
+                message = `<div class='alert alert-danger'>${result}</div>`;
+                $("#vendorform-errmessage").html(message);
+                if(result=="Successfully deleted!")
+                {
+                    $("#vendor-id").val("");
+                    vendorFormSetToDefault(false);
+                }
+            }
+        });
+    }
+}
+
 function vendorFormSetToDefault(deleteMessage)
 {
     if(deleteMessage)
@@ -355,4 +402,4 @@ function vendorFormSetToDefault(deleteMessage)
     $("#vendor-province").prop("disabled",true);
     $("#vendor-city-municipality").prop("disabled",true);
     $("#vendor-barangay").prop("disabled",true);
-}
+} 
