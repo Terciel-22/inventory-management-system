@@ -232,4 +232,6 @@ function purchaseFormSetToDefault(deleteMessage)
     $("#purchase-item-quantity").val("0");
     $("#purchase-unit-price").val("0");
     $("#purchase-total-cost").val("0"); 
+
+    $("#purchase-update-button").prop("disabled",true);
 }

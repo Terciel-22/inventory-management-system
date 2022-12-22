@@ -53,8 +53,7 @@
                     <div class="form-group">
                         <input type="password" placeholder="Confirm password" id="register-cpassword" name="register-cpassword" class="form-control">
                     </div>
-                    <input type="hidden" name="register-submitted" value="true">
-                    <input type="submit" id="register-button" name="register-button" class="btn btn-primary" value="Register">
+                    <button type="button" id="register-button" class="btn btn-primary">Register</button>
                     <button type="button" id="clean-inputfields" class="btn btn-danger">Clear</button>
                     <br>
                     <span>Already have an account? </span>
@@ -78,13 +77,12 @@
                     <div class="form-group">
                         <input type="password" placeholder="Password" id="login-password" name="login-password" class="form-control">
                     </div>
-                    <input type="hidden" name="login-submitted" value="true">
-                    <input type="submit" id="login-button" name="login-button" class="btn btn-primary" value="Login">
+                    <button type="button" id="login-button" class="btn btn-primary">Login</button>
                     <button type="button" id="clean-inputfields" class="btn btn-danger">Clear</button>
                     <br>
                     <span>Don't have an account? </span><a href="?action=register">Register</a>
                 </form>
-            </div>
+            </div> 
         </div>
     <?php } ?>
 

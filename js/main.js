@@ -1,3 +1,5 @@
+const NCR_CODE = 130000000;
+
 $( document ).ready(function() {
 
     //Logout button

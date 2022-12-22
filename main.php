@@ -83,12 +83,7 @@
 
         <!-- CUSTOMER -->
         <div class="nav-container hide" id="customer">
-            <div class="card-header">
-                <h2>Customer Details</h2>
-            </div>
-            <div class="card-body">
-                
-            </div>
+            <?php include "inc/customer.html";?>
         </div>
 
         <!-- SEARCH -->
@@ -125,5 +120,7 @@
     <script src="js/item.js"></script>
     <script src="js/purchase.js"></script>
     <script src="js/vendor.js"></script>
+    <!-- <script src="js/sale.js"></script> -->
+    <script src="js/customer.js"></script>
 </body>
 </html>

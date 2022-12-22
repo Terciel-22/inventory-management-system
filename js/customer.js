@@ -1,16 +1,16 @@
 $(document).ready(function(){
     getAllRegions();
-    $("#vendor-region").on("change", ()=> {
-        if($("#vendor-region").val() != "")
+    $("#customer-region").on("change", ()=> {
+        if($("#customer-region").val() != "")
         {
-            $("#vendor-province").val("");
-            $("#vendor-province").attr("disabled","disabled");
-            $("#vendor-city-municipality").val("");
-            $("#vendor-city-municipality").attr("disabled","disabled");
-            $("#vendor-barangay").val("");
-            $("#vendor-barangay").attr("disabled","disabled");
+            $("#customer-province").val("");
+            $("#customer-province").attr("disabled","disabled");
+            $("#customer-city-municipality").val("");
+            $("#customer-city-municipality").attr("disabled","disabled");
+            $("#customer-barangay").val("");
+            $("#customer-barangay").attr("disabled","disabled");
 
-            regionArr = $("#vendor-region").val().split("|");
+            regionArr = $("#customer-region").val().split("|");
             if(regionArr[1] == NCR_CODE)
             {
                 getAllCitiesAndMunicipalities(regionArr[1],()=>{});
@@ -20,37 +20,37 @@ $(document).ready(function(){
             }
         }
     });
-    $("#vendor-province").on("change", ()=> {
-        if($("#vendor-province").val() != "")
+    $("#customer-province").on("change", ()=> {
+        if($("#customer-province").val() != "")
         {
-            $("#vendor-city-municipality").val("");
-            $("#vendor-city-municipality").attr("disabled","disabled");
-            $("#vendor-barangay").val("");
-            $("#vendor-barangay").attr("disabled","disabled");
+            $("#customer-city-municipality").val("");
+            $("#customer-city-municipality").attr("disabled","disabled");
+            $("#customer-barangay").val("");
+            $("#customer-barangay").attr("disabled","disabled");
 
-            provinceArr = $("#vendor-province").val().split("|");
+            provinceArr = $("#customer-province").val().split("|");
             getAllCitiesAndMunicipalities(provinceArr[1],()=>{});
         }
     });
-    $("#vendor-city-municipality").on("change", ()=> {
-        if($("#vendor-city-municipality").val() != "")
+    $("#customer-city-municipality").on("change", ()=> {
+        if($("#customer-city-municipality").val() != "")
         {
-            $("#vendor-barangay").val("");
-            $("#vendor-barangay").attr("disabled","disabled");
-            cityMunicipalityArr = $("#vendor-city-municipality").val().split("|");
+            $("#customer-barangay").val("");
+            $("#customer-barangay").attr("disabled","disabled");
+            cityMunicipalityArr = $("#customer-city-municipality").val().split("|");
             getAllBarangay(cityMunicipalityArr[1],()=>{});
         }
     });
 
     //CRUD
-    $("#vendor-id").on("focus",getVendorIDs); //For auto-complete
-    $("#vendor-id").on("input change focusout", getVendorData);
-    $("#vendor-add-button").on("click", addVendor);
-    $("#vendor-update-button").on("click", updateVendor);
-    $("#vendor-delete-button").on("click", deleteVendor);
-    $("#vendor-clear-button").on("click", ()=>{
-        $("#vendor-id").val("");
-        vendorFormSetToDefault(true);
+    $("#customer-id").on("focus",getCustomerIDs); //For auto-complete
+    $("#customer-id").on("input change focusout", getCustomerData);
+    $("#customer-add-button").on("click", addCustomer);
+    $("#customer-update-button").on("click", updateCustomer);
+    $("#customer-delete-button").on("click", deleteCustomer);
+    $("#customer-clear-button").on("click", ()=>{
+        $("#customer-id").val("");
+        customerFormSetToDefault(true);
     });
 });
 
@@ -80,12 +80,12 @@ function getAllRegions()
         {
             options += `<option value="${sortedRegions[i][0]}|${sortedRegions[i][1]}">${sortedRegions[i][0]}</option>`;
         }
-        $("#vendor-region").html(options);
+        $("#customer-region").html(options);
     });
 }
 function getAllProvinces(regionCode, callback)
 {
-    $("#vendor-city-municipality").attr("disabled","disabled");
+    $("#customer-city-municipality").attr("disabled","disabled");
     let provinces = [];
     let sortedProvinces = [];
 
@@ -113,8 +113,8 @@ function getAllProvinces(regionCode, callback)
         {
             options += `<option value="${sortedProvinces[i][0]}|${sortedProvinces[i][1]}">${sortedProvinces[i][0]}</option>`;
         }
-        $("#vendor-province").html(options);
-        $("#vendor-province").removeAttr("disabled");
+        $("#customer-province").html(options);
+        $("#customer-province").removeAttr("disabled");
         callback();
     });
 }
@@ -165,8 +165,8 @@ function getAllCitiesAndMunicipalities(code, callback)
         {
             options += `<option value="${sortedCitiesAndMunicipalities[i][0]}|${sortedCitiesAndMunicipalities[i][1]}">${sortedCitiesAndMunicipalities[i][0]}</option>`;
         }
-        $("#vendor-city-municipality").html(options);
-        $("#vendor-city-municipality").removeAttr("disabled");
+        $("#customer-city-municipality").html(options);
+        $("#customer-city-municipality").removeAttr("disabled");
         callback();
     });
 }
@@ -199,208 +199,208 @@ function getAllBarangay(cityMunicipalitycode,callback)
         {
             options += `<option value="${sortedBarangays[i][0]}|${sortedBarangays[i][1]}">${sortedBarangays[i][0]}</option>`;
         }
-        $("#vendor-barangay").html(options);
-        $("#vendor-barangay").removeAttr("disabled");
+        $("#customer-barangay").html(options);
+        $("#customer-barangay").removeAttr("disabled");
         callback();
     });
 }
 
 //CRUD
-function getVendorIDs()
+function getCustomerIDs()
 {
-    let vendorIDs = [];
-    function getVendorIDsFromDB()
+    let customerIDs = [];
+    function getCustomerIDsFromDB()
     {
         return $.ajax({
             method: "POST",
-            url: "class/vendor.php",
+            url: "class/customer.php",
             dataType: "JSON",
-            data: {getVendorIDs:true},
+            data: {getCustomerIDs:true},
             success: function(result)
             {
                 let values = Object.values(result);
                 for(let i=0; i<values.length; i++)
                 {
-                    vendorIDs.push(String(values[i].vendorID));
+                    customerIDs.push(String(values[i].customerID));
                 }
             }
         });
     }
     
-    $.when(getVendorIDsFromDB()).done(()=>{
+    $.when(getCustomerIDsFromDB()).done(()=>{
         //For item form
-        $( "#vendor-id" ).autocomplete({
-            source: vendorIDs
+        $( "#customer-id" ).autocomplete({
+            source: customerIDs
         });
     });
 }
 
-function getVendorData()
+function getCustomerData()
 {
-    const vendorID = $("#vendor-id").val();
-    if(vendorID != "")
+    const customerID = $("#customer-id").val();
+    if(customerID != "")
     {
         $.ajax({
             method: "POST",
-            url: "class/vendor.php",
+            url: "class/customer.php",
             dataType: "JSON",
             data: {
-                getVendorData:true,
-                vendorID:vendorID
+                getCustomerData:true,
+                customerID:customerID
             },
             success: function(result)
             {
                 if(result != "404")
                 {
-                    let vendorData = result[0];
+                    let customerData = result[0];
                     
-                    $("#vendor-fullname").val(vendorData["fullName"]);
-                    $("#vendor-status").val(vendorData["status"]);
-                    $("#vendor-mobile-number").val(vendorData["mobileNumber"]);
-                    $("#vendor-telephone-number").val(vendorData["telephoneNumber"]);
-                    $("#vendor-email").val(vendorData["email"]);
-                    $("#vendor-address").val(vendorData["address"]);
-                    $("#vendor-region").val(vendorData["region"]);
-                    regionArr = vendorData["region"].split("|");
-                    if(vendorData["province"] != "")
+                    $("#customer-fullname").val(customerData["fullName"]);
+                    $("#customer-status").val(customerData["status"]);
+                    $("#customer-mobile-number").val(customerData["mobileNumber"]);
+                    $("#customer-telephone-number").val(customerData["telephoneNumber"]);
+                    $("#customer-email").val(customerData["email"]);
+                    $("#customer-address").val(customerData["address"]);
+                    $("#customer-region").val(customerData["region"]);
+                    regionArr = customerData["region"].split("|");
+                    if(customerData["province"] != "")
                     {
                         if(regionArr[1] != NCR_CODE)
                         {
                             getAllProvinces(regionArr[1], ()=>{
-                                $("#vendor-province").val(vendorData["province"]);
+                                $("#customer-province").val(customerData["province"]);
                             });
                         }
                     }
-                    if(vendorData["city_municipality"] != "")
+                    if(customerData["city_municipality"] != "")
                     {
                         if(regionArr[1] == NCR_CODE)
                         {
                             code = regionArr[1];
                         } else
                         {
-                            provinceArr = vendorData["province"].split("|");
+                            provinceArr = customerData["province"].split("|");
                             code = provinceArr[1];
                         }
                         
                         getAllCitiesAndMunicipalities(code, ()=>{
-                            $("#vendor-city-municipality").val(vendorData["city_municipality"]);
+                            $("#customer-city-municipality").val(customerData["city_municipality"]);
                         });
                     }
-                    if(vendorData["vendor-barangay"] != "")
+                    if(customerData["customer-barangay"] != "")
                     {
-                        cityMunicipalityArr = vendorData["city_municipality"].split("|");
+                        cityMunicipalityArr = customerData["city_municipality"].split("|");
                         
                         getAllBarangay(cityMunicipalityArr[1], ()=>{
-                            $("#vendor-barangay").val(vendorData["barangay"]);
+                            $("#customer-barangay").val(customerData["barangay"]);
                         });
                     }
 
-                    $("#vendor-update-button").prop("disabled",false);
-                    $("#vendor-delete-button").prop("disabled",false);
+                    $("#customer-update-button").prop("disabled",false);
+                    $("#customer-delete-button").prop("disabled",false);
                 } else
                 {
-                    $("#vendor-update-button").prop("disabled",true);
-                    $("#vendor-delete-button").prop("disabled",true);
-                    vendorFormSetToDefault(true);
+                    $("#customer-update-button").prop("disabled",true);
+                    $("#customer-delete-button").prop("disabled",true);
+                    customerFormSetToDefault(true);
                 }
             }
         });
     }else
     {
-        vendorFormSetToDefault(true);
+        customerFormSetToDefault(true);
     }
 }
 
-function addVendor()
+function addCustomer()
 {
-    $("#vendor-id").val("");
-    const vendorForm = $("#vendor-form");
-    const vendorFormURL = vendorForm.attr("action");
-    const vendorFormData = vendorForm.serializeArray();
-    vendorFormData.push({name: "vendor-add-submitted", value: "true"});
+    $("#customer-id").val("");
+    const customerForm = $("#customer-form");
+    const customerFormURL = customerForm.attr("action");
+    const customerFormData = customerForm.serializeArray();
+    customerFormData.push({name: "customer-add-submitted", value: "true"});
     $.ajax({
         method: "POST",
-        url: vendorFormURL,
-        data: vendorFormData,
+        url: customerFormURL,
+        data: customerFormData,
         success: function (result) {
             if(result == "Successfully Added!")
             {
-                vendorFormSetToDefault(false);
-                getVendorData();
+                customerFormSetToDefault(false);
+                getCustomerData();
             }
             message = `<div class='alert alert-danger'>${result}</div>`;
-            $("#vendorform-errmessage").html(message);
+            $("#customerform-errmessage").html(message);
         }
     });
 }
 
-function updateVendor()
+function updateCustomer()
 {
-    const vendorForm = $("#vendor-form");
-    const vendorFormURL = vendorForm.attr("action");
-    const vendorFormData = vendorForm.serializeArray();
-    vendorFormData.push({name: "vendor-update-submitted", value: "true"});
+    const customerForm = $("#customer-form");
+    const customerFormURL = customerForm.attr("action");
+    const customerFormData = customerForm.serializeArray();
+    customerFormData.push({name: "customer-update-submitted", value: "true"});
     $.ajax({
         method: "POST",
-        url: vendorFormURL,
-        data: vendorFormData,
+        url: customerFormURL,
+        data: customerFormData,
         success: function (result) {
             if(result == "Successfully Updated!")
             {
-                vendorFormSetToDefault(false);
-                getVendorData();
+                customerFormSetToDefault(false);
+                getCustomerData();
             }
             message = `<div class='alert alert-danger'>${result}</div>`;
-            $("#vendorform-errmessage").html(message);
+            $("#customerform-errmessage").html(message);
         }
     });
 }
 
-function deleteVendor() //Delete selected vendor
+function deleteCustomer() //Delete selected customer
 {
-    const vendorID = $("#vendor-id").val();
+    const customerID = $("#customer-id").val();
     
     if(confirm("Are you sure you want to delete it?"))
     {
         $.ajax({
             method: "POST",
-            url: "class/vendor.php",
-            data: {deleteVendorID:vendorID},
+            url: "class/customer.php",
+            data: {deleteCustomerID:customerID},
             success: function (result) {
                 message = `<div class='alert alert-danger'>${result}</div>`;
-                $("#vendorform-errmessage").html(message);
+                $("#customerform-errmessage").html(message);
                 if(result=="Successfully deleted!")
                 {
-                    $("#vendor-id").val("");
-                    vendorFormSetToDefault(false);
+                    $("#customer-id").val("");
+                    customerFormSetToDefault(false);
                 }
             }
         });
     }
 }
 
-function vendorFormSetToDefault(deleteMessage)
+function customerFormSetToDefault(deleteMessage)
 {
     if(deleteMessage)
     {
         message = "";
-        $("#vendorform-errmessage").html(message);
+        $("#customerform-errmessage").html(message);
     }
 
-    $("#vendor-fullname").val("");
-    $("#vendor-status").val("");
-    $("#vendor-mobile-number").val("");
-    $("#vendor-telephone-number").val("");
-    $("#vendor-email").val("");
-    $("#vendor-address").val("");
-    $("#vendor-region").val("");
-    $("#vendor-province").val("");
-    $("#vendor-city-municipality").val("");
-    $("#vendor-barangay").val("");
-    $("#vendor-province").prop("disabled",true);
-    $("#vendor-city-municipality").prop("disabled",true);
-    $("#vendor-barangay").prop("disabled",true);
+    $("#customer-fullname").val("");
+    $("#customer-status").val("");
+    $("#customer-mobile-number").val("");
+    $("#customer-telephone-number").val("");
+    $("#customer-email").val("");
+    $("#customer-address").val("");
+    $("#customer-region").val("");
+    $("#customer-province").val("");
+    $("#customer-city-municipality").val("");
+    $("#customer-barangay").val("");
+    $("#customer-province").prop("disabled",true);
+    $("#customer-city-municipality").prop("disabled",true);
+    $("#customer-barangay").prop("disabled",true);
 
-    $("#vendor-update-button").prop("disabled",true);
-    $("#vendor-delete-button").prop("disabled",true);
+    $("#customer-update-button").prop("disabled",true);
+    $("#customer-delete-button").prop("disabled",true);
 } 

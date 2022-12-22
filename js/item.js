@@ -177,4 +177,7 @@ function itemFormSetToDefault(deleteMessage) //Set all field to default
     $("#item-image-filename").val("");
     let imgsrc = "img/item_images/imageNotAvailable.jpg";
     $("#item-image-display").attr("src",imgsrc);
+
+    $("#item-update-button").prop("disabled",true);
+    $("#item-delete-button").prop("disabled",true);
 }
