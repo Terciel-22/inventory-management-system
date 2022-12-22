@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    getAllRegions();
+    vendorFormRegions();
     $("#vendor-region").on("change", ()=> {
         if($("#vendor-region").val() != "")
         {
@@ -13,10 +13,10 @@ $(document).ready(function(){
             regionArr = $("#vendor-region").val().split("|");
             if(regionArr[1] == NCR_CODE)
             {
-                getAllCitiesAndMunicipalities(regionArr[1],()=>{});
+                vendorFormCitiesAndMunicipalities(regionArr[1],()=>{});
             } else
             {
-                getAllProvinces(regionArr[1],()=>{});
+                vendorFormProvinces(regionArr[1],()=>{});
             }
         }
     });
@@ -29,7 +29,7 @@ $(document).ready(function(){
             $("#vendor-barangay").attr("disabled","disabled");
 
             provinceArr = $("#vendor-province").val().split("|");
-            getAllCitiesAndMunicipalities(provinceArr[1],()=>{});
+            vendorFormCitiesAndMunicipalities(provinceArr[1],()=>{});
         }
     });
     $("#vendor-city-municipality").on("change", ()=> {
@@ -38,7 +38,7 @@ $(document).ready(function(){
             $("#vendor-barangay").val("");
             $("#vendor-barangay").attr("disabled","disabled");
             cityMunicipalityArr = $("#vendor-city-municipality").val().split("|");
-            getAllBarangay(cityMunicipalityArr[1],()=>{});
+            vendorFormBarangay(cityMunicipalityArr[1],()=>{});
         }
     });
 
@@ -54,7 +54,7 @@ $(document).ready(function(){
     });
 });
 
-function getAllRegions()
+function vendorFormRegions()
 {
     let regions = [];
     function getRegionsFromAPI(){
@@ -83,7 +83,7 @@ function getAllRegions()
         $("#vendor-region").html(options);
     });
 }
-function getAllProvinces(regionCode, callback)
+function vendorFormProvinces(regionCode, callback)
 {
     $("#vendor-city-municipality").attr("disabled","disabled");
     let provinces = [];
@@ -118,7 +118,7 @@ function getAllProvinces(regionCode, callback)
         callback();
     });
 }
-function getAllCitiesAndMunicipalities(code, callback)
+function vendorFormCitiesAndMunicipalities(code, callback)
 {
     let citiesAndMunicipalities = [];
     let sortedCitiesAndMunicipalities = [];
@@ -170,7 +170,7 @@ function getAllCitiesAndMunicipalities(code, callback)
         callback();
     });
 }
-function getAllBarangay(cityMunicipalitycode,callback)
+function vendorFormBarangay(cityMunicipalitycode,callback)
 {
     let barangays = [];
     let sortedBarangays = [];
@@ -205,7 +205,7 @@ function getAllBarangay(cityMunicipalitycode,callback)
     });
 }
 
-//CRUD
+//CRUD 
 function getVendorIDs()
 {
     let vendorIDs = [];
@@ -266,7 +266,7 @@ function getVendorData()
                     {
                         if(regionArr[1] != NCR_CODE)
                         {
-                            getAllProvinces(regionArr[1], ()=>{
+                            vendorFormProvinces(regionArr[1], ()=>{
                                 $("#vendor-province").val(vendorData["province"]);
                             });
                         }
@@ -282,7 +282,7 @@ function getVendorData()
                             code = provinceArr[1];
                         }
                         
-                        getAllCitiesAndMunicipalities(code, ()=>{
+                        vendorFormCitiesAndMunicipalities(code, ()=>{
                             $("#vendor-city-municipality").val(vendorData["city_municipality"]);
                         });
                     }
@@ -290,7 +290,7 @@ function getVendorData()
                     {
                         cityMunicipalityArr = vendorData["city_municipality"].split("|");
                         
-                        getAllBarangay(cityMunicipalityArr[1], ()=>{
+                        vendorFormBarangay(cityMunicipalityArr[1], ()=>{
                             $("#vendor-barangay").val(vendorData["barangay"]);
                         });
                     }

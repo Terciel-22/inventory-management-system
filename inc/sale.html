@@ -1,0 +1,83 @@
+<div class="card-header">
+    <h2>Sale Details</h2>
+</div>
+<div class="card-body">
+    <div class="row">
+        <div id="saleform-errmessage" class="col-md-12"></div>
+    </div>
+    <form action="class/sale.php" enctype="multipart/form-data" id="sale-form">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card image">
+                    <div class="card-body">
+                        <img src="img/item_images/imageNotAvailable.jpg" alt="Image not available" class="img-fluid" id="sale-image-display">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="row mb-3">
+                    <div class="form-group col-md-6 required">
+                        <label for="sale-date" class="control-label">Sale Date</label>
+                        <input type="date" id="sale-date" name="sale-date" class="form-control">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="sale-id">Sale ID</label>
+                        <input type="text" id="sale-id" name="sale-id" class="form-control readonly" tabindex="-1" placeholder="Auto generate when adding.">
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="form-group col-md-4 required">
+                        <label for="sale-customer-id" class="control-label">Customer ID</label>
+                        <input type="text" id="sale-customer-id" name="sale-customer-id" class="form-control">
+                    </div>
+                    <div class="form-group col-md-8 required">
+                        <label for="sale-customer-name" class="control-label">Customer Name</label>
+                        <input type="text" id="sale-customer-name" name="sale-customer-name" class="form-control shadow-none readonly" tabindex="-1" readonly>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="form-group col-md-4 required">
+                        <label for="sale-item-number" class="control-label">Item Number</label>
+                        <input type="text" id="sale-item-number" name="sale-item-number" class="form-control">
+                    </div>
+                    <div class="form-group col-md-8 required">
+                        <label for="sale-item-name" class="control-label">Item Name</label>
+                        <input type="text" id="sale-item-name" name="sale-item-name" class="form-control shadow-none readonly" tabindex="-1" readonly>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="form-group col-md-3">
+                <label for="sale-total-stock">Total Stock</label>
+                <input type="text" id="sale-total-stock" name="sale-total-stock" class="form-control" placeholder="Available stock." disabled>
+            </div>
+            <div class="form-group col-md-2">
+                <label for="sale-item-discount">Discount %</label>
+                <input type="text" id="sale-item-discount" name="sale-item-discount" class="form-control" value="0">
+            </div>
+            <div class="form-group col-md-2 required">
+                <label for="sale-item-quantity" class="control-label">Quantity</label>
+                <input type="number" min="0" id="sale-item-quantity" name="sale-item-quantity" class="form-control" value="0">
+            </div>
+            <div class="form-group col-md-2 required">
+                <label for="sale-item-unit-price" class="control-label">Unit Price</label>
+                <input type="text" id="sale-item-unit-price" name="sale-item-unit-price" class="form-control" value="0">
+            </div>
+            <div class="form-group col-md-3">
+                <label for="sale-total-cost">Total Cost</label>
+                <input type="text" id="sale-total-cost" name="sale-total-cost" class="form-control" value="0" placeholder="Total Cost" disabled>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <button type="button" class="btn btn-primary" id="sale-add-button">Add Sale</button>
+                <button type="button" class="btn btn-primary" id="sale-update-button"  disabled>Update</button>
+                <button type="button" class="btn btn-primary" id="sale-delete-button"  disabled>Delete</button>
+                <button type="button" class="btn btn-primary" id="sale-clear-button">Clear</button>
+            </div>
+        </div>
+    </form>
+</div>  
+
+

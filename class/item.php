@@ -117,9 +117,9 @@
                 echo "Please put a valid item number.";
                 exit();
             }
-            if(!is_numeric($itemDiscount))
+            if(!is_numeric($itemDiscount) || $itemDiscount < 0 || $itemDiscount > 100)
             {
-                echo "Please put a valid discount.";
+                echo "Please put a valid discount. ~ (0 - 100)";
                 exit();
             }
             if(!is_numeric($itemUnitPrice) || $itemUnitPrice < 0)
@@ -216,9 +216,9 @@
                 echo "Please put a valid item number.";
                 exit();
             }
-            if(!is_numeric($itemDiscount) || $itemDiscount < 0)
+            if(!is_numeric($itemDiscount) || $itemDiscount < 0 || $itemDiscount > 100)
             {
-                echo "Please put a valid discount.";
+                echo "Please put a valid discount. ~ (0 - 100)";
                 exit();
             }
             if(!is_numeric($itemUnitPrice) || $itemUnitPrice < 0)

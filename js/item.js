@@ -27,6 +27,45 @@ function changeImageDisplay() //Change image display after uploading on input[ty
 }
 
 //CRUD
+function getItemNumbers() //Needed for getting item number auto-complete suggestions
+{
+    let itemNumbers = [];
+
+    function getItemNumberFromDB() {
+        return $.ajax({
+            method: "POST",
+            url: "class/item.php",
+            dataType: "JSON",
+            data: {getItemNumbers:true},
+            success: function(result)
+            {
+                for(let i=0; i<result.length; i++)
+                {
+                    itemNumbers.push(result[i].itemNumber);
+                }
+            }
+        });
+    }
+
+    $.when(getItemNumberFromDB()).done(()=>{
+        //For item form
+        $( "#item-number" ).autocomplete({
+            source: itemNumbers
+        });
+
+        //For purchase form
+        $( "#purchase-item-number" ).autocomplete({
+            source: itemNumbers
+        });
+
+        //For sale form
+        $( "#sale-item-number" ).autocomplete({
+            source: itemNumbers
+        });
+    });
+    
+}
+
 function getItemData() //Supply data to the fields after selecting item number
 {
     const itemNumber = $("#item-number").val();
@@ -55,6 +94,7 @@ function getItemData() //Supply data to the fields after selecting item number
 
                     //image
                     $("#item-image").val("");
+                    let imgsrc = "";
                     if(itemData['imageURL']!="imageNotAvailable.jpg")
                     {
                         imgsrc = "img/item_images/"+itemData["itemNumber"]+"/"+itemData['imageURL'];
@@ -62,9 +102,9 @@ function getItemData() //Supply data to the fields after selecting item number
                     {
                         imgsrc = "img/item_images/"+itemData['imageURL'];
                     }
-                    
                     $("#item-image-filename").val(itemData["imageURL"]);
                     $("#item-image-display").attr("src",imgsrc);
+
                     $("#item-update-button").prop("disabled",false);
                     $("#item-delete-button").prop("disabled",false);
                 } else

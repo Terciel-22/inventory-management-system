@@ -17,21 +17,21 @@
             </div>
             <div class="form-group col-md-4">
                 <label for="purchase-id">Purchase ID</label>
-                <input type="text" id="purchase-id" name="purchase-id" class="form-control readonly" tabindex="-1" placeholder="Auto-generate when adding purchase.">
+                <input type="text" id="purchase-id" name="purchase-id" class="form-control readonly" tabindex="-1" placeholder="Auto-generate when adding.">
             </div>
         </div>
         <div class="row mb-3">
-            <div class="form-group col-md-4 required">
-                <label for="purchase-item-name" class="control-label">Item Name</label>
+            <div class="form-group col-md-4">
+                <label for="purchase-item-name">Item Name</label>
                 <input type="text" id="purchase-item-name" name="purchase-item-name" class="form-control shadow-none readonly" tabindex="-1" placeholder="Name of the selected item." readonly>
             </div>
-            <div class="form-group col-md-4 required">
-                <label for="purchase-current-stock" class="control-label">Current Stock</label>
+            <div class="form-group col-md-4">
+                <label for="purchase-current-stock">Current Stock</label>
                 <input type="text" id="purchase-current-stock" name="purchase-current-stock" class="form-control shadow-none readonly" tabindex="-1" placeholder="Available stock of the item." readonly>
             </div>
             <div class="form-group col-md-4 required">
                 <label for="purchase-vendor-name" class="control-label">Vendor Name</label>
-                <select name="purchase-vendor-name" id="purchase-vendor-name" class="form-control" disabled></select>
+                <select name="purchase-vendor-name" id="purchase-vendor-name" class="form-control"></select>
             </div>
         </div>
         <div class="row mb-3">
@@ -40,12 +40,12 @@
                 <input type="number" min="0" id="purchase-item-quantity" name="purchase-item-quantity" class="form-control" value="0">
             </div>
             <div class="form-group col-md-4 required">
-                <label for="purchase-unit-price" class="control-label">Unit Price</label>
-                <input type="text" id="purchase-unit-price" name="purchase-unit-price" class="form-control" value="0">
+                <label for="purchase-item-unit-price" class="control-label">Unit Price</label>
+                <input type="text" id="purchase-item-unit-price" name="purchase-item-unit-price" class="form-control" value="0">
             </div>
             <div class="form-group col-md-4">
                 <label for="purchase-total-cost">Total Cost</label>
-                <input type="text" id="purchase-total-cost" name="purchase-total-cost" class="form-control shadow-none readonly" tabindex="-1" placeholder="Total cost of the purchase." readonly value="0">
+                <input type="text" id="purchase-total-cost" name="purchase-total-cost" class="form-control" placeholder="Total Cost" value="0" disabled>
             </div> 
         </div> 
         <div class="row">

@@ -48,10 +48,10 @@
     <div class="card main-card">
         <div class="m-2 mx-auto">
             <a class="btn active" id="item-button">Item</a>
-            <a class="btn" id="purchase-button">Purchase</a>
             <a class="btn" id="vendor-button">Vendor</a>
-            <a class="btn" id="sale-button">Sale</a>
             <a class="btn" id="customer-button">Customer</a>
+            <a class="btn" id="purchase-button">Purchase</a>
+            <a class="btn" id="sale-button">Sale</a>
             <a class="btn" id="search-button">Search</a>
             <a class="btn" id="report-button">Reports</a> 
         </div>
@@ -61,29 +61,24 @@
             <?php include "inc/item.html";?>
         </div>
 
-        <!-- PURCHASE -->
-        <div class="nav-container hide" id="purchase">
-            <?php include "inc/purchase.html";?>
-        </div>
-
         <!-- VENDOR -->
         <div class="nav-container hide" id="vendor">
             <?php include "inc/vendor.html";?>
         </div>
 
-        <!-- SALE -->
-        <div class="nav-container hide" id="sale">
-            <div class="card-header">
-                <h2>Sale Details</h2>
-            </div>
-            <div class="card-body">
-                
-            </div>
-        </div>
-
         <!-- CUSTOMER -->
         <div class="nav-container hide" id="customer">
             <?php include "inc/customer.html";?>
+        </div>
+
+        <!-- PURCHASE -->
+        <div class="nav-container hide" id="purchase">
+            <?php include "inc/purchase.html";?>
+        </div>
+
+        <!-- SALE -->
+        <div class="nav-container hide" id="sale">
+            <?php include "inc/sale.html";?>
         </div>
 
         <!-- SEARCH -->
@@ -118,9 +113,9 @@
     <!-- Custom JS -->
     <script src="js/main.js"></script>
     <script src="js/item.js"></script>
-    <script src="js/purchase.js"></script>
     <script src="js/vendor.js"></script>
-    <!-- <script src="js/sale.js"></script> -->
     <script src="js/customer.js"></script>
+    <script src="js/purchase.js"></script>
+    <script src="js/sale.js"></script>
 </body>
 </html>

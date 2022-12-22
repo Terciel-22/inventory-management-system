@@ -7,10 +7,10 @@ $( document ).ready(function() {
 
     //Nav button
     $("#item-button").on("click", selectItem);
-    $("#purchase-button").on("click", selectPurchase);
     $("#vendor-button").on("click", selectVendor);
-    $("#sale-button").on("click", selectSale);
     $("#customer-button").on("click", selectCustomer);
+    $("#purchase-button").on("click", selectPurchase);
+    $("#sale-button").on("click", selectSale);
     $("#search-button").on("click", selectSearch);
     $("#report-button").on("click", selectReport);
 
@@ -41,15 +41,6 @@ function selectItem()
     $("a.active").removeClass("active");
     $(thisBtn).addClass("active");
 }
-
-function selectPurchase()
-{
-    let thisBtn = $("#purchase-button");
-    $(".nav-container").addClass("hide");
-    $("#purchase").removeClass("hide");
-    $("a.active").removeClass("active");
-    $(thisBtn).addClass("active");
-}
 function selectVendor()
 {
     let thisBtn = $("#vendor-button");
@@ -58,19 +49,27 @@ function selectVendor()
     $("a.active").removeClass("active");
     $(thisBtn).addClass("active");
 }
-function selectSale()
-{
-    let thisBtn = $("#sale-button");
-    $(".nav-container").addClass("hide");
-    $("#sale").removeClass("hide");
-    $("a.active").removeClass("active");
-    $(thisBtn).addClass("active");
-}
 function selectCustomer()
 {
     let thisBtn = $("#customer-button");
     $(".nav-container").addClass("hide");
     $("#customer").removeClass("hide");
+    $("a.active").removeClass("active");
+    $(thisBtn).addClass("active");
+}
+function selectPurchase()
+{
+    let thisBtn = $("#purchase-button");
+    $(".nav-container").addClass("hide");
+    $("#purchase").removeClass("hide");
+    $("a.active").removeClass("active");
+    $(thisBtn).addClass("active");
+}
+function selectSale()
+{
+    let thisBtn = $("#sale-button");
+    $(".nav-container").addClass("hide");
+    $("#sale").removeClass("hide");
     $("a.active").removeClass("active");
     $(thisBtn).addClass("active");
 }
@@ -89,40 +88,6 @@ function selectReport()
     $("#report").removeClass("hide");
     $("a.active").removeClass("active");
     $(thisBtn).addClass("active");
-}
-
-function getItemNumbers() //Needed for getting item number auto-complete suggestions
-{
-    let itemNumbers = [];
-
-    function getItemNumberFromDB() {
-        return $.ajax({
-            method: "POST",
-            url: "class/item.php",
-            dataType: "JSON",
-            data: {getItemNumbers:true},
-            success: function(result)
-            {
-                for(let i=0; i<result.length; i++)
-                {
-                    itemNumbers.push(result[i].itemNumber);
-                }
-            }
-        });
-    }
-
-    $.when(getItemNumberFromDB()).done(()=>{
-        //For item form
-        $( "#item-number" ).autocomplete({
-            source: itemNumbers
-        });
-
-        //For purchase form
-        $( "#purchase-item-number" ).autocomplete({
-            source: itemNumbers
-        });
-    });
-    
 }
 
 function getCalendarMinAndMax()
@@ -145,4 +110,8 @@ function getCalendarMinAndMax()
     //For purchase form
     $("#purchase-date").attr("min", "2000-01-01"); 
     $("#purchase-date").attr("max", today); 
+
+    //For sale form
+    $("#sale-date").attr("min", "2000-01-01"); 
+    $("#sale-date").attr("max", today); 
 }

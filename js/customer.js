@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    getAllRegions();
+    customerFormRegions();
     $("#customer-region").on("change", ()=> {
         if($("#customer-region").val() != "")
         {
@@ -13,10 +13,10 @@ $(document).ready(function(){
             regionArr = $("#customer-region").val().split("|");
             if(regionArr[1] == NCR_CODE)
             {
-                getAllCitiesAndMunicipalities(regionArr[1],()=>{});
+                customerFormCitiesAndMunicipalities(regionArr[1],()=>{});
             } else
             {
-                getAllProvinces(regionArr[1],()=>{});
+                customerFormProvinces(regionArr[1],()=>{});
             }
         }
     });
@@ -29,7 +29,7 @@ $(document).ready(function(){
             $("#customer-barangay").attr("disabled","disabled");
 
             provinceArr = $("#customer-province").val().split("|");
-            getAllCitiesAndMunicipalities(provinceArr[1],()=>{});
+            customerFormCitiesAndMunicipalities(provinceArr[1],()=>{});
         }
     });
     $("#customer-city-municipality").on("change", ()=> {
@@ -38,10 +38,10 @@ $(document).ready(function(){
             $("#customer-barangay").val("");
             $("#customer-barangay").attr("disabled","disabled");
             cityMunicipalityArr = $("#customer-city-municipality").val().split("|");
-            getAllBarangay(cityMunicipalityArr[1],()=>{});
+            customerFormBarangay(cityMunicipalityArr[1],()=>{});
         }
     });
-
+ 
     //CRUD
     $("#customer-id").on("focus",getCustomerIDs); //For auto-complete
     $("#customer-id").on("input change focusout", getCustomerData);
@@ -54,7 +54,7 @@ $(document).ready(function(){
     });
 });
 
-function getAllRegions()
+function customerFormRegions()
 {
     let regions = [];
     function getRegionsFromAPI(){
@@ -83,7 +83,7 @@ function getAllRegions()
         $("#customer-region").html(options);
     });
 }
-function getAllProvinces(regionCode, callback)
+function customerFormProvinces(regionCode, callback)
 {
     $("#customer-city-municipality").attr("disabled","disabled");
     let provinces = [];
@@ -118,7 +118,7 @@ function getAllProvinces(regionCode, callback)
         callback();
     });
 }
-function getAllCitiesAndMunicipalities(code, callback)
+function customerFormCitiesAndMunicipalities(code, callback)
 {
     let citiesAndMunicipalities = [];
     let sortedCitiesAndMunicipalities = [];
@@ -170,7 +170,7 @@ function getAllCitiesAndMunicipalities(code, callback)
         callback();
     });
 }
-function getAllBarangay(cityMunicipalitycode,callback)
+function customerFormBarangay(cityMunicipalitycode,callback)
 {
     let barangays = [];
     let sortedBarangays = [];
@@ -228,8 +228,13 @@ function getCustomerIDs()
     }
     
     $.when(getCustomerIDsFromDB()).done(()=>{
-        //For item form
+        //For customer  form
         $( "#customer-id" ).autocomplete({
+            source: customerIDs
+        });
+
+        //For sale form
+        $( "#sale-customer-id" ).autocomplete({
             source: customerIDs
         });
     });
@@ -266,7 +271,7 @@ function getCustomerData()
                     {
                         if(regionArr[1] != NCR_CODE)
                         {
-                            getAllProvinces(regionArr[1], ()=>{
+                            customerFormProvinces(regionArr[1], ()=>{
                                 $("#customer-province").val(customerData["province"]);
                             });
                         }
@@ -282,7 +287,7 @@ function getCustomerData()
                             code = provinceArr[1];
                         }
                         
-                        getAllCitiesAndMunicipalities(code, ()=>{
+                        customerFormCitiesAndMunicipalities(code, ()=>{
                             $("#customer-city-municipality").val(customerData["city_municipality"]);
                         });
                     }
@@ -290,7 +295,7 @@ function getCustomerData()
                     {
                         cityMunicipalityArr = customerData["city_municipality"].split("|");
                         
-                        getAllBarangay(cityMunicipalityArr[1], ()=>{
+                        customerFormBarangay(cityMunicipalityArr[1], ()=>{
                             $("#customer-barangay").val(customerData["barangay"]);
                         });
                     }

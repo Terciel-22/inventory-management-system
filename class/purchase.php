@@ -11,6 +11,22 @@
             $this->pdo = $pdo;
         } 
 
+        function checkIfItemNumberExist($purchaseItemNumber)
+        {
+            $sql = "SELECT * FROM item WHERE itemNumber = :itemNumber";
+            $this->pdo->prepareQuery($sql);
+            $this->pdo->bindValueToStatement(":itemNumber", $purchaseItemNumber);
+            $this->pdo->executeStatement();
+            $rowCount = $this->pdo->getAffectedRowCount();
+            if($rowCount==1)
+            {
+                return true;
+            } else
+            {
+                return false;
+            }
+        }
+
         function getAvailablePurchaseIDs()
         {
             $sql = "SELECT purchaseID FROM purchase";
@@ -35,10 +51,10 @@
             $this->pdo->prepareQuery($sql1);
             $this->pdo->bindValueToStatement(":quantity",$purchaseItemQuantity);
             $this->pdo->bindValueToStatement(":itemNumber",$purchaseItemNumber);
-            $isAddedToItem = $this->pdo->executeStatement();
-            if(!$isAddedToItem)
+            $isUpdatedToItem = $this->pdo->executeStatement();
+            if(!$isUpdatedToItem)
             {
-                echo "Can't add new purchase due to error in updating stock.";
+                echo "Can't update stock on add sale.";
                 exit();
             }
 
@@ -122,21 +138,21 @@
         $purchaseItemNumber = htmlentities($_POST["purchase-item-number"]);
         $purchaseDate = htmlentities($_POST["purchase-date"]);
         $purchaseItemName = htmlentities($_POST["purchase-item-name"]);
-        $purchaseUnitPrice = htmlentities($_POST["purchase-unit-price"]);
+        $purchaseUnitPrice = htmlentities($_POST["purchase-item-unit-price"]);
         $purchaseItemQuantity = htmlentities($_POST["purchase-item-quantity"]);
         $purchaseVendor = htmlentities($_POST["purchase-vendor-name"]);
         
         if($purchaseID != "")
         {
-            echo "Product ID is auto-generated when adding.";
+            echo "Purchase ID is auto-generated when adding.";
             exit();
         }
  
         if($purchaseItemNumber != "" && $purchaseDate != "" && $purchaseVendor != "" && $purchaseItemQuantity != "" && $purchaseUnitPrice != "")
         {
-            if($purchaseItemName == "")
+            if(!$purchase->checkIfItemNumberExist($purchaseItemNumber))
             {
-                echo "Your item number doesn't exist.";
+                echo "Your item doesn't exist.";
                 exit();
             }
             if($purchaseItemQuantity <= 0)
@@ -173,27 +189,21 @@
     }
 
     else if(isset($_POST["purchase-update-submitted"])) {
+        
         $purchaseID = htmlentities($_POST["purchase-id"]);
         $purchaseItemNumber = htmlentities($_POST["purchase-item-number"]);
         $purchaseDate = htmlentities($_POST["purchase-date"]);
         $purchaseItemName = htmlentities($_POST["purchase-item-name"]);
-        $purchaseUnitPrice = htmlentities($_POST["purchase-unit-price"]);
+        $purchaseUnitPrice = htmlentities($_POST["purchase-item-unit-price"]);
         $purchaseItemQuantity = htmlentities($_POST["purchase-item-quantity"]);
         $purchaseVendor = htmlentities($_POST["purchase-vendor-name"]);
         $purchaseLastQuantity = htmlentities($_POST["purchase-last-quantity"]);
-        $purchaseLastItemNumber = htmlentities($_POST["purchase-last-item-number"]);
-
-        if($purchaseItemNumber != $purchaseLastItemNumber)
-        {
-            echo "You can't change item number on update, add new purchase instead.";
-            exit();
-        }
 
         if($purchaseID != "" && $purchaseItemNumber != "" && $purchaseDate != "" && $purchaseVendor != "" && $purchaseItemQuantity != "" && $purchaseUnitPrice != "")
         {
-            if($purchaseItemName == "")
+            if(!$purchase->checkIfItemNumberExist($purchaseItemNumber))
             {
-                echo "Your item number doesn't exist.";
+                echo "Your item doesn't exist.";
                 exit();
             }
             if($purchaseItemQuantity < 0)
