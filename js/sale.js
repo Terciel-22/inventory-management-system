@@ -49,7 +49,11 @@ function getSaleItemData()
                 if(result != "404")
                 {
                     let itemData = result[0];
-                    $("#sale-item-name").val(itemData["itemName"]);
+
+                    //Decode Data
+
+                    let $decodedSaleItemName = he.decode(itemData["itemName"]);
+                    $("#sale-item-name").val($decodedSaleItemName);
                     $("#sale-total-stock").val(itemData["stock"]);
                     $("#sale-item-discount").val(itemData["discount"]);
                     $("#sale-item-unit-price").val(itemData["unitPrice"]);
@@ -94,8 +98,9 @@ function getSaleCustomerData()
                 if(result != "404")
                 {
                     let customerData = result[0];
-                    
-                    $("#sale-customer-name").val(customerData["fullName"]);
+                    //Decode data
+                    let decodedSaleCustomerName = he.decode(customerData["fullName"]);
+                    $("#sale-customer-name").val(decodedSaleCustomerName);
                 } else
                 {
                     $("#sale-customer-name").val("");
@@ -157,12 +162,16 @@ function getSaleData()
                 if(result != "404")
                 {
                     let saleData = result[0];
-    
+                    
+                    //Decode data
+                    let decodedCustomerName = he.decode(saleData["customerName"]);
+                    let decodedItemName = he.decode(saleData["itemName"]);
+
                     $("#sale-date").val(saleData["saleDate"]);
                     $("#sale-customer-id").val(saleData["customerID"]);
-                    $("#sale-customer-name").val(saleData["customerName"]);
+                    $("#sale-customer-name").val(decodedCustomerName);
                     $("#sale-item-number").val(saleData["itemNumber"]);
-                    $("#sale-item-name").val(saleData["itemName"]);
+                    $("#sale-item-name").val(decodedItemName);
 
                     $("#sale-total-stock").val(saleData["stock"]);
                     $("#sale-item-discount").val(saleData["discount"]);
@@ -228,7 +237,7 @@ function addSale()
         }
     });
 }
-
+ 
 function updateSale(saleLastItemQuantity)
 {
     const saleForm = $("#sale-form");

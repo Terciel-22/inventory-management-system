@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.4
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 30, 2020 at 01:54 PM
--- Server version: 10.1.30-MariaDB
--- PHP Version: 7.2.1
+-- Generation Time: Dec 23, 2022 at 07:06 AM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 8.1.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -31,18 +30,17 @@ SET time_zone = "+00:00";
 CREATE TABLE `customer` (
   `customerID` int(11) NOT NULL,
   `fullName` varchar(100) NOT NULL,
-  `mobileNumber` varchar(30) DEFAULT NULL,
-  `telephoneNumber` varchar(30) NOT NULL,
+  `mobileNumber` varchar(255) DEFAULT NULL,
+  `telephoneNumber` varchar(255) NOT NULL,
   `email` varchar(100) DEFAULT NULL,
   `address` varchar(255) NOT NULL,
-  `region` varchar(30) DEFAULT NULL,
-  `province` varchar(30) DEFAULT NULL,
-  `city_municipality` varchar(30) NOT NULL,
-  `barangay` varchar(30) NOT NULL,
+  `region` varchar(255) DEFAULT NULL,
+  `province` varchar(255) DEFAULT NULL,
+  `city_municipality` varchar(255) NOT NULL,
+  `barangay` varchar(255) NOT NULL,
   `status` varchar(255) NOT NULL DEFAULT 'Active',
-  `createdOn` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
+  `createdOn` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
 
@@ -54,13 +52,13 @@ CREATE TABLE `item` (
   `productID` int(11) NOT NULL,
   `itemNumber` varchar(255) NOT NULL,
   `itemName` varchar(255) NOT NULL,
-  `discount` float NOT NULL DEFAULT '0',
-  `stock` int(11) NOT NULL DEFAULT '0',
-  `unitPrice` float NOT NULL DEFAULT '0',
+  `discount` float NOT NULL DEFAULT 0,
+  `stock` int(11) NOT NULL DEFAULT 0,
+  `unitPrice` float NOT NULL DEFAULT 0,
   `imageURL` varchar(255) NOT NULL DEFAULT 'imageNotAvailable.jpg',
   `status` varchar(255) NOT NULL DEFAULT 'Active',
   `description` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
 
@@ -73,11 +71,11 @@ CREATE TABLE `purchase` (
   `itemNumber` varchar(255) NOT NULL,
   `purchaseDate` date NOT NULL,
   `itemName` varchar(255) NOT NULL,
-  `unitPrice` float NOT NULL DEFAULT '0',
-  `quantity` int(11) NOT NULL DEFAULT '0',
+  `unitPrice` float NOT NULL DEFAULT 0,
+  `quantity` int(11) NOT NULL DEFAULT 0,
   `vendorName` varchar(255) NOT NULL DEFAULT 'Test Vendor',
-  `vendorID` int(11) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `vendorID` int(11) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
 
@@ -92,11 +90,10 @@ CREATE TABLE `sale` (
   `customerName` varchar(255) NOT NULL,
   `itemName` varchar(255) NOT NULL,
   `saleDate` date NOT NULL,
-  `discount` float NOT NULL DEFAULT '0',
-  `quantity` int(11) NOT NULL DEFAULT '0',
-  `unitPrice` float(10,0) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
+  `discount` float NOT NULL DEFAULT 0,
+  `quantity` int(11) NOT NULL DEFAULT 0,
+  `unitPrice` float(10,0) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
 
@@ -110,13 +107,14 @@ CREATE TABLE `user` (
   `username` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `status` varchar(255) NOT NULL DEFAULT 'Active'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`userID`, `fullName`, `username`, `password`, `status`) VALUES (1, 'Terciel', 'admin', '21232f297a57a5a743894a0e4a801fc3', 'Active');
+INSERT INTO `user` (`userID`, `fullName`, `username`, `password`, `status`) VALUES
+(1, 'Terciel Abe', 'admin', '21232f297a57a5a743894a0e4a801fc3', 'Active');
 
 -- --------------------------------------------------------
 
@@ -127,18 +125,21 @@ INSERT INTO `user` (`userID`, `fullName`, `username`, `password`, `status`) VALU
 CREATE TABLE `vendor` (
   `vendorID` int(11) NOT NULL,
   `fullName` varchar(100) NOT NULL,
-  `mobileNumber` varchar(30) DEFAULT NULL,
-  `telephoneNumber` varchar(30) NOT NULL,
+  `mobileNumber` varchar(255) DEFAULT NULL,
+  `telephoneNumber` varchar(255) NOT NULL,
   `email` varchar(100) DEFAULT NULL,
   `address` varchar(255) NOT NULL,
-  `region` varchar(30) DEFAULT NULL,
-  `province` varchar(30) DEFAULT NULL,
-  `city_municipality` varchar(30) NOT NULL,
-  `barangay` varchar(30) NOT NULL,
+  `region` varchar(255) DEFAULT NULL,
+  `province` varchar(255) DEFAULT NULL,
+  `city_municipality` varchar(255) NOT NULL,
+  `barangay` varchar(255) NOT NULL,
   `status` varchar(255) NOT NULL DEFAULT 'Active',
-  `createdOn` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `createdOn` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
+--
+-- Indexes for dumped tables
+--
 
 --
 -- Indexes for table `customer`
@@ -184,37 +185,37 @@ ALTER TABLE `vendor`
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `customerID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `customerID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `item`
 --
 ALTER TABLE `item`
-  MODIFY `productID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+  MODIFY `productID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `purchase`
 --
 ALTER TABLE `purchase`
-  MODIFY `purchaseID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+  MODIFY `purchaseID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `sale`
 --
 ALTER TABLE `sale`
-  MODIFY `saleID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `saleID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `userID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `userID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `vendor`
 --
 ALTER TABLE `vendor`
-  MODIFY `vendorID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `vendorID` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

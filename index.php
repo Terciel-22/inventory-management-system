@@ -92,6 +92,9 @@
     <!-- JQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     
+    <!-- Encoder / Decoder -->
+    <script src="js/he.js"></script>
+
     <!-- Custom JS -->
     <script src="js/index.js"></script>
 </body>

@@ -56,7 +56,8 @@ function getAllVendorNames()
         let options = `<option value="" selected hidden>-Select Vendor-</option>`;
         for(let i=0;i<sortedVendors.length;i++)
         {
-            options += `<option value="${sortedVendors[i][0]}|${sortedVendors[i][1]}">${sortedVendors[i][0]}</option>`;
+            let decodedVendorName = he.decode(sortedVendors[i][0]);
+            options += `<option value="${decodedVendorName}|${sortedVendors[i][1]}">${decodedVendorName}</option>`;
         }
         $("#purchase-vendor-name").prop("disabled",false);
         $("#purchase-vendor-name").html(options);
@@ -81,7 +82,10 @@ function getPurchaseItemData()
                 if(result != "404")
                 {
                     let itemData = result[0];
-                    $("#purchase-item-name").val(itemData["itemName"]);
+
+                    //Decode Data
+                    let decodedPurchaseItemName = he.decode(itemData["itemName"]);
+                    $("#purchase-item-name").val(decodedPurchaseItemName);
                     $("#purchase-current-stock").val(itemData["stock"]);
                 } else
                 {
@@ -145,12 +149,16 @@ function getPurchaseData()
                 {
                     let purchaseData = result[0];
                     
+                    //Decode data 
+                    let decodedItemName = he.decode(purchaseData["itemName"]);
+                    let decodedVendorName = he.decode(purchaseData["vendorName"]);
+
                     $("#purchase-item-number").prop("readonly",true);
                     $("#purchase-item-number").val(purchaseData["itemNumber"]);
                     $("#purchase-date").val(purchaseData["purchaseDate"]);
-                    $("#purchase-item-name").val(purchaseData["itemName"]);
+                    $("#purchase-item-name").val(decodedItemName);
                     $("#purchase-current-stock").val(purchaseData["stock"]);
-                    $("#purchase-vendor-name").val(`${purchaseData["vendorName"]}|${purchaseData["vendorID"]}`);
+                    $("#purchase-vendor-name").val(`${decodedVendorName}|${purchaseData["vendorID"]}`);
                     purchaseLastItemQuantity = purchaseData["quantity"];
                     $("#purchase-item-quantity").val(purchaseData["quantity"]);
                     $("#purchase-item-unit-price").val(purchaseData["unitPrice"]);
@@ -210,7 +218,7 @@ function updatePurchase(purchaseLastItemQuantity)
             {
                 purchaseFormSetToDefault(false);
                 getPurchaseData();
-            }
+            } 
             message = `<div class='alert alert-danger'>${result}</div>`;
             $("#purchaseform-errmessage").html(message);
             getPurchaseTotalCost();

@@ -110,6 +110,9 @@
     <!-- JQuery UI -->
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
     
+    <!-- Encoder / Decoder -->
+    <script src="js/he.js"></script>
+
     <!-- Custom JS -->
     <script src="js/main.js"></script>
     <script src="js/item.js"></script>

@@ -84,10 +84,16 @@ function getItemData() //Supply data to the fields after selecting item number
                 if(result != "404")
                 {
                     let itemData = result[0];
+
+                    //Decoding data.
+                    decodedItemName = he.decode(itemData["itemName"]);
+                    decodedItemStatus = he.decode(itemData["status"]);
+                    decodedItemDescription = he.decode(itemData["description"]);
+                    
                     $("#item-product-id").val(itemData["productID"]);
-                    $("#item-name").val(itemData["itemName"]);
-                    $("#item-status").val(itemData["status"]);
-                    $("#item-description").val(itemData["description"]);
+                    $("#item-name").val(decodedItemName);
+                    $("#item-status").val(decodedItemStatus);
+                    $("#item-description").val(decodedItemDescription);
                     $("#item-discount").val(itemData["discount"]);
                     $("#item-unit-price").val(itemData["unitPrice"]);
                     $("#item-total-stock").val(itemData["stock"]);

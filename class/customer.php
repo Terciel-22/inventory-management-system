@@ -138,14 +138,14 @@
         {
             $customerProvince = "";
         }
-        if(isset($_POST["customer-province"]))
+        if(isset($_POST["customer-city-municipality"]))
         {
             $customerCityMunicipality = htmlentities($_POST["customer-city-municipality"]);
         } else
         {
             $customerCityMunicipality = "";
         }
-        if(isset($_POST["customer-province"]))
+        if(isset($_POST["customer-barangay"]))
         {
             $customerBarangay = htmlentities($_POST["customer-barangay"]);
         } else

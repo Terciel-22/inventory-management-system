@@ -259,20 +259,29 @@ function getCustomerData()
                 {
                     let customerData = result[0];
                     
-                    $("#customer-fullname").val(customerData["fullName"]);
-                    $("#customer-status").val(customerData["status"]);
+                    //Decoding data 
+                    let = decodedFullName = he.decode(customerData["fullName"]);
+                    let = decodedStatus = he.decode(customerData["status"]);
+                    let = decodedEmail = he.decode(customerData["email"]);
+                    let = decodedAddress = he.decode(customerData["address"]);
+                    let = decodedRegion = he.decode(customerData["region"]);
+
+                    $("#customer-fullname").val(decodedFullName);
+                    $("#customer-status").val(decodedStatus);
                     $("#customer-mobile-number").val(customerData["mobileNumber"]);
                     $("#customer-telephone-number").val(customerData["telephoneNumber"]);
-                    $("#customer-email").val(customerData["email"]);
-                    $("#customer-address").val(customerData["address"]);
-                    $("#customer-region").val(customerData["region"]);
+                    $("#customer-email").val(decodedEmail);
+                    $("#customer-address").val(decodedAddress);
+                    $("#customer-region").val(decodedRegion);
+
                     regionArr = customerData["region"].split("|");
                     if(customerData["province"] != "")
                     {
                         if(regionArr[1] != NCR_CODE)
                         {
                             customerFormProvinces(regionArr[1], ()=>{
-                                $("#customer-province").val(customerData["province"]);
+                                let = decodedProvince = he.decode(customerData["province"]);
+                                $("#customer-province").val(decodedProvince);
                             });
                         }
                     }
@@ -288,7 +297,8 @@ function getCustomerData()
                         }
                         
                         customerFormCitiesAndMunicipalities(code, ()=>{
-                            $("#customer-city-municipality").val(customerData["city_municipality"]);
+                            let = decodedCityMunicipality = he.decode(customerData["city_municipality"]);
+                            $("#customer-city-municipality").val(decodedCityMunicipality);
                         });
                     }
                     if(customerData["customer-barangay"] != "")
@@ -296,7 +306,8 @@ function getCustomerData()
                         cityMunicipalityArr = customerData["city_municipality"].split("|");
                         
                         customerFormBarangay(cityMunicipalityArr[1], ()=>{
-                            $("#customer-barangay").val(customerData["barangay"]);
+                            let = decodedBarangay = he.decode(customerData["barangay"]);
+                            $("#customer-barangay").val(decodedBarangay);
                         });
                     }
 

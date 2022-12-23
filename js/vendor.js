@@ -254,20 +254,29 @@ function getVendorData()
                 {
                     let vendorData = result[0];
                     
-                    $("#vendor-fullname").val(vendorData["fullName"]);
-                    $("#vendor-status").val(vendorData["status"]);
+                    //Decoding data 
+                    let = decodedFullName = he.decode(vendorData["fullName"]);
+                    let = decodedStatus = he.decode(vendorData["status"]);
+                    let = decodedEmail = he.decode(vendorData["email"]);
+                    let = decodedAddress = he.decode(vendorData["address"]);
+                    let = decodedRegion = he.decode(vendorData["region"]);
+
+                    $("#vendor-fullname").val(decodedFullName);
+                    $("#vendor-status").val(decodedStatus);
                     $("#vendor-mobile-number").val(vendorData["mobileNumber"]);
                     $("#vendor-telephone-number").val(vendorData["telephoneNumber"]);
-                    $("#vendor-email").val(vendorData["email"]);
-                    $("#vendor-address").val(vendorData["address"]);
-                    $("#vendor-region").val(vendorData["region"]);
+                    $("#vendor-email").val(decodedEmail);
+                    $("#vendor-address").val(decodedAddress);
+                    $("#vendor-region").val(decodedRegion);
+
                     regionArr = vendorData["region"].split("|");
                     if(vendorData["province"] != "")
                     {
                         if(regionArr[1] != NCR_CODE)
                         {
                             vendorFormProvinces(regionArr[1], ()=>{
-                                $("#vendor-province").val(vendorData["province"]);
+                                let = decodedProvince = he.decode(vendorData["province"]);
+                                $("#vendor-province").val(decodedProvince);
                             });
                         }
                     }
@@ -283,7 +292,8 @@ function getVendorData()
                         }
                         
                         vendorFormCitiesAndMunicipalities(code, ()=>{
-                            $("#vendor-city-municipality").val(vendorData["city_municipality"]);
+                            let = decodedCityMunicipality = he.decode(vendorData["city_municipality"]);
+                            $("#vendor-city-municipality").val(decodedCityMunicipality);
                         });
                     }
                     if(vendorData["vendor-barangay"] != "")
@@ -291,7 +301,8 @@ function getVendorData()
                         cityMunicipalityArr = vendorData["city_municipality"].split("|");
                         
                         vendorFormBarangay(cityMunicipalityArr[1], ()=>{
-                            $("#vendor-barangay").val(vendorData["barangay"]);
+                            let = decodedBarangay = he.decode(vendorData["barangay"]);
+                            $("#vendor-barangay").val(decodedBarangay);
                         });
                     }
 
