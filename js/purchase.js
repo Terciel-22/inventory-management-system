@@ -1,4 +1,4 @@
-lastQuantity = 0;
+purchaseLastItemQuantity = 0;
 
 $(document).ready(function(){
     $("#purchase-item-number").on("focus", getItemNumbers); //Show itemnumber auto complete
@@ -10,7 +10,7 @@ $(document).ready(function(){
     $("#purchase-id").on("focus",getPurchaseIDs ); //For auto-complete
     $("#purchase-id").on("input change focusout", getPurchaseData);
     $("#purchase-add-button").on("click", addPurchase);
-    $("#purchase-update-button").on("click", () => updatePurchase(lastQuantity));
+    $("#purchase-update-button").on("click", () => updatePurchase(purchaseLastItemQuantity));
     $("#purchase-clear-button").on("click", ()=>{
         $("#purchase-id").val("");
         $("#purchase-item-number").val("");
@@ -151,7 +151,7 @@ function getPurchaseData()
                     $("#purchase-item-name").val(purchaseData["itemName"]);
                     $("#purchase-current-stock").val(purchaseData["stock"]);
                     $("#purchase-vendor-name").val(`${purchaseData["vendorName"]}|${purchaseData["vendorID"]}`);
-                    lastQuantity = purchaseData["quantity"];
+                    purchaseLastItemQuantity = purchaseData["quantity"];
                     $("#purchase-item-quantity").val(purchaseData["quantity"]);
                     $("#purchase-item-unit-price").val(purchaseData["unitPrice"]);
                     $("#purchase-update-button").prop("disabled",false);
@@ -162,6 +162,7 @@ function getPurchaseData()
                     $("#purchase-update-button").prop("disabled",true);
                     purchaseFormSetToDefault(true);
                 }
+                getPurchaseTotalCost();
             }
         });
     }else
@@ -193,12 +194,12 @@ function addPurchase()
     });
 }
 
-function updatePurchase(lastQuantity)
+function updatePurchase(purchaseLastItemQuantity)
 {
     const purchaseForm = $("#purchase-form");
     const purchaseFormURL = purchaseForm.attr("action");
     const purchaseFormData = purchaseForm.serializeArray();
-    purchaseFormData.push({name: "purchase-last-quantity", value: lastQuantity});
+    purchaseFormData.push({name: "purchase-last-item-quantity", value: purchaseLastItemQuantity});
     purchaseFormData.push({name: "purchase-update-submitted", value: "true"});
     $.ajax({
         method: "POST",
@@ -212,6 +213,7 @@ function updatePurchase(lastQuantity)
             }
             message = `<div class='alert alert-danger'>${result}</div>`;
             $("#purchaseform-errmessage").html(message);
+            getPurchaseTotalCost();
         }
     }); 
 }

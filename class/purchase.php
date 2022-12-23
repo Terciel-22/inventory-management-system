@@ -197,7 +197,7 @@
         $purchaseUnitPrice = htmlentities($_POST["purchase-item-unit-price"]);
         $purchaseItemQuantity = htmlentities($_POST["purchase-item-quantity"]);
         $purchaseVendor = htmlentities($_POST["purchase-vendor-name"]);
-        $purchaseLastQuantity = htmlentities($_POST["purchase-last-quantity"]);
+        $purchaseLastItemQuantity = htmlentities($_POST["purchase-last-item-quantity"]);
 
         if($purchaseID != "" && $purchaseItemNumber != "" && $purchaseDate != "" && $purchaseVendor != "" && $purchaseItemQuantity != "" && $purchaseUnitPrice != "")
         {
@@ -216,9 +216,9 @@
                 exit();
             }
 
-            if($purchaseItemQuantity != $purchaseLastQuantity)
+            if($purchaseItemQuantity != $purchaseLastItemQuantity)
             {
-                $itemQuantity = $purchaseItemQuantity - $purchaseLastQuantity;
+                $itemQuantity = $purchaseItemQuantity - $purchaseLastItemQuantity;
             } else
             {
                 $itemQuantity = 0;

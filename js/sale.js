@@ -1,4 +1,4 @@
-lastQuantity = 0;
+saleLastItemQuantity = 0;
 
 $(document).ready(function(){
     $("#sale-form").on("change click input mouseleave", getSaleTotalCost);
@@ -11,12 +11,13 @@ $(document).ready(function(){
     $("#sale-id").on("focus",getSaleIDs ); //For auto-complete
     $("#sale-id").on("input change focusout", getSaleData);
     $("#sale-add-button").on("click", addSale);
-    $("#sale-update-button").on("click", () => updateSale(lastQuantity));
+    $("#sale-update-button").on("click", () => updateSale(saleLastItemQuantity));
+    $("#sale-delete-button").on('click', deleteSale);
     $("#sale-clear-button").on("click", ()=>{
         $("#sale-id").val("");
         $("#sale-customer-id").val("");
         $("#sale-item-number").val("");
-        saleFormSetToDefault(true);
+        saleFormSetToDefault(true,true);
     });
 });
 
@@ -65,15 +66,13 @@ function getSaleItemData()
                     $("#sale-image-display").attr("src",imgsrc);
                 } else
                 {
-                    $("#sale-customer-id").val("");
-                    saleFormSetToDefault(true);
+                    saleFormSetToDefault(true,false);
                 }
             }
         });
     } else 
     {
-        $("#sale-customer-id").val("");
-        saleFormSetToDefault(true);
+        saleFormSetToDefault(true,false);
     }
 }
 
@@ -168,7 +167,7 @@ function getSaleData()
                     $("#sale-total-stock").val(saleData["stock"]);
                     $("#sale-item-discount").val(saleData["discount"]);
                     $("#sale-item-quantity").val(saleData["quantity"]);
-                    lastQuantity = saleData["quantity"];
+                    saleLastItemQuantity = saleData["quantity"];
                     $("#sale-item-unit-price").val(saleData["unitPrice"]);
 
                     $("#sale-item-number").prop("readonly",true);
@@ -197,13 +196,14 @@ function getSaleData()
 
                     $("#sale-update-button").prop("disabled",true);
                     $("#sale-delete-button").prop("disabled",true);
-                    saleFormSetToDefault(true);
+                    saleFormSetToDefault(true,true);
                 }
+                getSaleTotalCost();
             }
         });
     }else
     {
-        saleFormSetToDefault(true);
+        saleFormSetToDefault(true,true);
     }
 }
 
@@ -229,31 +229,54 @@ function addSale()
     });
 }
 
-// function updateSale(lastQuantity,lastItemNumber)
-// {
-//     const saleForm = $("#sale-form");
-//     const saleFormURL = saleForm.attr("action");
-//     const saleFormData = saleForm.serializeArray();
-//     saleFormData.push({name: "sale-last-quantity", value: lastQuantity});
-//     saleFormData.push({name: "sale-last-item-number", value: lastItemNumber});
-//     saleFormData.push({name: "sale-update-submitted", value: "true"});
-//     $.ajax({
-//         method: "POST",
-//         url: saleFormURL,
-//         data: saleFormData,
-//         success: function (result) {
-//             if(result == "Successfully Updated!")
-//             {
-//                 saleFormSetToDefault(false);
-//                 getSaleData();
-//             }
-//             message = `<div class='alert alert-danger'>${result}</div>`;
-//             $("#saleform-errmessage").html(message);
-//         }
-//     }); 
-// }
+function updateSale(saleLastItemQuantity)
+{
+    const saleForm = $("#sale-form");
+    const saleFormURL = saleForm.attr("action");
+    const saleFormData = saleForm.serializeArray();
+    saleFormData.push({name: "sale-last-item-quantity", value: saleLastItemQuantity});
+    saleFormData.push({name: "sale-update-submitted", value: "true"});
+    $.ajax({
+        method: "POST",
+        url: saleFormURL,
+        data: saleFormData,
+        success: function (result) {
+            if(result == "Successfully Updated!")
+            {
+                saleFormSetToDefault(false,false);
+                getSaleData();
+            }
+            message = `<div class='alert alert-danger'>${result}</div>`;
+            $("#saleform-errmessage").html(message);
+            getSaleTotalCost();
+        }
+    }); 
+}
 
-function saleFormSetToDefault(deleteMessage)
+function deleteSale() //Delete selected sale
+{
+    const saleID = $("#sale-id").val();
+    
+    if(confirm("Are you sure you want to delete it?"))
+    {
+        $.ajax({
+            method: "POST",
+            url: "class/sale.php",
+            data: {deleteSaleID:saleID},
+            success: function (result) {
+                message = `<div class='alert alert-danger'>${result}</div>`;
+                $("#saleform-errmessage").html(message);
+                if(result=="Successfully deleted!")
+                {
+                    $("#sale-id").val("");
+                    saleFormSetToDefault(false,true);
+                }
+            }
+        });
+    }
+}
+
+function saleFormSetToDefault(deleteMessage,customerDefault)
 {
     if(deleteMessage)
     {
@@ -261,14 +284,20 @@ function saleFormSetToDefault(deleteMessage)
         $("#saleform-errmessage").html(message);
     }
 
+    if(customerDefault)
+    {
+        $("#sale-customer-id").val("");
+        $("#sale-customer-name").val("");
+    }
+    
     let imgsrc = "img/item_images/imageNotAvailable.jpg";
     $("#sale-image-display").attr("src",imgsrc);
 
     $("#sale-date").val("");
     $("#sale-item-name").val("");
-    $("#sale-customer-name").val("");
+    
 
-    $("#sale-total-stock").val("0"); 
+    $("#sale-total-stock").val(""); 
     $("#sale-item-discount").val("0");
     $("#sale-item-quantity").val("0");
     $("#sale-item-unit-price").val("0");
