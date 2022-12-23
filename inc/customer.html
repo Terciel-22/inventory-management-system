@@ -21,7 +21,7 @@
             </div>
             <div class="form-group col-md-4">
                 <label for="customer-id">Customer ID</label>
-                <input type="text" name="customer-id" id="customer-id" class="form-control readonly" tabindex="-1" placeholder="Auto-generate when adding.">
+                <input type="text" name="customer-id" id="customer-id" class="form-control readonly" tabindex="-1" placeholder="Auto-generate." title="Auto-generate when adding customer.">
             </div>
         </div>
         <div class="row mb-3">
@@ -53,19 +53,19 @@
             </div>
             <div class="form-group col-md-3">
                 <label for="customer-province">Province</label>
-                <select name="customer-province" id="customer-province" class="form-control" disabled>
+                <select name="customer-province" id="customer-province" class="form-control" disabled title="Choose a region first, not including NCR">
                     <option value="" selected hidden>-Select Province-</option>
                 </select>
             </div>
             <div class="form-group col-md-3">
                 <label for="customer-city-municipality">City/Municipality</label>
-                <select name="customer-city-municipality" id="customer-city-municipality" class="form-control" disabled>
+                <select name="customer-city-municipality" id="customer-city-municipality" class="form-control" disabled title="Choose a province first or NCR in region.">
                     <option value="" selected hidden>-Select City/Municipality-</option>
                 </select> 
             </div>
             <div class="form-group col-md-3">
                 <label for="customer-barangay">Barangay</label>
-                <select name="customer-barangay" id="customer-barangay" class="form-control" disabled>
+                <select name="customer-barangay" id="customer-barangay" class="form-control" disabled title="Choose city/municipality first.">
                     <option value="" selected hidden>-Select Barangay-</option>
                 </select>
             </div>

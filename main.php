@@ -27,6 +27,9 @@
     <!-- JQuery UI -->
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
     
+    <!-- DATA TABLES -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.css">
+
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css">
     
@@ -52,7 +55,6 @@
             <a class="btn" id="customer-button">Customer</a>
             <a class="btn" id="purchase-button">Purchase</a>
             <a class="btn" id="sale-button">Sale</a>
-            <a class="btn" id="search-button">Search</a>
             <a class="btn" id="report-button">Reports</a> 
         </div>
         
@@ -81,34 +83,31 @@
             <?php include "inc/sale.html";?>
         </div>
 
-        <!-- SEARCH -->
-        <div class="nav-container hide" id="search">
-            <div class="card-header">
-                <h2>Search Inventory</h2>
-            </div>
-            <div class="card-body">
-                
-            </div>
-        </div>
-
         <!-- REPORT -->
         <div class="nav-container hide" id="report">
-            <div class="card-header">
-                <h2>Reports</h2>
-            </div>
-            <div class="card-body">
-                
-            </div>
+            <?php include "inc/report.html";?>
         </div>
 
     </div>
-    <!-- JavaScript Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
-    
+
+    <div class="navbar nav-header p-2 mt-4">
+        <div class="mx-auto text-light">
+            <small>&copy; Copyright 2022. Terciel-22. All Rights Reserve</small>
+        </div>
+    </div>
+
     <!-- JQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <!-- JQuery UI -->
     <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <!-- DATA TABLES -->
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.js"></script>
+
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+    
+    <!-- BOOTBOX -->
+    <script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
     
     <!-- Encoder / Decoder -->
     <script src="js/he.js"></script>
@@ -120,5 +119,6 @@
     <script src="js/customer.js"></script>
     <script src="js/purchase.js"></script>
     <script src="js/sale.js"></script>
+    <script src="js/report.js"></script>
 </body>
 </html>

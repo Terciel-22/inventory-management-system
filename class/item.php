@@ -18,6 +18,13 @@
             return $this->pdo->getAllResults();
         }
 
+        function getItemRecords()
+        {
+            $sql = "SELECT productID,itemNumber,itemName,discount,stock,unitPrice,status,description,imageURL FROM item";
+            $this->pdo->prepareQuery($sql);
+            return $this->pdo->getAllResults();
+        }
+
         function getItemData($itemNumber)
         {
             $sql = "SELECT * FROM item WHERE itemNumber = :itemNumber";
@@ -75,6 +82,15 @@
     if(isset($_POST["getItemNumbers"]))
     {
         $results = $item->getAvailableItemNumbers();
+        
+        echo json_encode($results);
+        exit();
+    }
+
+    //Get all items
+    else if(isset($_POST["getItemRecords"]))
+    {
+        $results = $item->getItemRecords();
         
         echo json_encode($results);
         exit();

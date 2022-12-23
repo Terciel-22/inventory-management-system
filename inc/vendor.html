@@ -21,7 +21,7 @@
             </div>
             <div class="form-group col-md-4">
                 <label for="vendor-id">Vendor ID</label>
-                <input type="text" name="vendor-id" id="vendor-id" class="form-control readonly" tabindex="-1" placeholder="Auto-generate when adding.">
+                <input type="text" name="vendor-id" id="vendor-id" class="form-control readonly" tabindex="-1" placeholder="Auto-generate." title="Auto-generate when adding vendor.">
             </div>
         </div>
         <div class="row mb-3">
@@ -53,19 +53,19 @@
             </div>
             <div class="form-group col-md-3">
                 <label for="vendor-province">Province</label>
-                <select name="vendor-province" id="vendor-province" class="form-control" disabled>
+                <select name="vendor-province" id="vendor-province" class="form-control" disabled title="Choose a region first, not including NCR">
                     <option value="" selected hidden>-Select Province-</option>
                 </select>
             </div>
             <div class="form-group col-md-3">
                 <label for="vendor-city-municipality">City/Municipality</label>
-                <select name="vendor-city-municipality" id="vendor-city-municipality" class="form-control" disabled>
+                <select name="vendor-city-municipality" id="vendor-city-municipality" class="form-control" disabled title="Choose a province first or NCR in region.">
                     <option value="" selected hidden>-Select City/Municipality-</option>
                 </select> 
             </div>
             <div class="form-group col-md-3">
                 <label for="vendor-barangay">Barangay</label>
-                <select name="vendor-barangay" id="vendor-barangay" class="form-control" disabled>
+                <select name="vendor-barangay" id="vendor-barangay" class="form-control" disabled title="Choose city/municipality first.">
                     <option value="" selected hidden>-Select Barangay-</option>
                 </select>
             </div>

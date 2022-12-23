@@ -1,7 +1,6 @@
 const NCR_CODE = 130000000;
 
-$( document ).ready(function() {
-
+$(document).ready(function() {
     //Logout button
     $("#logout-button").on("click", logoutAccount);
 
@@ -11,11 +10,14 @@ $( document ).ready(function() {
     $("#customer-button").on("click", selectCustomer);
     $("#purchase-button").on("click", selectPurchase);
     $("#sale-button").on("click", selectSale);
-    $("#search-button").on("click", selectSearch);
     $("#report-button").on("click", selectReport);
 
     //For setting min and max date
     getCalendarMinAndMax();
+
+    //Enabling tooltip
+    $(".form-control").tooltip();
+
 });
 
 function logoutAccount()
@@ -34,7 +36,7 @@ function logoutAccount()
 }
 
 function selectItem()
-{
+{ 
     let thisBtn = $("#item-button");
     $(".nav-container").addClass("hide");
     $("#item").removeClass("hide");
@@ -73,14 +75,7 @@ function selectSale()
     $("a.active").removeClass("active");
     $(thisBtn).addClass("active");
 }
-function selectSearch()
-{
-    let thisBtn = $("#search-button");
-    $(".nav-container").addClass("hide");
-    $("#search").removeClass("hide");
-    $("a.active").removeClass("active");
-    $(thisBtn).addClass("active");
-}
+
 function selectReport()
 {
     let thisBtn = $("#report-button");

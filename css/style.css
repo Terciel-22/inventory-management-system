@@ -1,3 +1,9 @@
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
 div.index-card {
     width: 20rem;
     text-align-last: center ;
@@ -28,12 +34,12 @@ div.index-card .form-control {
 .btn.active {
     border-bottom: 4px solid #131b4f;
 }
-div.hide {
+.hide {
     display: none;
 }
 
 div.main-card {
-    width: 80%;
+    width: 95%;
     text-align-last: start ;
     margin: auto;
     margin-top: 2rem;
@@ -64,4 +70,15 @@ div.main-card {
 .form-group.required .control-label::after {
     content:"*";
     color:red;
-  }
+}
+
+th {
+    white-space: nowrap; 
+}
+
+@media (max-width:961px)  {
+    .tab-content > .tab-pane {
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+}

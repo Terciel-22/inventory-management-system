@@ -278,6 +278,7 @@ function deleteSale() //Delete selected sale
                 if(result=="Successfully deleted!")
                 {
                     $("#sale-id").val("");
+                    $("#sale-item-number").val("");
                     saleFormSetToDefault(false,true);
                 }
             }

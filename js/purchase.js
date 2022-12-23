@@ -4,7 +4,7 @@ $(document).ready(function(){
     $("#purchase-item-number").on("focus", getItemNumbers); //Show itemnumber auto complete
     $("#purchase-item-number").on("input change focusout", getPurchaseItemData);
     $("#purchase-form").on("change click input mouseleave", getPurchaseTotalCost);
-    getAllVendorNames(); //For select vendor option
+    $("#purchase-vendor-name").on("focus", getAllVendorNames);
     
     //CRUD
     $("#purchase-id").on("focus",getPurchaseIDs ); //For auto-complete
