@@ -76,9 +76,9 @@ th {
     white-space: nowrap; 
 }
 
-@media (max-width:961px)  {
-    .tab-content > .tab-pane {
-        overflow-x: auto;
-        white-space: nowrap;
-    }
+#scrollX {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
 }

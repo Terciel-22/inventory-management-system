@@ -186,10 +186,10 @@ function getSaleData()
                     let imgsrc = "";
                     if(saleData['imageURL']!="imageNotAvailable.jpg")
                     {
-                        imgsrc = "img/item_images/"+saleData["itemNumber"]+"/"+saleData['imageURL'];
+                        imgsrc = "img/item_images/"+saleData["itemNumber"]+"/"+he.encode(saleData['imageURL']);
                     } else
                     {
-                        imgsrc = "img/item_images/"+saleData['imageURL'];
+                        imgsrc = "img/item_images/"+he.encode(saleData['imageURL']);
                     }
                     $("#sale-image-display").attr("src",imgsrc);
 

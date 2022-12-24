@@ -23,15 +23,6 @@
     </div>
     
     <div class="tab-content" id="myTabContent">
-        <div class="row">
-            <div class="col-md-9" id="item-buttons">
-                <h1>Items</h1>
-            </div>
-            <div class="col-md-3">
-                <button type="button" class="btn btn-primary" id="item-print">Print</button>
-                <button type="button" class="btn btn-primary" id="item-refresh">Refresh</button>
-            </div>
-        </div>
         <div class="tab-pane fade show active" id="item-container" role="tabpanel" aria-labelledby="item-tab">
             <table id="item-table" class="display" style="width:100%">
                 <caption>List of items</caption>
@@ -46,11 +37,17 @@
             </table>
         </div>
 
-        <div class="tab-pane fade" id="vendor-container" role="tabpanel" aria-labelledby="vendor-tab">Vendor
-
+        <div class="tab-pane fade" id="vendor-container" role="tabpanel" aria-labelledby="vendor-tab">
+            <table id="vendor-table" class="display" style="width:100%">
+                <caption>List of vendors</caption>
+            </table>
         </div>
 
-        <div class="tab-pane fade" id="customer-container" role="tabpanel" aria-labelledby="customer-tab">Customer</div>
+        <div class="tab-pane fade" id="customer-container" role="tabpanel" aria-labelledby="customer-tab">
+            <table id="customer-table" class="display" style="width:100%">
+                <caption>List of customers</caption>
+            </table>
+        </div>
 
         <div class="tab-pane fade" id="purchase-container" role="tabpanel" aria-labelledby="purchase-tab">Purchase</div>
 

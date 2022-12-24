@@ -11,16 +11,9 @@
             $this->pdo = $pdo;
         }
 
-        function getAvailableCustomerIDs()
+        function getCustomerRecords()
         {
-            $sql = "SELECT customerID FROM customer";
-            $this->pdo->prepareQuery($sql);
-            return $this->pdo->getAllResults();
-        }
-
-        function getAllCustomerNames()
-        {
-            $sql = "SELECT fullName,customerID from customer WHERE status = 'Active'";
+            $sql = "SELECT * FROM customer";
             $this->pdo->prepareQuery($sql);
             return $this->pdo->getAllResults();
         }
@@ -84,17 +77,10 @@
     define("VALID_PHONE_NUMBER","/^\\+?\\d{1,4}?[-.\\s]?\\(?\\d{1,3}?\\)?[-.\\s]?\\d{1,4}[-.\\s]?\\d{1,4}[-.\\s]?\\d{1,9}$/");
     define("VALID_EMAIL","");
 
-    if(isset($_POST["getCustomerIDs"]))
+    if(isset($_POST["getCustomerRecords"]))
     {
-        $results = $customer->getAvailableCustomerIDs();
+        $results = $customer->getCustomerRecords();
         
-        echo json_encode($results);
-        exit();
-    }
-
-    else if(isset($_POST["getAllCustomerNames"]))
-    {
-        $results = $customer->getAllCustomerNames();
         echo json_encode($results);
         exit();
     }

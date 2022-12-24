@@ -215,13 +215,12 @@ function getVendorIDs()
             method: "POST",
             url: "class/vendor.php",
             dataType: "JSON",
-            data: {getVendorIDs:true},
-            success: function(result)
+            data: {getVendorRecords:true},
+            success: function(results)
             {
-                let values = Object.values(result);
-                for(let i=0; i<values.length; i++)
+                for(let i=0; i<results.length; i++)
                 {
-                    vendorIDs.push(String(values[i].vendorID));
+                    vendorIDs.push(String(results[i]["vendorID"]));
                 }
             }
         });
@@ -255,11 +254,11 @@ function getVendorData()
                     let vendorData = result[0];
                     
                     //Decoding data 
-                    let = decodedFullName = he.decode(vendorData["fullName"]);
-                    let = decodedStatus = he.decode(vendorData["status"]);
-                    let = decodedEmail = he.decode(vendorData["email"]);
-                    let = decodedAddress = he.decode(vendorData["address"]);
-                    let = decodedRegion = he.decode(vendorData["region"]);
+                    let decodedFullName = he.decode(vendorData["fullName"]);
+                    let decodedStatus = he.decode(vendorData["status"]);
+                    let decodedEmail = he.decode(vendorData["email"]);
+                    let decodedAddress = he.decode(vendorData["address"]);
+                    let decodedRegion = he.decode(vendorData["region"]);
 
                     $("#vendor-fullname").val(decodedFullName);
                     $("#vendor-status").val(decodedStatus);
@@ -269,13 +268,13 @@ function getVendorData()
                     $("#vendor-address").val(decodedAddress);
                     $("#vendor-region").val(decodedRegion);
 
-                    regionArr = vendorData["region"].split("|");
+                    let regionArr = vendorData["region"].split("|");
                     if(vendorData["province"] != "")
                     {
                         if(regionArr[1] != NCR_CODE)
                         {
                             vendorFormProvinces(regionArr[1], ()=>{
-                                let = decodedProvince = he.decode(vendorData["province"]);
+                                let decodedProvince = he.decode(vendorData["province"]);
                                 $("#vendor-province").val(decodedProvince);
                             });
                         }
@@ -292,7 +291,7 @@ function getVendorData()
                         }
                         
                         vendorFormCitiesAndMunicipalities(code, ()=>{
-                            let = decodedCityMunicipality = he.decode(vendorData["city_municipality"]);
+                            let decodedCityMunicipality = he.decode(vendorData["city_municipality"]);
                             $("#vendor-city-municipality").val(decodedCityMunicipality);
                         });
                     }
@@ -301,7 +300,7 @@ function getVendorData()
                         cityMunicipalityArr = vendorData["city_municipality"].split("|");
                         
                         vendorFormBarangay(cityMunicipalityArr[1], ()=>{
-                            let = decodedBarangay = he.decode(vendorData["barangay"]);
+                            let decodedBarangay = he.decode(vendorData["barangay"]);
                             $("#vendor-barangay").val(decodedBarangay);
                         });
                     }

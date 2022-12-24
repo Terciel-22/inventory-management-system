@@ -36,7 +36,7 @@ function getItemNumbers() //Needed for getting item number auto-complete suggest
             method: "POST",
             url: "class/item.php",
             dataType: "JSON",
-            data: {getItemNumbers:true},
+            data: {getItemRecords:true},
             success: function(result)
             {
                 for(let i=0; i<result.length; i++)
@@ -86,9 +86,9 @@ function getItemData() //Supply data to the fields after selecting item number
                     let itemData = result[0];
 
                     //Decoding data.
-                    decodedItemName = he.decode(itemData["itemName"]);
-                    decodedItemStatus = he.decode(itemData["status"]);
-                    decodedItemDescription = he.decode(itemData["description"]);
+                    let decodedItemName = he.decode(itemData["itemName"]);
+                    let decodedItemStatus = he.decode(itemData["status"]);
+                    let decodedItemDescription = he.decode(itemData["description"]);
                     
                     $("#item-product-id").val(itemData["productID"]);
                     $("#item-name").val(decodedItemName);

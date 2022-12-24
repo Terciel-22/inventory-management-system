@@ -1,20 +1,10 @@
-itemTable = "";
 $(document).ready( function () {
 
     getItemsRecord();
-    $("#item-print").on("click",()=>{
-        let divToPrint = document.getElementById("item-container");
-        newWin = window.open("");
-        newWin.document.write(divToPrint.outerHTML);
-        newWin.print();
-        newWin.close();
-    });
-    $("#item-refresh").on("click",()=>{
-        itemTable.destroy();
-        getItemsRecord();
-    });
-    
+   
+    getVendorsRecord();
 
+    getCustomersRecord();
     // $('#vendor-table').DataTable();
     // $('#customer-table').DataTable();
     // $('#purchase-table').DataTable();
@@ -58,7 +48,7 @@ function getItemsRecord()
     }
 
     $.when(getAllItemsFromDB()).done(()=>{
-        itemTable = $("#item-table").DataTable({
+        let itemTable = $("#item-table").DataTable({
             "autoWidth": false,
             order: [[2, 'asc']],
             data: items,
@@ -69,7 +59,7 @@ function getItemsRecord()
                     searchable: true,
                 },
             ],
-            dom: 'lBfrtip',
+            dom: "<'row mt-3 mb-3'l>Bf<'#scrollX' 'mt-3'tr>ip",
             columns: [
                 { title: "Product ID" },
                 { title: "Item Number" },
@@ -135,3 +125,129 @@ function getItemsRecord()
         });
     });
 } 
+
+function getVendorsRecord()
+{
+    let vendors = [];
+
+    function getAllVendorsFromDB(){
+        return $.ajax({
+            method: "POST",
+            url: "class/vendor.php",
+            dataType: "JSON",
+            data: {
+                getVendorRecords:true
+            },
+            success: function(results)
+            {
+                for(let i=0;i<results.length;i++)
+                {
+                    let regionArr = results[i].region.split("|");
+                    let provinceArr = results[i].province.split("|");
+                    let cityMunicipalityArr = results[i].city_municipality.split("|");
+                    let barangayArr = results[i].barangay.split("|");
+
+                    let tempArr = [
+                        results[i].vendorID,
+                        he.encode(results[i].fullName),
+                        he.encode(results[i].email),
+                        results[i].mobileNumber,
+                        results[i].telephoneNumber,
+                        he.encode(results[i].address),
+                        he.encode(regionArr[0]),
+                        he.encode(provinceArr[0]),
+                        he.encode(cityMunicipalityArr[0]),
+                        he.encode(barangayArr[0]),
+                        results[i].status
+                    ];
+                    vendors.push(tempArr);
+                }
+            }
+        });
+    }
+
+    $.when(getAllVendorsFromDB()).done(()=>{
+        vendorTable = $("#vendor-table").DataTable({
+            "autoWidth": false,
+            order: [[1, 'asc']],
+            data: vendors,
+            dom: "<'row mt-3 mb-3'l>Bf<'#scrollX' 'mt-3'tr>ip",
+            columns: [
+                { title: "Vendor ID" },
+                { title: "Full Name" },
+                { title: "Email" },
+                { title: "Mobile Number" },
+                { title: "Telephone Number" },
+                { title: "Address" },
+                { title: "Region" },
+                { title: "Province" },
+                { title: "City/Municipality" },
+                { title: "Barangay" },
+                { title: "Status" },
+            ]
+        });
+    });
+}
+
+function getCustomersRecord()
+{
+    let customers = [];
+
+    function getAllCustomersFromDB(){
+        return $.ajax({
+            method: "POST",
+            url: "class/customer.php",
+            dataType: "JSON",
+            data: {
+                getCustomerRecords:true
+            },
+            success: function(results)
+            {
+                for(let i=0;i<results.length;i++)
+                {
+                    let regionArr = results[i].region.split("|");
+                    let provinceArr = results[i].province.split("|");
+                    let cityMunicipalityArr = results[i].city_municipality.split("|");
+                    let barangayArr = results[i].barangay.split("|");
+
+                    let tempArr = [
+                        results[i].customerID,
+                        he.encode(results[i].fullName),
+                        he.encode(results[i].email),
+                        results[i].mobileNumber,
+                        results[i].telephoneNumber,
+                        he.encode(results[i].address),
+                        he.encode(regionArr[0]),
+                        he.encode(provinceArr[0]),
+                        he.encode(cityMunicipalityArr[0]),
+                        he.encode(barangayArr[0]),
+                        results[i].status
+                    ];
+                    customers.push(tempArr);
+                }
+            }
+        });
+    }
+
+    $.when(getAllCustomersFromDB()).done(()=>{
+        customerTable = $("#customer-table").DataTable({
+            "autoWidth": false,
+            order: [[1, 'asc']],
+            data: customers,
+            dom: "<'row mt-3 mb-3'l>Bf<'#scrollX' 'mt-3'tr>ip",
+            columns: [
+                { title: "Customer ID" },
+                { title: "Full Name" },
+                { title: "Email" },
+                { title: "Mobile Number" },
+                { title: "Telephone Number" },
+                { title: "Address" },
+                { title: "Region" },
+                { title: "Province" },
+                { title: "City/Municipality" },
+                { title: "Barangay" },
+                { title: "Status" },
+            ]
+        });
+    });
+}

@@ -10,17 +10,10 @@
         {
             $this->pdo = $pdo;
         } 
-
-        function getAvailableItemNumbers()
-        {
-            $sql = "SELECT itemNumber FROM item";
-            $this->pdo->prepareQuery($sql);
-            return $this->pdo->getAllResults();
-        }
-
+        
         function getItemRecords()
         {
-            $sql = "SELECT productID,itemNumber,itemName,discount,stock,unitPrice,status,description,imageURL FROM item";
+            $sql = "SELECT * FROM item";
             $this->pdo->prepareQuery($sql);
             return $this->pdo->getAllResults();
         }
@@ -78,17 +71,8 @@
     $item = new Item($pdo);
     extract($_POST);
 
-    //Get all available item number in the database
-    if(isset($_POST["getItemNumbers"]))
-    {
-        $results = $item->getAvailableItemNumbers();
-        
-        echo json_encode($results);
-        exit();
-    }
-
     //Get all items
-    else if(isset($_POST["getItemRecords"]))
+    if(isset($_POST["getItemRecords"]))
     {
         $results = $item->getItemRecords();
         

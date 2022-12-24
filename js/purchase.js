@@ -37,7 +37,7 @@ function getAllVendorNames()
             url: "class/vendor.php",
             dataType: "JSON",
             data: {
-                getAllVendorNames:true
+                getVendorRecords:true
             },
             success: function(results)
             {

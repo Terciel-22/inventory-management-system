@@ -11,16 +11,9 @@
             $this->pdo = $pdo;
         }
 
-        function getAvailableVendorIDs()
+        function getVendorRecords()
         {
-            $sql = "SELECT vendorID FROM vendor";
-            $this->pdo->prepareQuery($sql);
-            return $this->pdo->getAllResults();
-        }
-
-        function getAllVendorNames()
-        {
-            $sql = "SELECT fullName,vendorID from vendor WHERE status = 'Active'";
+            $sql = "SELECT * from vendor WHERE status = 'Active'";
             $this->pdo->prepareQuery($sql);
             return $this->pdo->getAllResults();
         }
@@ -84,17 +77,9 @@
     define("VALID_PHONE_NUMBER","/^\\+?\\d{1,4}?[-.\\s]?\\(?\\d{1,3}?\\)?[-.\\s]?\\d{1,4}[-.\\s]?\\d{1,4}[-.\\s]?\\d{1,9}$/");
     define("VALID_EMAIL","");
 
-    if(isset($_POST["getVendorIDs"]))
+    if(isset($_POST["getVendorRecords"]))
     {
-        $results = $vendor->getAvailableVendorIDs();
-        
-        echo json_encode($results);
-        exit();
-    }
-
-    else if(isset($_POST["getAllVendorNames"]))
-    {
-        $results = $vendor->getAllVendorNames();
+        $results = $vendor->getVendorRecords();
         echo json_encode($results);
         exit();
     }

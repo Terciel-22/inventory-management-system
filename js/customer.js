@@ -215,13 +215,12 @@ function getCustomerIDs()
             method: "POST",
             url: "class/customer.php",
             dataType: "JSON",
-            data: {getCustomerIDs:true},
-            success: function(result)
+            data: {getCustomerRecords:true},
+            success: function(results)
             {
-                let values = Object.values(result);
-                for(let i=0; i<values.length; i++)
+                for(let i=0; i<results.length; i++)
                 {
-                    customerIDs.push(String(values[i].customerID));
+                    customerIDs.push(String(results[i].customerID));
                 }
             }
         });
@@ -260,11 +259,11 @@ function getCustomerData()
                     let customerData = result[0];
                     
                     //Decoding data 
-                    let = decodedFullName = he.decode(customerData["fullName"]);
-                    let = decodedStatus = he.decode(customerData["status"]);
-                    let = decodedEmail = he.decode(customerData["email"]);
-                    let = decodedAddress = he.decode(customerData["address"]);
-                    let = decodedRegion = he.decode(customerData["region"]);
+                    let decodedFullName = he.decode(customerData["fullName"]);
+                    let decodedStatus = he.decode(customerData["status"]);
+                    let decodedEmail = he.decode(customerData["email"]);
+                    let decodedAddress = he.decode(customerData["address"]);
+                    let decodedRegion = he.decode(customerData["region"]);
 
                     $("#customer-fullname").val(decodedFullName);
                     $("#customer-status").val(decodedStatus);
@@ -274,13 +273,13 @@ function getCustomerData()
                     $("#customer-address").val(decodedAddress);
                     $("#customer-region").val(decodedRegion);
 
-                    regionArr = customerData["region"].split("|");
+                    let regionArr = customerData["region"].split("|");
                     if(customerData["province"] != "")
                     {
                         if(regionArr[1] != NCR_CODE)
                         {
                             customerFormProvinces(regionArr[1], ()=>{
-                                let = decodedProvince = he.decode(customerData["province"]);
+                                let decodedProvince = he.decode(customerData["province"]);
                                 $("#customer-province").val(decodedProvince);
                             });
                         }
@@ -297,7 +296,7 @@ function getCustomerData()
                         }
                         
                         customerFormCitiesAndMunicipalities(code, ()=>{
-                            let = decodedCityMunicipality = he.decode(customerData["city_municipality"]);
+                            let decodedCityMunicipality = he.decode(customerData["city_municipality"]);
                             $("#customer-city-municipality").val(decodedCityMunicipality);
                         });
                     }
@@ -306,7 +305,7 @@ function getCustomerData()
                         cityMunicipalityArr = customerData["city_municipality"].split("|");
                         
                         customerFormBarangay(cityMunicipalityArr[1], ()=>{
-                            let = decodedBarangay = he.decode(customerData["barangay"]);
+                            let decodedBarangay = he.decode(customerData["barangay"]);
                             $("#customer-barangay").val(decodedBarangay);
                         });
                     }
