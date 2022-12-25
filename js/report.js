@@ -1,3 +1,43 @@
+let minPurchaseDate, maxPurchaseDate;
+ // Custom filtering function which will search data in column four between two values
+$.fn.dataTable.ext.search.push(
+    function( settings, data, dataIndex ) {
+        let min = minPurchaseDate.val();
+        let max = maxPurchaseDate.val();
+        let date = new Date( data[2] );
+ 
+        if (
+            ( min === null && max === null ) ||
+            ( min === null && date <= max ) ||
+            ( min <= date   && max === null ) ||
+            ( min <= date   && date <= max )
+        ) {
+            return true;
+        }
+        return false;
+    }
+);
+
+let minSaleDate, maxSaleDate;
+// Custom filtering function which will search data in column four between two values
+$.fn.dataTable.ext.search.push(
+    function( settings, data, dataIndex ) {
+        let min = minSaleDate.val();
+        let max = maxSaleDate.val();
+        let date = new Date( data[5] );
+ 
+        if (
+            ( min === null && max === null ) ||
+            ( min === null && date <= max ) ||
+            ( min <= date   && max === null ) ||
+            ( min <= date   && date <= max )
+        ) {
+            return true;
+        }
+        return false;
+    }
+);
+
 $(document).ready( function () {
 
     getItemsRecord();
@@ -10,7 +50,30 @@ $(document).ready( function () {
 
     getSalesRecord();
     
-} );
+    // Create date inputs
+    minPurchaseDate = new DateTime($('#min-purchase-date'), {
+        format: 'MMMM Do, YYYY'
+    });
+    maxPurchaseDate = new DateTime($('#max-purchase-date'), {
+        format: 'MMMM Do, YYYY'
+    });
+
+    minSaleDate = new DateTime($('#min-sale-date'), {
+        format: 'MMMM Do, YYYY'
+    });
+    maxSaleDate = new DateTime($('#max-sale-date'), {
+        format: 'MMMM Do, YYYY'
+    });
+
+    // Refilter the table
+    $("#min-purchase-date, #max-purchase-date").on("change", function () {
+        purchaseTable.draw();
+    });
+
+    $("#min-sale-date, #max-sale-date").on("change", function () {
+        saleTable.draw();
+    });
+});
 
 function getItemsRecord()
 {
@@ -303,7 +366,7 @@ function getPurchasesRecord()
     }
 
     $.when(getAllPurchasesFromDB()).done(()=>{
-        let purchaseTable = $("#purchase-table").DataTable({
+        purchaseTable = $("#purchase-table").DataTable({
             "autoWidth": false,
             order: [[0, 'asc']],
             data: purchases,
@@ -428,7 +491,7 @@ function getSalesRecord()
     }
 
     $.when(getAllSalesFromDB()).done(()=>{
-        let saleTable = $("#sale-table").DataTable({
+        saleTable = $("#sale-table").DataTable({
             "autoWidth": false,
             order: [[0, 'asc']],
             data: sales,
@@ -516,3 +579,4 @@ function getSalesRecord()
         });
     });
 }
+

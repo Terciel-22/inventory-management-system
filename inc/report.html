@@ -50,6 +50,21 @@
         </div>
 
         <div class="tab-pane fade" id="purchase-container" role="tabpanel" aria-labelledby="purchase-tab">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="min-purchase-date">Start Date</label>
+                        <input type="text" id="min-purchase-date" name="min-purchase-date" class="form-control" placeholder="Start Date">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="max-purchase-date">End Date</label>
+                        <input type="text" id="max-purchase-date" name="max-purchase-date" class="form-control" placeholder="End Date">
+                    </div>
+                </div>
+            </div>
+            
             <table id="purchase-table" class="display" style="width:100%">
                 <caption>List of purchases</caption>
 
@@ -65,6 +80,21 @@
         </div>
 
         <div class="tab-pane fade" id="sale-container" role="tabpanel" aria-labelledby="sale-tab">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="min-sale-date">Start Date</label>
+                        <input type="text" id="min-sale-date" name="min-sale-date" class="form-control" placeholder="Start Date">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="max-sale-date">End Date</label>
+                        <input type="text" id="max-sale-date" name="max-sale-date" class="form-control" placeholder="End Date">
+                    </div>
+                </div>
+            </div>
+
             <table id="sale-table" class="display" style="width:100%">
                 <caption>List of Sales</caption>
 
