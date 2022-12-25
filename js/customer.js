@@ -256,56 +256,54 @@ function getCustomerData()
             {
                 if(result != "404")
                 {
-                    let customerData = result[0];
-                    
                     //Decoding data 
-                    let decodedFullName = he.decode(customerData["fullName"]);
-                    let decodedStatus = he.decode(customerData["status"]);
-                    let decodedEmail = he.decode(customerData["email"]);
-                    let decodedAddress = he.decode(customerData["address"]);
-                    let decodedRegion = he.decode(customerData["region"]);
+                    let decodedFullName = he.decode(result.fullName);
+                    let decodedStatus = he.decode(result.status);
+                    let decodedEmail = he.decode(result.email);
+                    let decodedAddress = he.decode(result.address);
+                    let decodedRegion = he.decode(result.region);
 
                     $("#customer-fullname").val(decodedFullName);
                     $("#customer-status").val(decodedStatus);
-                    $("#customer-mobile-number").val(customerData["mobileNumber"]);
-                    $("#customer-telephone-number").val(customerData["telephoneNumber"]);
+                    $("#customer-mobile-number").val(result.mobileNumber);
+                    $("#customer-telephone-number").val(result.telephoneNumber);
                     $("#customer-email").val(decodedEmail);
                     $("#customer-address").val(decodedAddress);
                     $("#customer-region").val(decodedRegion);
 
-                    let regionArr = customerData["region"].split("|");
-                    if(customerData["province"] != "")
+                    let regionArr = result.region.split("|");
+                    if(result.province != "")
                     {
                         if(regionArr[1] != NCR_CODE)
                         {
                             customerFormProvinces(regionArr[1], ()=>{
-                                let decodedProvince = he.decode(customerData["province"]);
+                                let decodedProvince = he.decode(result.province);
                                 $("#customer-province").val(decodedProvince);
                             });
                         }
                     }
-                    if(customerData["city_municipality"] != "")
+                    if(result.city_municipality != "")
                     {
                         if(regionArr[1] == NCR_CODE)
                         {
                             code = regionArr[1];
                         } else
                         {
-                            provinceArr = customerData["province"].split("|");
+                            provinceArr = result.province.split("|");
                             code = provinceArr[1];
                         }
                         
                         customerFormCitiesAndMunicipalities(code, ()=>{
-                            let decodedCityMunicipality = he.decode(customerData["city_municipality"]);
+                            let decodedCityMunicipality = he.decode(result.city_municipality);
                             $("#customer-city-municipality").val(decodedCityMunicipality);
                         });
                     }
-                    if(customerData["customer-barangay"] != "")
+                    if(result.barangay != "")
                     {
-                        cityMunicipalityArr = customerData["city_municipality"].split("|");
+                        cityMunicipalityArr = result.city_municipality.split("|");
                         
                         customerFormBarangay(cityMunicipalityArr[1], ()=>{
-                            let decodedBarangay = he.decode(customerData["barangay"]);
+                            let decodedBarangay = he.decode(result.barangay);
                             $("#customer-barangay").val(decodedBarangay);
                         });
                     }

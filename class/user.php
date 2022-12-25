@@ -29,10 +29,10 @@
             $rowNum = $this->pdo->getAffectedRowCount();
             if($rowNum >= 1)
             {
-                return "Existing";
+                return true;
             } else
             {
-                return "Username doesn't exist!";
+                return false;
             }
         }
 
@@ -62,7 +62,7 @@
 
         if($name != "" && $username != "" && $password != "" && $cpassword != "")
         {
-            if($user->checkIfUsernameExist($username) != "Existing")
+            if(!$user->checkIfUsernameExist($username))
             {
                 if($password === $cpassword)
                 {
@@ -102,8 +102,7 @@
         $hashPassword = md5($password);
         if($username != "" && $password != "")
         {
-            $isUsernameExist = $user->checkIfUsernameExist($username);
-            if($isUsernameExist == "Existing")
+            if($user->checkIfUsernameExist($username))
             {
                 $userAccount = $user->loginAccount($username, $hashPassword);
                 if($userAccount['record-count'] == 1)
@@ -119,7 +118,7 @@
                 }
             } else
             {
-                echo $isUsernameExist;
+                echo "Username doesn't exist!";
                 exit();
             }
         } else 

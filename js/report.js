@@ -59,9 +59,9 @@ function getItemsRecord()
             ],
             dom: "<'row mt-3 mb-3'l>Bf<'#scrollX' 'mt-3'tr>ip",
             buttons: [
-                {extend: 'pdf', footer: true, orientation: 'landscape', pageSize: 'LEGAL', title: 'Purchase Report'},
-                {extend: 'excel', footer: true, orientation: 'landscape', pageSize: 'LEGAL', title: 'Purchase Report'},
-                {extend: 'csv', footer: true, orientation: 'landscape', pageSize: 'LEGAL', title: 'Purchase Report'},
+                {extend: 'pdf', footer: true, orientation: 'landscape', pageSize: 'LEGAL', title: 'Item Report'},
+                {extend: 'excel', footer: true, orientation: 'landscape', pageSize: 'LEGAL', title: 'Item Report'},
+                {extend: 'csv', footer: true, orientation: 'landscape', pageSize: 'LEGAL', title: 'Item Report'},
                 'copy'
             ],
             columns: [
@@ -177,9 +177,9 @@ function getVendorsRecord()
             data: vendors,
             dom: "<'row mt-3 mb-3'l>Bf<'#scrollX' 'mt-3'tr>ip",
             buttons: [
-                {extend: 'pdf', footer: true, orientation: 'landscape', pageSize: 'LEGAL', title: 'Purchase Report'},
-                {extend: 'excel', footer: true, orientation: 'landscape', pageSize: 'LEGAL', title: 'Purchase Report'},
-                {extend: 'csv', footer: true, orientation: 'landscape', pageSize: 'LEGAL', title: 'Purchase Report'},
+                {extend: 'pdf', footer: true, orientation: 'landscape', pageSize: 'LEGAL', title: 'Vendor Report'},
+                {extend: 'excel', footer: true, orientation: 'landscape', pageSize: 'LEGAL', title: 'Vendor Report'},
+                {extend: 'csv', footer: true, orientation: 'landscape', pageSize: 'LEGAL', title: 'Vendor Report'},
                 'copy'
             ],
             columns: [
@@ -246,9 +246,9 @@ function getCustomersRecord()
             data: customers,
             dom: "<'row mt-3 mb-3'l>Bf<'#scrollX' 'mt-3'tr>ip",
             buttons: [
-                {extend: 'pdf', footer: true, orientation: 'landscape', pageSize: 'LEGAL', title: 'Purchase Report'},
-                {extend: 'excel', footer: true, orientation: 'landscape', pageSize: 'LEGAL', title: 'Purchase Report'},
-                {extend: 'csv', footer: true, orientation: 'landscape', pageSize: 'LEGAL', title: 'Purchase Report'},
+                {extend: 'pdf', footer: true, orientation: 'landscape', pageSize: 'LEGAL', title: 'Customer Report'},
+                {extend: 'excel', footer: true, orientation: 'landscape', pageSize: 'LEGAL', title: 'Customer Report'},
+                {extend: 'csv', footer: true, orientation: 'landscape', pageSize: 'LEGAL', title: 'Customer Report'},
                 'copy'
             ],
             columns: [
@@ -434,9 +434,9 @@ function getSalesRecord()
             data: sales,
             dom: "<'row mt-3 mb-3'l>Bf<'#scrollX' 'mt-3'tr>ip",
             buttons: [
-                {extend: 'pdf', footer: true, orientation: 'landscape', pageSize: 'LEGAL', title: 'Purchase Report'},
-                {extend: 'excel', footer: true, orientation: 'landscape', pageSize: 'LEGAL', title: 'Purchase Report'},
-                {extend: 'csv', footer: true, orientation: 'landscape', pageSize: 'LEGAL', title: 'Purchase Report'},
+                {extend: 'pdf', footer: true, orientation: 'landscape', pageSize: 'LEGAL', title: 'Sale Report'},
+                {extend: 'excel', footer: true, orientation: 'landscape', pageSize: 'LEGAL', title: 'Sale Report'},
+                {extend: 'csv', footer: true, orientation: 'landscape', pageSize: 'LEGAL', title: 'Sale Report'},
                 'copy'
             ],
             columns: [

@@ -23,7 +23,7 @@
             $sql = "SELECT * FROM vendor WHERE vendorID = :vendorID";
             $this->pdo->prepareQuery($sql);
             $this->pdo->bindValueToStatement(":vendorID", $vendorID);
-            $vendorData = $this->pdo->getAllResults();
+            $vendorData = $this->pdo->getSingleResult();
             $rowCount = $this->pdo->getAffectedRowCount();
             return ["vendorData" => $vendorData, "rowCount" => $rowCount];
         }

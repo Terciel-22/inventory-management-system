@@ -83,39 +83,37 @@ function getItemData() //Supply data to the fields after selecting item number
             {
                 if(result != "404")
                 {
-                    let itemData = result[0];
-
                     //Decoding data.
-                    let decodedItemName = he.decode(itemData["itemName"]);
-                    let decodedItemStatus = he.decode(itemData["status"]);
-                    let decodedItemDescription = he.decode(itemData["description"]);
+                    let decodedItemName = he.decode(result.itemName);
+                    let decodedItemStatus = he.decode(result.status);
+                    let decodedItemDescription = he.decode(result.description);
+                    let $decodedImageURL = he.decode(result.imageURL);
                     
-                    $("#item-product-id").val(itemData["productID"]);
+                    $("#item-product-id").val(result.productID);
                     $("#item-name").val(decodedItemName);
                     $("#item-status").val(decodedItemStatus);
                     $("#item-description").val(decodedItemDescription);
-                    $("#item-discount").val(itemData["discount"]);
-                    $("#item-unit-price").val(itemData["unitPrice"]);
-                    $("#item-total-stock").val(itemData["stock"]);
+                    $("#item-discount").val(result.discount);
+                    $("#item-unit-price").val(result.unitPrice);
+                    $("#item-total-stock").val(result.stock);
 
                     //image
                     $("#item-image").val("");
                     let imgsrc = "";
-                    if(itemData['imageURL']!="imageNotAvailable.jpg")
+                    if($decodedImageURL !="imageNotAvailable.jpg")
                     {
-                        imgsrc = "img/item_images/"+itemData["itemNumber"]+"/"+itemData['imageURL'];
+                        imgsrc = "img/item_images/"+result.itemNumber+"/"+$decodedImageURL;
                     } else
                     {
-                        imgsrc = "img/item_images/"+itemData['imageURL'];
+                        imgsrc = "img/item_images/"+$decodedImageURL;
                     }
-                    $("#item-image-filename").val(itemData["imageURL"]);
+                    $("#item-image-filename").val($decodedImageURL);
                     $("#item-image-display").attr("src",imgsrc);
 
                     $("#item-update-button").prop("disabled",false);
                     $("#item-delete-button").prop("disabled",false);
                 } else
                 {
-
                     itemFormSetToDefault(true);
                     $("#item-update-button").prop("disabled",true);
                     $("#item-delete-button").prop("disabled",true);

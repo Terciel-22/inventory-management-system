@@ -84,9 +84,9 @@ function getPurchaseItemData()
                     let itemData = result[0];
 
                     //Decode Data
-                    let decodedPurchaseItemName = he.decode(itemData["itemName"]);
+                    let decodedPurchaseItemName = he.decode(result.itemName);
                     $("#purchase-item-name").val(decodedPurchaseItemName);
-                    $("#purchase-current-stock").val(itemData["stock"]);
+                    $("#purchase-current-stock").val(result.stock);
                 } else
                 {
                     purchaseFormSetToDefault(true);
@@ -146,21 +146,19 @@ function getPurchaseData()
             {
                 if(result != "404")
                 {
-                    let purchaseData = result[0];
-                    
                     //Decode data 
-                    let decodedItemName = he.decode(purchaseData["itemName"]);
-                    let decodedVendorName = he.decode(purchaseData["vendorName"]);
+                    let decodedItemName = he.decode(result.itemName);
+                    let decodedVendorName = he.decode(result.vendorName);
 
                     $("#purchase-item-number").prop("readonly",true);
-                    $("#purchase-item-number").val(purchaseData["itemNumber"]);
-                    $("#purchase-date").val(purchaseData["purchaseDate"]);
+                    $("#purchase-item-number").val(result.itemNumber);
+                    $("#purchase-date").val(result.purchaseDate);
                     $("#purchase-item-name").val(decodedItemName);
-                    $("#purchase-current-stock").val(purchaseData["stock"]);
-                    $("#purchase-vendor-name").val(`${decodedVendorName}|${purchaseData["vendorID"]}`);
-                    purchaseLastItemQuantity = purchaseData["quantity"];
-                    $("#purchase-item-quantity").val(purchaseData["quantity"]);
-                    $("#purchase-item-unit-price").val(purchaseData["unitPrice"]);
+                    $("#purchase-current-stock").val(result.stock);
+                    $("#purchase-vendor-name").val(`${decodedVendorName}|${result.vendorID}`);
+                    purchaseLastItemQuantity = result.quantity;
+                    $("#purchase-item-quantity").val(result.quantity);
+                    $("#purchase-item-unit-price").val(result.unitPrice);
                     $("#purchase-update-button").prop("disabled",false);
                 } else
                 {

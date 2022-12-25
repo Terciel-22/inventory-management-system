@@ -251,56 +251,54 @@ function getVendorData()
             {
                 if(result != "404")
                 {
-                    let vendorData = result[0];
-                    
                     //Decoding data 
-                    let decodedFullName = he.decode(vendorData["fullName"]);
-                    let decodedStatus = he.decode(vendorData["status"]);
-                    let decodedEmail = he.decode(vendorData["email"]);
-                    let decodedAddress = he.decode(vendorData["address"]);
-                    let decodedRegion = he.decode(vendorData["region"]);
+                    let decodedFullName = he.decode(result.fullName);
+                    let decodedStatus = he.decode(result.status);
+                    let decodedEmail = he.decode(result.email);
+                    let decodedAddress = he.decode(result.address);
+                    let decodedRegion = he.decode(result.region);
 
                     $("#vendor-fullname").val(decodedFullName);
                     $("#vendor-status").val(decodedStatus);
-                    $("#vendor-mobile-number").val(vendorData["mobileNumber"]);
-                    $("#vendor-telephone-number").val(vendorData["telephoneNumber"]);
+                    $("#vendor-mobile-number").val(result.mobileNumber);
+                    $("#vendor-telephone-number").val(result.telephoneNumber);
                     $("#vendor-email").val(decodedEmail);
                     $("#vendor-address").val(decodedAddress);
                     $("#vendor-region").val(decodedRegion);
 
-                    let regionArr = vendorData["region"].split("|");
-                    if(vendorData["province"] != "")
+                    let regionArr = result.region.split("|");
+                    if(result.province != "")
                     {
                         if(regionArr[1] != NCR_CODE)
                         {
                             vendorFormProvinces(regionArr[1], ()=>{
-                                let decodedProvince = he.decode(vendorData["province"]);
+                                let decodedProvince = he.decode(result.province);
                                 $("#vendor-province").val(decodedProvince);
                             });
                         }
                     }
-                    if(vendorData["city_municipality"] != "")
+                    if(result.city_municipality != "")
                     {
                         if(regionArr[1] == NCR_CODE)
                         {
                             code = regionArr[1];
                         } else
                         {
-                            provinceArr = vendorData["province"].split("|");
+                            provinceArr = result.province.split("|");
                             code = provinceArr[1];
                         }
                         
                         vendorFormCitiesAndMunicipalities(code, ()=>{
-                            let decodedCityMunicipality = he.decode(vendorData["city_municipality"]);
+                            let decodedCityMunicipality = he.decode(result.city_municipality);
                             $("#vendor-city-municipality").val(decodedCityMunicipality);
                         });
                     }
-                    if(vendorData["vendor-barangay"] != "")
+                    if(result.barangay != "")
                     {
-                        cityMunicipalityArr = vendorData["city_municipality"].split("|");
+                        cityMunicipalityArr = result.city_municipality.split("|");
                         
                         vendorFormBarangay(cityMunicipalityArr[1], ()=>{
-                            let decodedBarangay = he.decode(vendorData["barangay"]);
+                            let decodedBarangay = he.decode(result.barangay);
                             $("#vendor-barangay").val(decodedBarangay);
                         });
                     }

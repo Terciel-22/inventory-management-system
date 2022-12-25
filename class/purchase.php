@@ -39,7 +39,7 @@
             $sql = "SELECT purchase.*, item.stock FROM purchase JOIN item ON purchase.itemNumber=item.itemNumber WHERE purchaseID = :purchaseID";
             $this->pdo->prepareQuery($sql);
             $this->pdo->bindValueToStatement(":purchaseID", $purchaseID);
-            $purchaseData = $this->pdo->getAllResults();
+            $purchaseData = $this->pdo->getSingleResult();
             $rowCount = $this->pdo->getAffectedRowCount();
             return ["purchaseData" => $purchaseData, "rowCount" => $rowCount];
         }

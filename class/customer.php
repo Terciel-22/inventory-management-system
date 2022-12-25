@@ -23,7 +23,7 @@
             $sql = "SELECT * FROM customer WHERE customerID = :customerID";
             $this->pdo->prepareQuery($sql);
             $this->pdo->bindValueToStatement(":customerID", $customerID);
-            $customerData = $this->pdo->getAllResults();
+            $customerData = $this->pdo->getSingleResult();
             $rowCount = $this->pdo->getAffectedRowCount();
             return ["customerData" => $customerData, "rowCount" => $rowCount];
         }

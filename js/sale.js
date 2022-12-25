@@ -48,24 +48,22 @@ function getSaleItemData()
             {
                 if(result != "404")
                 {
-                    let itemData = result[0];
-
                     //Decode Data
-
-                    let $decodedSaleItemName = he.decode(itemData["itemName"]);
+                    let $decodedSaleItemName = he.decode(result.itemName);
+                    let $decodedImageURL = he.decode(result.imageURL);
                     $("#sale-item-name").val($decodedSaleItemName);
-                    $("#sale-total-stock").val(itemData["stock"]);
-                    $("#sale-item-discount").val(itemData["discount"]);
-                    $("#sale-item-unit-price").val(itemData["unitPrice"]);
+                    $("#sale-total-stock").val(result.stock);
+                    $("#sale-item-discount").val(result.discount);
+                    $("#sale-item-unit-price").val(result.unitPrice);
 
                     //sale-image-display
                     let imgsrc = "";
-                    if(itemData['imageURL']!="imageNotAvailable.jpg")
+                    if($decodedImageURL !="imageNotAvailable.jpg")
                     {
-                        imgsrc = "img/item_images/"+itemData["itemNumber"]+"/"+itemData['imageURL'];
+                        imgsrc = "img/item_images/"+result.itemNumber +"/"+$decodedImageURL;
                     } else
                     {
-                        imgsrc = "img/item_images/"+itemData['imageURL'];
+                        imgsrc = "img/item_images/"+$decodedImageURL;
                     }
                     $("#sale-image-display").attr("src",imgsrc);
                 } else
@@ -97,9 +95,8 @@ function getSaleCustomerData()
             {
                 if(result != "404")
                 {
-                    let customerData = result[0];
                     //Decode data
-                    let decodedSaleCustomerName = he.decode(customerData["fullName"]);
+                    let decodedSaleCustomerName = he.decode(result.fullName);
                     $("#sale-customer-name").val(decodedSaleCustomerName);
                 } else
                 {
@@ -163,32 +160,33 @@ function getSaleData()
                     let saleData = result[0];
                     
                     //Decode data
-                    let decodedCustomerName = he.decode(saleData["customerName"]);
-                    let decodedItemName = he.decode(saleData["itemName"]);
+                    let decodedCustomerName = he.decode(result.customerName);
+                    let decodedItemName = he.decode(result.itemName);
+                    let decodedImageURL = he.decode(result.imageURL);
 
-                    $("#sale-date").val(saleData["saleDate"]);
-                    $("#sale-customer-id").val(saleData["customerID"]);
+                    $("#sale-date").val(result.saleDate);
+                    $("#sale-customer-id").val(result.customerID);
                     $("#sale-customer-name").val(decodedCustomerName);
-                    $("#sale-item-number").val(saleData["itemNumber"]);
+                    $("#sale-item-number").val(result.itemNumber);
                     $("#sale-item-name").val(decodedItemName);
 
-                    $("#sale-total-stock").val(saleData["stock"]);
-                    $("#sale-item-discount").val(saleData["discount"]);
-                    $("#sale-item-quantity").val(saleData["quantity"]);
-                    saleLastItemQuantity = saleData["quantity"];
-                    $("#sale-item-unit-price").val(saleData["unitPrice"]);
+                    $("#sale-total-stock").val(result.stock);
+                    $("#sale-item-discount").val(result.discount);
+                    $("#sale-item-quantity").val(result.quantity);
+                    saleLastItemQuantity = result.quantity;
+                    $("#sale-item-unit-price").val(result.unitPrice);
 
                     $("#sale-item-number").prop("readonly",true);
                     $("#sale-customer-id").prop("readonly",true);
 
                     //sale-image-display
                     let imgsrc = "";
-                    if(saleData['imageURL']!="imageNotAvailable.jpg")
+                    if(decodedImageURL != "imageNotAvailable.jpg")
                     {
-                        imgsrc = "img/item_images/"+saleData["itemNumber"]+"/"+he.encode(saleData['imageURL']);
+                        imgsrc = "img/item_images/"+result.itemNumber+"/"+decodedImageURL;
                     } else
                     {
-                        imgsrc = "img/item_images/"+he.encode(saleData['imageURL']);
+                        imgsrc = "img/item_images/"+decodedImageURL;
                     }
                     $("#sale-image-display").attr("src",imgsrc);
 

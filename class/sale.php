@@ -55,7 +55,7 @@
             $sql = "SELECT sale.*, item.stock, item.imageURL FROM sale JOIN item on sale.itemNumber=item.itemNumber WHERE saleID = :saleID";
             $this->pdo->prepareQuery($sql);
             $this->pdo->bindValueToStatement(":saleID", $saleID);
-            $saleData = $this->pdo->getAllResults();
+            $saleData = $this->pdo->getSingleResult();
             $rowCount = $this->pdo->getAffectedRowCount();
             return ["saleData" => $saleData, "rowCount" => $rowCount];
         }

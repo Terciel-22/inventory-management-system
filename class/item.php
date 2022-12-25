@@ -23,7 +23,7 @@
             $sql = "SELECT * FROM item WHERE itemNumber = :itemNumber";
             $this->pdo->prepareQuery($sql);
             $this->pdo->bindValueToStatement(":itemNumber", $itemNumber);
-            $itemData = $this->pdo->getAllResults();
+            $itemData = $this->pdo->getSingleResult();
             $rowCount = $this->pdo->getAffectedRowCount();
             return ["itemData" => $itemData, "rowCount" => $rowCount];
         }
