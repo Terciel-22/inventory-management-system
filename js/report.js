@@ -5,12 +5,10 @@ $(document).ready( function () {
     getVendorsRecord();
 
     getCustomersRecord();
-    // $('#vendor-table').DataTable();
-    // $('#customer-table').DataTable();
-    // $('#purchase-table').DataTable();
-    // $('#sale-table').DataTable();
 
+    getPurchasesRecord();
 
+    getSalesRecord();
     
 } );
 
@@ -33,13 +31,13 @@ function getItemsRecord()
                     let tempArr = [
                         results[i].productID,
                         results[i].itemNumber,
-                        he.encode(results[i].itemName),
+                        he.decode(results[i].itemName),
                         results[i].discount,
                         results[i].stock,
                         results[i].unitPrice,
                         results[i].status,
-                        he.encode(results[i].description),
-                        he.encode(results[i].imageURL),
+                        he.decode(results[i].description),
+                        he.decode(results[i].imageURL),
                     ];
                     items.push(tempArr);
                 }
@@ -60,6 +58,12 @@ function getItemsRecord()
                 },
             ],
             dom: "<'row mt-3 mb-3'l>Bf<'#scrollX' 'mt-3'tr>ip",
+            buttons: [
+                {extend: 'pdf', footer: true, orientation: 'landscape', pageSize: 'LEGAL', title: 'Purchase Report'},
+                {extend: 'excel', footer: true, orientation: 'landscape', pageSize: 'LEGAL', title: 'Purchase Report'},
+                {extend: 'csv', footer: true, orientation: 'landscape', pageSize: 'LEGAL', title: 'Purchase Report'},
+                'copy'
+            ],
             columns: [
                 { title: "Product ID" },
                 { title: "Item Number" },
@@ -96,7 +100,7 @@ function getItemsRecord()
                     }, 0);
      
                 // Update footer
-                $(api.column(5).footer()).html('$' + pageTotal + ' ( $' + total + ' total)');
+                $(api.column(5).footer()).html('₱' + pageTotal + ' ( ₱' + total + ' total)');
             },
         });
 
@@ -149,15 +153,15 @@ function getVendorsRecord()
 
                     let tempArr = [
                         results[i].vendorID,
-                        he.encode(results[i].fullName),
-                        he.encode(results[i].email),
+                        he.decode(results[i].fullName),
+                        he.decode(results[i].email),
                         results[i].mobileNumber,
                         results[i].telephoneNumber,
-                        he.encode(results[i].address),
-                        he.encode(regionArr[0]),
-                        he.encode(provinceArr[0]),
-                        he.encode(cityMunicipalityArr[0]),
-                        he.encode(barangayArr[0]),
+                        he.decode(results[i].address),
+                        he.decode(regionArr[0]),
+                        he.decode(provinceArr[0]),
+                        he.decode(cityMunicipalityArr[0]),
+                        he.decode(barangayArr[0]),
                         results[i].status
                     ];
                     vendors.push(tempArr);
@@ -172,6 +176,12 @@ function getVendorsRecord()
             order: [[1, 'asc']],
             data: vendors,
             dom: "<'row mt-3 mb-3'l>Bf<'#scrollX' 'mt-3'tr>ip",
+            buttons: [
+                {extend: 'pdf', footer: true, orientation: 'landscape', pageSize: 'LEGAL', title: 'Purchase Report'},
+                {extend: 'excel', footer: true, orientation: 'landscape', pageSize: 'LEGAL', title: 'Purchase Report'},
+                {extend: 'csv', footer: true, orientation: 'landscape', pageSize: 'LEGAL', title: 'Purchase Report'},
+                'copy'
+            ],
             columns: [
                 { title: "Vendor ID" },
                 { title: "Full Name" },
@@ -212,15 +222,15 @@ function getCustomersRecord()
 
                     let tempArr = [
                         results[i].customerID,
-                        he.encode(results[i].fullName),
-                        he.encode(results[i].email),
+                        he.decode(results[i].fullName),
+                        he.decode(results[i].email),
                         results[i].mobileNumber,
                         results[i].telephoneNumber,
-                        he.encode(results[i].address),
-                        he.encode(regionArr[0]),
-                        he.encode(provinceArr[0]),
-                        he.encode(cityMunicipalityArr[0]),
-                        he.encode(barangayArr[0]),
+                        he.decode(results[i].address),
+                        he.decode(regionArr[0]),
+                        he.decode(provinceArr[0]),
+                        he.decode(cityMunicipalityArr[0]),
+                        he.decode(barangayArr[0]),
                         results[i].status
                     ];
                     customers.push(tempArr);
@@ -235,6 +245,12 @@ function getCustomersRecord()
             order: [[1, 'asc']],
             data: customers,
             dom: "<'row mt-3 mb-3'l>Bf<'#scrollX' 'mt-3'tr>ip",
+            buttons: [
+                {extend: 'pdf', footer: true, orientation: 'landscape', pageSize: 'LEGAL', title: 'Purchase Report'},
+                {extend: 'excel', footer: true, orientation: 'landscape', pageSize: 'LEGAL', title: 'Purchase Report'},
+                {extend: 'csv', footer: true, orientation: 'landscape', pageSize: 'LEGAL', title: 'Purchase Report'},
+                'copy'
+            ],
             columns: [
                 { title: "Customer ID" },
                 { title: "Full Name" },
@@ -248,6 +264,255 @@ function getCustomersRecord()
                 { title: "Barangay" },
                 { title: "Status" },
             ]
+        });
+    });
+}
+
+function getPurchasesRecord()
+{
+    let purchases = [];
+    
+    function getAllPurchasesFromDB(){
+        return $.ajax({
+            method: "POST",
+            url: "class/purchase.php",
+            dataType: "JSON",
+            data: {
+                getPurchaseRecords:true
+            },
+            success: function(results)
+            {
+                for(let i=0;i<results.length;i++)
+                {
+                    let totalPrice = results[i].quantity * results[i].unitPrice;
+                    let tempArr = [
+                        results[i].purchaseID,
+                        results[i].itemNumber,
+                        results[i].purchaseDate,
+                        he.decode(results[i].itemName),
+                        he.decode(results[i].vendorName),
+                        results[i].vendorID,
+                        results[i].quantity,
+                        results[i].unitPrice,
+                        totalPrice,
+                    ];
+                    purchases.push(tempArr);
+                }
+            }
+        });
+    }
+
+    $.when(getAllPurchasesFromDB()).done(()=>{
+        let purchaseTable = $("#purchase-table").DataTable({
+            "autoWidth": false,
+            order: [[0, 'asc']],
+            data: purchases,
+            dom: "<'row mt-3 mb-3'l>Bf<'#scrollX' 'mt-3'tr>ip",
+            buttons: [
+                {extend: 'pdf', footer: true, orientation: 'landscape', pageSize: 'LEGAL', title: 'Purchase Report'},
+                {extend: 'excel', footer: true, orientation: 'landscape', pageSize: 'LEGAL', title: 'Purchase Report'},
+                {extend: 'csv', footer: true, orientation: 'landscape', pageSize: 'LEGAL', title: 'Purchase Report'},
+                'copy'
+            ],
+            columns: [
+                { title: "Purchase ID" },
+                { title: "Item Number" },
+                { title: "Purchase Date" },
+                { title: "Item Name" },
+                { title: "Vendor Name" },
+                { title: "Vendor ID" },
+                { title: "Quantity" },
+                { title: "Unit Price" },
+                { title: "Total Price" }
+            ],
+            footerCallback: function (row, data, start, end, display) {
+                var api = this.api();
+     
+                // Remove the formatting to get integer data for summation
+                var intVal = function (i) {
+                    return typeof i === 'string' ? i.replace(/[\$,]/g, '') * 1 : typeof i === 'number' ? i : 0;
+                };
+     
+                // Total of quantity over all pages
+                quantityTotal = api
+                    .column(6)
+                    .data()
+                    .reduce(function (a, b) {
+                        return intVal(a) + intVal(b);
+                    }, 0);
+
+                // Total of unitPrice over all pages
+                unitPriceTotal = api
+                    .column(7)
+                    .data()
+                    .reduce(function (a, b) {
+                        return intVal(a) + intVal(b);
+                    }, 0);
+
+                // Total of totalPrice over all pages
+                totalPriceTotal = api
+                    .column(8)
+                    .data()
+                    .reduce(function (a, b) {
+                        return intVal(a) + intVal(b);
+                    }, 0);
+     
+
+                // Total of quantity over this page
+                quantityPageTotal = api
+                    .column(6, { page: 'current' })
+                    .data()
+                    .reduce(function (a, b) {
+                        return intVal(a) + intVal(b);
+                    }, 0);
+
+                // Total of unitPrice over this page
+                unitPricePageTotal = api
+                    .column(7, { page: 'current' })
+                    .data()
+                    .reduce(function (a, b) {
+                        return intVal(a) + intVal(b);
+                    }, 0);
+
+                // Total of totalPrice over this page
+                totalPricePageTotal = api
+                    .column(8, { page: 'current' })
+                    .data()
+                    .reduce(function (a, b) {
+                        return intVal(a) + intVal(b);
+                    }, 0);
+     
+                // Update footer
+                $(api.column(6).footer()).html(quantityPageTotal + ' pcs. (' + quantityTotal + 'pcs. total)');
+                $(api.column(7).footer()).html('₱' + unitPricePageTotal + ' ( ₱' + unitPriceTotal + ' total)');
+                $(api.column(8).footer()).html('₱' + totalPricePageTotal + ' ( ₱' + totalPriceTotal + ' total)');
+            },
+        });
+    });
+}
+
+function getSalesRecord()
+{
+    let sales = [];
+    
+    function getAllSalesFromDB(){
+        return $.ajax({
+            method: "POST",
+            url: "class/sale.php",
+            dataType: "JSON",
+            data: {
+                getSaleRecords:true
+            },
+            success: function(results)
+            {
+                for(let i=0;i<results.length;i++)
+                {
+                    let totalPrice = results[i].quantity * results[i].unitPrice;
+                    let discountedPrice = totalPrice - (totalPrice * (results[i].discount/100));
+                    let tempArr = [
+                        results[i].saleID,
+                        results[i].itemNumber,
+                        results[i].customerID,
+                        he.decode(results[i].customerName),
+                        he.decode(results[i].itemName),
+                        results[i].saleDate,
+                        results[i].discount,
+                        results[i].quantity,
+                        results[i].unitPrice,
+                        discountedPrice,
+                    ];
+                    sales.push(tempArr);
+                }
+            }
+        });
+    }
+
+    $.when(getAllSalesFromDB()).done(()=>{
+        let saleTable = $("#sale-table").DataTable({
+            "autoWidth": false,
+            order: [[0, 'asc']],
+            data: sales,
+            dom: "<'row mt-3 mb-3'l>Bf<'#scrollX' 'mt-3'tr>ip",
+            buttons: [
+                {extend: 'pdf', footer: true, orientation: 'landscape', pageSize: 'LEGAL', title: 'Purchase Report'},
+                {extend: 'excel', footer: true, orientation: 'landscape', pageSize: 'LEGAL', title: 'Purchase Report'},
+                {extend: 'csv', footer: true, orientation: 'landscape', pageSize: 'LEGAL', title: 'Purchase Report'},
+                'copy'
+            ],
+            columns: [
+                { title: "Sale ID" },
+                { title: "Item Number" },
+                { title: "Customer ID" },
+                { title: "Customer Name" },
+                { title: "Item Name" },
+                { title: "Sale Date" },
+                { title: "Discount %" },
+                { title: "Quantity" },
+                { title: "Unit Price" },
+                { title: "Total Price" }
+            ],
+            footerCallback: function (row, data, start, end, display) {
+                var api = this.api();
+     
+                // Remove the formatting to get integer data for summation
+                var intVal = function (i) {
+                    return typeof i === 'string' ? i.replace(/[\$,]/g, '') * 1 : typeof i === 'number' ? i : 0;
+                };
+     
+                // Total of quantity over all pages
+                quantityTotal = api
+                    .column(7)
+                    .data()
+                    .reduce(function (a, b) {
+                        return intVal(a) + intVal(b);
+                    }, 0);
+
+                // Total of unitPrice over all pages
+                unitPriceTotal = api
+                    .column(8)
+                    .data()
+                    .reduce(function (a, b) {
+                        return intVal(a) + intVal(b);
+                    }, 0);
+
+                // Total of totalCost over all pages
+                totalPriceTotal = api
+                    .column(9)
+                    .data()
+                    .reduce(function (a, b) {
+                        return intVal(a) + intVal(b);
+                    }, 0);
+     
+
+                // Total of quantity over this page
+                quantityPageTotal = api
+                    .column(7, { page: 'current' })
+                    .data()
+                    .reduce(function (a, b) {
+                        return intVal(a) + intVal(b);
+                    }, 0);
+
+                // Total of unitPrice over this page
+                unitPricePageTotal = api
+                    .column(8, { page: 'current' })
+                    .data()
+                    .reduce(function (a, b) {
+                        return intVal(a) + intVal(b);
+                    }, 0);
+
+                // Total of totalCost over this page
+                totalPricePageTotal = api
+                    .column(9, { page: 'current' })
+                    .data()
+                    .reduce(function (a, b) {
+                        return intVal(a) + intVal(b);
+                    }, 0);
+     
+                // Update footer
+                $(api.column(7).footer()).html(quantityPageTotal + ' pcs. (' + quantityTotal + 'pcs. total)');
+                $(api.column(8).footer()).html('₱' + unitPricePageTotal + ' ( ₱' + unitPriceTotal + ' total)');
+                $(api.column(9).footer()).html('₱' + totalPricePageTotal + ' ( ₱' + totalPriceTotal + ' total)');
+            },
         });
     });
 }

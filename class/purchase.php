@@ -27,9 +27,9 @@
             }
         }
 
-        function getAvailablePurchaseIDs()
+        function getPurchaseRecords()
         {
-            $sql = "SELECT purchaseID FROM purchase";
+            $sql = "SELECT * FROM purchase";
             $this->pdo->prepareQuery($sql);
             return $this->pdo->getAllResults();
         }
@@ -104,9 +104,9 @@
     $purchase = new Purchase($pdo);
     extract($_POST);
     
-    if(isset($_POST["getPurchaseIDs"]))
+    if(isset($_POST["getPurchaseRecords"]))
     {
-        $results = $purchase->getAvailablePurchaseIDs();
+        $results = $purchase->getPurchaseRecords();
         
         echo json_encode($results);
         exit();

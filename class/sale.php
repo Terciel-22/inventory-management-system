@@ -43,9 +43,9 @@
             }
         }
 
-        function getAvailableSaleIDs()
+        function getSaleRecords()
         {
-            $sql = "SELECT saleID FROM sale";
+            $sql = "SELECT * FROM sale";
             $this->pdo->prepareQuery($sql);
             return $this->pdo->getAllResults();
         }
@@ -130,9 +130,9 @@
     $sale = new Sale($pdo);
     extract($_POST);
     
-    if(isset($_POST["getSaleIDs"]))
+    if(isset($_POST["getSaleRecords"]))
     {
-        $results = $sale->getAvailableSaleIDs();
+        $results = $sale->getSaleRecords();
         
         echo json_encode($results);
         exit();

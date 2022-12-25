@@ -4,7 +4,7 @@ $(document).ready(function(){
     $("#purchase-item-number").on("focus", getItemNumbers); //Show itemnumber auto complete
     $("#purchase-item-number").on("input change focusout", getPurchaseItemData);
     $("#purchase-form").on("change click input mouseleave", getPurchaseTotalCost);
-    $("#purchase-vendor-name").on("focus", getAllVendorNames);
+    getAllVendorNames();
     
     //CRUD
     $("#purchase-id").on("focus",getPurchaseIDs ); //For auto-complete
@@ -110,13 +110,12 @@ function getPurchaseIDs()
             method: "POST",
             url: "class/purchase.php",
             dataType: "JSON",
-            data: {getPurchaseIDs:true},
-            success: function(result)
+            data: {getPurchaseRecords:true},
+            success: function(results)
             {
-                let values = Object.values(result);
-                for(let i=0; i<values.length; i++)
+                for(let i=0; i<results.length; i++)
                 {
-                    purchaseIDs.push(String(values[i].purchaseID));
+                    purchaseIDs.push(String(results[i].purchaseID));
                 }
             }
         });

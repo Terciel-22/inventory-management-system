@@ -124,13 +124,12 @@ function getSaleIDs()
             method: "POST",
             url: "class/sale.php",
             dataType: "JSON",
-            data: {getSaleIDs:true},
-            success: function(result)
+            data: {getSaleRecords:true},
+            success: function(results)
             {
-                let values = Object.values(result);
-                for(let i=0; i<values.length; i++)
+                for(let i=0; i<results.length; i++)
                 {
-                    saleIDs.push(String(values[i].saleID));
+                    saleIDs.push(String(results[i].saleID));
                 }
             }
         });
